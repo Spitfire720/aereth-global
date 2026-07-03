@@ -6,7 +6,6 @@ author: SpitFire720
 softdepend:
   - PlaceholderAPI
   - AerethCharacterCreatorCore
-  - WorldFracture
   - MythicMobs
   - BetonQuest
 
