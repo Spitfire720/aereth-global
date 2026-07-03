@@ -84,3 +84,10 @@ AerethPipelineTools/AerethSnapshotAgent/downloads/
 AerethPipelineTools/AerethSnapshotAgent/staging/
 AerethPipelineTools/AerethSnapshotAgent/work/
 
+
+# Snapshot agent runtime outputs
+AerethPipelineTools/AerethSnapshotAgent/latest/
+AerethPipelineTools/AerethSnapshotAgent/raw/
+AerethPipelineTools/AerethSnapshotAgent/*.diff
+**/bin/
+
