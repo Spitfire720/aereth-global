@@ -29,6 +29,13 @@ public class FragmentEnginePlugin extends JavaPlugin {
         legacyCommandService = new LegacyCommandService(characterService);
         agentExportService = new AgentExportService(this, storageService);
 
+        getServer().getServicesManager().register(
+        com.spitfire.fragmentengine.api.AerethProfileService.class,
+        new live.aereth.fragmentengine.api.LegacyAerethProfileService(),
+        this,
+        org.bukkit.plugin.ServicePriority.Normal
+);
+
         AerethCommand command = new AerethCommand(this, characterService, legacyCommandService, agentExportService);
         PluginCommand aereth = getCommand("aereth");
         if (aereth != null) {
