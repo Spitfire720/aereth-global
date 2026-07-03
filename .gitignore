@@ -78,3 +78,10 @@ desktop.ini
 
 # Old archived material, not part of active repo
 99_ARCHIVE/
+
+# Snapshot runtime outputs
+AerethPipelineTools/AerethSnapshotAgent/snapshots/
+AerethPipelineTools/AerethSnapshotAgent/downloads/
+AerethPipelineTools/AerethSnapshotAgent/staging/
+AerethPipelineTools/AerethSnapshotAgent/work/
+
