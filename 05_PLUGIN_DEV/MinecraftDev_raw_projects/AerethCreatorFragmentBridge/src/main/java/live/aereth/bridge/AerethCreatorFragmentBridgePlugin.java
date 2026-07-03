@@ -167,7 +167,7 @@ public final class AerethCreatorFragmentBridgePlugin extends JavaPlugin implemen
             account.set("slots." + slot + ".race-trait", defaultTraitForRace(race));
 
             File characterFile = characterFile(uuid, slot);
-            if (characterFile.exists() && !overwriteExisting && characterFile.length() > 0) {
+            if (characterFile.exists() && !forceExisting && !overwriteExisting && characterFile.length() > 0) {
                 YamlConfiguration existing = YamlConfiguration.loadConfiguration(characterFile);
                 if (existing.contains("profile-id") && existing.contains("race.id")) {
                     continue;
@@ -430,3 +430,5 @@ public final class AerethCreatorFragmentBridgePlugin extends JavaPlugin implemen
         return true;
     }
 }
+
+
