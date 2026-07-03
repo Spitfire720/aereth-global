@@ -1,0 +1,6 @@
+title:
+  display:
+    ## If true, will display the title in chat.
+    display-in-chat: true
+    ## If true, will display the title above the player's head.
+    display-above-head: true

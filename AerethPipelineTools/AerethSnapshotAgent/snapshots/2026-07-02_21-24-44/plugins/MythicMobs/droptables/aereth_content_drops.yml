@@ -1,0 +1,34 @@
+Aereth_Echoform_Drops:
+  Drops:
+    - EchoResidue 1 0.75
+    - EchoShard 1 0.20
+
+Aereth_Nullborn_Drops:
+  Drops:
+    - NullDust 1-2 0.80
+    - FractureResidue 1 0.25
+
+Aereth_Sylvae_Drops:
+  Drops:
+    - LivingRootThread 1-2 0.70
+    - AnchorSplinter 1 0.30
+
+Aereth_Vireborn_Drops:
+  Drops:
+    - VireAsh 1-2 0.75
+    - FractureResidue 1 0.25
+
+Aereth_Hollowkin_Drops:
+  Drops:
+    - NullDust 1 0.45
+    - FractureResidue 1 0.20
+
+Aereth_Shardkin_Drops:
+  Drops:
+    - ShardGlass 1 0.65
+    - FractureResidue 1 0.25
+
+Aereth_Driftbeast_Drops:
+  Drops:
+    - DriftHide 1-2 0.80
+    - AnchorSplinter 1 0.20

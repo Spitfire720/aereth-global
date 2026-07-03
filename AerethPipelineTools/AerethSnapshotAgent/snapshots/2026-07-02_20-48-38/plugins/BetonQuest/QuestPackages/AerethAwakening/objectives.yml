@@ -1,0 +1,13 @@
+objectives:
+  observe_world:
+    instruction: "Remain near the unstable place and listen."
+    events:
+      complete:
+        - aereth_first_observation
+        - aereth_first_echo
+
+  touch_memory:
+    instruction: "Touch what the world failed to forget."
+    events:
+      complete:
+        - aereth_first_fragment

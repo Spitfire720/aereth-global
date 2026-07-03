@@ -1,0 +1,19 @@
+zones:
+  valterra_anchor_test:
+    world: "world"
+    min: [-64, 0, -64]
+    max: [64, 320, 64]
+    family: "ANCHOR"
+    fragment-state: "STABLE"
+    zone-state: "DORMANT"
+    instability: 10.0
+    signal: "The stone remembers its own shape."
+  lyssara_fracture_test:
+    world: "world"
+    min: [100, 0, 100]
+    max: [180, 320, 180]
+    family: "FRACTURE"
+    fragment-state: "VEILED"
+    zone-state: "TENSIONED"
+    instability: 35.0
+    signal: "The shoreline does not agree with the map."

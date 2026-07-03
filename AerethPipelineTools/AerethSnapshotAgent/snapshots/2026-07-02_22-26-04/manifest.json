@@ -1,0 +1,17 @@
+﻿{
+    "project":  "Aereth",
+    "generated_at_local":  "2026-07-02T22:26:05",
+    "generated_at_utc":  "2026-07-02T21:26:05Z",
+    "godlike_remote":  "godlike:",
+    "server_root":  ".",
+    "public_base_url":  "https://aereth-snapshot-gateway.aereth.workers.dev",
+    "snapshot_prefix":  "aereth-1e766ea2214b876ed44ec889cc404cc5/latest",
+    "file_count":  1,
+    "important_urls":  {
+                           "manifest":  "https://aereth-snapshot-gateway.aereth.workers.dev/aereth-1e766ea2214b876ed44ec889cc404cc5/latest/manifest.json",
+                           "file_tree":  "https://aereth-snapshot-gateway.aereth.workers.dev/aereth-1e766ea2214b876ed44ec889cc404cc5/latest/file-tree.txt",
+                           "latest_log_tail":  "https://aereth-snapshot-gateway.aereth.workers.dev/aereth-1e766ea2214b876ed44ec889cc404cc5/latest/logs/latest-tail.txt",
+                           "plugin_list":  "https://aereth-snapshot-gateway.aereth.workers.dev/aereth-1e766ea2214b876ed44ec889cc404cc5/latest/plugin-list.txt"
+                       },
+    "excluded_note":  "Databases, secrets, player data, world folders, backups, jars, generated packs, runtime data, and caches are intentionally excluded."
+}

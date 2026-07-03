@@ -1,0 +1,418 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "aereth_vireborn_marker_v15",
+  "model_identifier": "",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "aereth_vireborn_marker_v15_part_0",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "9dc41e4f-627f-5634-afaf-6b352a760093"
+    },
+    {
+      "name": "aereth_vireborn_marker_v15_part_1",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "4f84f45c-1171-502e-b57d-8fad8bbe4654"
+    },
+    {
+      "name": "aereth_vireborn_marker_v15_part_2",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -1,
+        0,
+        -1
+      ],
+      "to": [
+        1,
+        2,
+        1
+      ],
+      "autouv": 1,
+      "color": 3,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "8d539fe7-fa6a-524f-8585-8f5c3046e98e"
+    }
+  ],
+  "groups": [
+    {
+      "uuid": "3e729116-31b7-528f-97e3-29b07cc95b22",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_marker_v15_front",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "33d84589-ad09-5cd4-9595-aee9fc5ede4b",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_marker_v15_cross",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "e974ccaf-0cea-5f16-acce-83f309395b37",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_marker_v15_hitbox",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "3e729116-31b7-528f-97e3-29b07cc95b22",
+      "isOpen": true,
+      "children": [
+        "9dc41e4f-627f-5634-afaf-6b352a760093"
+      ]
+    },
+    {
+      "uuid": "33d84589-ad09-5cd4-9595-aee9fc5ede4b",
+      "isOpen": true,
+      "children": [
+        "4f84f45c-1171-502e-b57d-8fad8bbe4654"
+      ]
+    },
+    {
+      "uuid": "e974ccaf-0cea-5f16-acce-83f309395b37",
+      "isOpen": true,
+      "children": [
+        "8d539fe7-fa6a-524f-8585-8f5c3046e98e"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "aereth_vireborn_marker_v15_0.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "0",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "38874ac4-984d-5ea8-bd04-464335b9d377",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAADC0lEQVR4nO2Wv2uTURSG37TFtgF1sYNB0JKq+BPbSZQiDhYCTlIqVHDv/1BwcXEXxK2iuCgOLimoQdqlWqp1EUWKo2CX2tK0RWocYkJizpUcq3C5PM/yQfLdk7w5Xx7eTKU0UtEO6JIk3Vn6u9MT+V8DJBVml9s6UxzuU2F2WcXhPklSR8sND8/+8XDjtWVA7bA1pPFQ47ftarypMD5XPbw2ulK8MfRdpUer9Tcnp3K6f6u38GCmaXBLhML4nLRQKmvwQrb+Yk+2Q/tyXb8fNgdIkj6+2dChE7vU2ZmRJJ0636vFmbJ1qz3gx7b06e2WDg92S5KGLmY1/3y9/QGStFBar8c4cqZHH+Y32xpQ/7UXZ8o6ea5X/ce79fn9lra3K9Z2OszDUr4wvdT/7utqz9Ojlw/cvPd4tybyeal1xU0DavutXV8/m9alq9e08PJFdTu1D2oY0rrGhofkyd3bujKQ02a5uoDakMZhmUpppLKTP1Nmp3/n8Brb5P/5oPjlW9PUwv691TVG54PmB6m237XRFUl7miZMTm3o4LGWqGEfvJrOamxAGhuQrp/GB/ggTOI+CBGfD+gH+MCMgA+c0A/sCPQDfOAmcR+EiM8H9AN8YEbAB07oB3YE+gE+cJO4D0LE5wP6AT4wI+ADJ/QDOwL9AB+4SdwHIeLzAf0AH5gR8IET+oEdgX6AD9wk7oMQ8fmAfoAPzAj4wAn9wI5AP8AHbhL3QYj4fEA/wAdmBHzghH5gR6Af4AM3ifsgRHw+oB/gAzMCPnBCP7Aj0A/wgZvEfRAiPh/QD/CBGQEfOKEf2BHoB/jATeI+CBGfD+gH+MCMgA+c0A/sCPQDfOAmcR+EiM8H9AN8YEbAB07oB3YE+gE+cJO4D0LE5wP6AT4wI+ADJ/QDOwL9AB+4SdwHIeLzAf0AH5gR8IET+oEdgX6AD9wk7oMQ8fmAfoAPzAj4wAn9wI5AP8AHbhL3QYj4fEA/wAdmBHzghH5gR6Af4AM3ifsgRHw+oB/gAzMCPnBCP7Aj0A/wgZt/4YOfy4b9Beqpl4UAAAAASUVORK5CYII="
+    },
+    {
+      "name": "aereth_vireborn_marker_v15_1.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "1",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "51e47481-ccb0-5af8-a0c3-18c9abd47061",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAADDklEQVR4nO2WwUvTYRjHv1NJJ2qIERFdbF3sIkJ12yUkyYN08RZ07ty1U5ddhA4dhPoLOgQhgRIDoUUlhXQo6DK8BAWZmOJUwtZhTX5rzxt7suDl5fO5/Nj2e5/tu2f78M3VZwt1HYEeSdLNwt+dnq/+GiCpOFPu6ExlYVLFmbIqC5OSpK62G66O/vFw9to2oHnYGpI9lP20PdmbiotrjcNzpc3KnY/f9Wlp6/DF8dJpVR/ki5fvtwxui1BcXJO+rtQ0crH/8MnufJf6Tvb8ftgcIEn69n5XA4VjynXnJEnDE3ltvK5Zt9oD6j+krQ/7GhrrlSSduNSv9Zc7nQ+QpPVXOxq50IgxNNanzXd7HQ04/LY33tQ0PJHXwLlebVf3VT+oW9vpMg9LheL049HVt5/7Hq2eP3P71vyg5qsFqX3FLQOa+21eXyw90fT1G1opP21sp/lGmSHta8z8SB7eu6srp45rr9b4/ppDssNy9dlC/Sh/ptxR/87hNXbI//NBZfugmn1cHOxurDE6H7T+kJr7nSttShpqmTBe2tXA2baoYR98ed6v5SlpeUp6dg0f4IMwifsgRHw+oB/gAzMCPnBCP7Aj0A/wgZvEfRAiPh/QD/CBGQEfOKEf2BHoB/jATeI+CBGfD+gH+MCMgA+c0A/sCPQDfOAmcR+EiM8H9AN8YEbAB07oB3YE+gE+cJO4D0LE5wP6AT4wI+ADJ/QDOwL9AB+4SdwHIeLzAf0AH5gR8IET+oEdgX6AD9wk7oMQ8fmAfoAPzAj4wAn9wI5AP8AHbhL3QYj4fEA/wAdmBHzghH5gR6Af4AM3ifsgRHw+oB/gAzMCPnBCP7Aj0A/wgZvEfRAiPh/QD/CBGQEfOKEf2BHoB/jATeI+CBGfD+gH+MCMgA+c0A/sCPQDfOAmcR+EiM8H9AN8YEbAB07oB3YE+gE+cJO4D0LE5wP6AT4wI+ADJ/QDOwL9AB+4SdwHIeLzAf0AH5gR8IET+oEdgX6AD9wk7oMQ8fmAfoAPzAj4wAn9wI5AP8AHbv6FD34CE2XVya4zGVsAAAAASUVORK5CYII="
+    }
+  ]
+}

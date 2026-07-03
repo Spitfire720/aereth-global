@@ -1,0 +1,55 @@
+menu_title: '&8Aereth Interface'
+open_command:
+  - aerethui
+size: 27
+
+items:
+  profile:
+    material: NETHER_STAR
+    slot: 10
+    display_name: '&bRemnant Profile'
+    lore:
+      - '&7State: &f%aereth_state%'
+      - '&7FL: &f%aereth_fragment_level%'
+      - '&7Title: &f%aereth_title%'
+      - ''
+      - '&eClick to run /remnant'
+    left_click_commands:
+      - '[player] remnant'
+
+  intent:
+    material: AMETHYST_SHARD
+    slot: 12
+    display_name: '&dIntent / Perception'
+    lore:
+      - '&bClarity: &f%aereth_clarity%'
+      - '&eAuthority: &f%aereth_authority%'
+      - '&aResilience: &f%aereth_resilience%'
+      - ''
+      - '&eClick to run /intent'
+    left_click_commands:
+      - '[player] intent'
+
+  fragments:
+    material: ECHO_SHARD
+    slot: 14
+    display_name: '&5Attached Fragments'
+    lore:
+      - '&7Attached: &f%aereth_fragments%'
+      - '&7Echoes: &f%aereth_echoes%'
+      - ''
+      - '&eClick to run /fragments'
+    left_click_commands:
+      - '[player] fragments'
+
+  profession:
+    material: COMPASS
+    slot: 16
+    display_name: '&aProfession Lens'
+    lore:
+      - '&7Current: &f%aereth_profession%'
+      - '&8Professions emerge from behaviour.'
+      - ''
+      - '&eClick to run /profession'
+    left_click_commands:
+      - '[player] profession'

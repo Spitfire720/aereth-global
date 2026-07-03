@@ -1,0 +1,428 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "aereth_vireborn_preview_v2",
+  "model_identifier": "",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "aereth_vireborn_preview_v2_part_0",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -5.5,
+        0,
+        0
+      ],
+      "to": [
+        5.5,
+        22,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "9b3f171a-d7fa-5bad-a405-c22a73b8a431"
+    },
+    {
+      "name": "aereth_vireborn_preview_v2_part_1",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        0,
+        0,
+        -5.5
+      ],
+      "to": [
+        0,
+        22,
+        5.5
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "09c242eb-4eec-58c1-ad3d-2e0e5c83124e"
+    },
+    {
+      "name": "aereth_vireborn_preview_v2_part_2",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -2,
+        0,
+        -2
+      ],
+      "to": [
+        2,
+        2,
+        2
+      ],
+      "autouv": 1,
+      "color": 3,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        }
+      },
+      "type": "cube",
+      "uuid": "aed7ff7f-6cee-5031-88b8-90625c4a2c38"
+    }
+  ],
+  "groups": [
+    {
+      "uuid": "7190b911-7708-5a77-a189-34861a462a3e",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_preview_v2_front",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "78c34230-eb75-5718-afc7-5566da5adb35",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_preview_v2_cross",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "61a4be4d-450c-5e48-87f7-fcf6d065c862",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_vireborn_preview_v2_hitbox",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "7190b911-7708-5a77-a189-34861a462a3e",
+      "isOpen": true,
+      "children": [
+        "9b3f171a-d7fa-5bad-a405-c22a73b8a431"
+      ]
+    },
+    {
+      "uuid": "78c34230-eb75-5718-afc7-5566da5adb35",
+      "isOpen": true,
+      "children": [
+        "09c242eb-4eec-58c1-ad3d-2e0e5c83124e"
+      ]
+    },
+    {
+      "uuid": "61a4be4d-450c-5e48-87f7-fcf6d065c862",
+      "isOpen": true,
+      "children": [
+        "aed7ff7f-6cee-5031-88b8-90625c4a2c38"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "aereth_vireborn_preview_v2_0.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "0",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "9d7f6418-009f-518f-a812-d403c4891331",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAACcElEQVR4nO3Uv2sUQRjG8WfUSq1CUBEMYhALG5EUVl7jj0o4ApYprNNZ3T9haS+ksZBUIcQyYnGeqGAhNmJIYSFBLCIigq+Fk3Fmdu/y7ord9wshkNt5MnvFR/pfXT87Z/lP/tlwOHx06IAtL7QOjEajDfcN8pFpzx1xrc0o1P+1fmD72klpZV6D1Z30t2efvqRzh99gZV5a25v68T+/wsyB7YfnNVjd0WC8/+dV+tzg4OBgvD99wMzumdmt4uCbzRcavroQ1ndD68nYsfj7paQ7B9/u7Yvnfur4me8hhI/5w/m3X7/CO0mLZnZUkrbW7u49ebx1avbLZQMhhF+S3ku6ZMsLtvHhyufnTzdPuwdiE0lLYX03XL669PXtZDznGUiZ2Qkze2Bmi2Z233su3SCE8E3SD0k3JY07D8Qmkm5Ieo0Hf8MDPHAPxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7gQXEDPOgfHuBBGsCDIjzAg/YRPPANxPCgCg+y8AAPuoQHzfDAHx7ggST9BiNZL8bkJ+N5AAAAAElFTkSuQmCC"
+    },
+    {
+      "name": "aereth_vireborn_preview_v2_1.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "1",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "532a0d43-1ea4-54f4-90a3-f67e55e02e7a",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAACg0lEQVR4nO3UvWtTYRiG8ftoJ+0UikrAIBQRcRHp0ClZ/JgKIeBY0Lmb0/kn/B8KXRykZAiljhWHGEHBoboIpUMHKeJQEVF8XE4O73s+7HNOEZfrmkqTc/dJCj/pX9XvdsxGvc1+t2P9bsfC14bD4eb853N1A3uri5W/T9N0Mh6PH53pgrDaC7wtFP9q8Q17q4vS+pIGG8pfe3n0JfFfsL4kbR3Xvnzmj3DqwGDjQIPpSe1/5dSB+YOD6Un9gJk9NrP70YPvdl7r2s2FZPswqXwya/5feCNpbf7tPrh+9acuXPmugw+/wjeH337xI+xLWjaz85K0u/Xw+Pmz3Ut//3DBQJIkvyV9lHTDRj2bfLr9+dWLncvugayZpJVk+zC5dWfl6/vZtOMZyDOzi2b21MyWzeyJ97n8giRJvkn6IemepGnjgayZpLuS3no9qM1GvcqBNE0nrtPwwB8e4EF0AR60Dw/wIB/Agyg8wIPK8MA5kIUHhfAgCA/woEl4UA4P/OEBHkQX4EH78AAP8gE8iMIDPKgMD5wDWXhQCA+C8AAPmoQH5fDAHx7gQXQBHrQPD/AgH8CDKDzAg8rwwDmQhQeF8CAID/CgSXhQDg/84QEeRBfgQfvwAA/yATyIwgM8qAwPnANZeFAID4LwAA+ahAfl8MAfHuBBdAEetA8P8CAfwIMoPMCDyvDAOZCFB4XwIAgP8KBJeFAOD/zhAR5EF+BB+/AAD/IBPIjCAzyoDA+cA1l4UAgPgvAAD5qEB+XwwB8e4EF0AR60Dw/wIB/Agyg8wIPK8MA5kIUHhfAgCA/woEl4UA4P/OEBHkQX4EH78AAP8gE8iMIDPKgMD5wDWf/Hgz/cazruiFuvxgAAAABJRU5ErkJggg=="
+    }
+  ]
+}

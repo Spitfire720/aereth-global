@@ -1,0 +1,418 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "aereth_sylvae_marker_v15",
+  "model_identifier": "",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "aereth_sylvae_marker_v15_part_0",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "ce133fe3-6363-52fe-9064-fa532095cfcc"
+    },
+    {
+      "name": "aereth_sylvae_marker_v15_part_1",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "0c4a3721-4b41-55b4-97ca-0b76d74dce77"
+    },
+    {
+      "name": "aereth_sylvae_marker_v15_part_2",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -1,
+        0,
+        -1
+      ],
+      "to": [
+        1,
+        2,
+        1
+      ],
+      "autouv": 1,
+      "color": 3,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "69b67df9-cf37-583f-9fe0-eb444de63c15"
+    }
+  ],
+  "groups": [
+    {
+      "uuid": "79d953bc-9d11-58d0-bc71-dc9f55d87341",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_sylvae_marker_v15_front",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "747450cc-fe34-50a0-b8b4-dab61675427a",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_sylvae_marker_v15_cross",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "f49835b5-9ed5-5e49-b85c-ea2be4c74e93",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_sylvae_marker_v15_hitbox",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "79d953bc-9d11-58d0-bc71-dc9f55d87341",
+      "isOpen": true,
+      "children": [
+        "ce133fe3-6363-52fe-9064-fa532095cfcc"
+      ]
+    },
+    {
+      "uuid": "747450cc-fe34-50a0-b8b4-dab61675427a",
+      "isOpen": true,
+      "children": [
+        "0c4a3721-4b41-55b4-97ca-0b76d74dce77"
+      ]
+    },
+    {
+      "uuid": "f49835b5-9ed5-5e49-b85c-ea2be4c74e93",
+      "isOpen": true,
+      "children": [
+        "69b67df9-cf37-583f-9fe0-eb444de63c15"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "aereth_sylvae_marker_v15_0.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "0",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "3aa46406-882b-5f47-9c22-70fabee3730f",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAADLklEQVR4nO2WvWsTYQCHf+mFNpgmVVIcFGNFhVAQl0KxDs0iLhJDJnEQKYgloK7ZXMT2D1ARXQTFzRJEp2KISyElLlaCIAE/SKRibWvafKiXOJyn9309i3jw/h4opTTvj/S99OEJ1AvpHrZBEACyifhfHb71+r0yAADF9NyWDiXzGRTTc0jmMwCAPuMLKrNjjoe1300D6mGrEe0h7bsNal80miujMjuGbCJenXo6MXAukopJAQlyT8aN9YefPstr+41/qm5AHUnm47g0dHb3tdU7H1fktR/HQkfD56Pp2KnJlOmdmQZUhqSI1B8IBgBgsf2qud7dkAEMbnngwdcnK9djV/a+aFeaz1vlxtK3Ny2r19kOFFqlxmJnaXM8dCQ8Fc0MlzovN4swP2rTY0zmM4j2DUqJ/gOhjW6z+6xZalz9crN+csfxqNXTCRoPK/RGLnfP4MTF06gt13F45BDCd5fRgvKIR3Nl6wH1E/Y4dR+tiRruzdxGu9OGLMuYnJ7GowsR4NdI1u4O1Oc8v1DA/EJB97vR3J93kMzH9QPaT5oTWeD3YQAIbPff2fQUvPLvfLBa+lDV/rxrfN9BwI8+0A2on7BsIl4FMABgj/o1LO18ZzwMOPjg7fcafUAf2CKSD+zwnw/YB/SB5R3QB95gHyiwD+gD3QB9wD4wjrAP6AM3RPIB+4B9QB84I5IP7PCfD9gH9IHlHdAH3mAfKLAP6APdAH3APjCOsA/oAzdE8gH7gH1AHzgjkg/s8J8P2Af0geUd0AfeYB8osA/oA90AfcA+MI6wD+gDN0TyAfuAfUAfOCOSD+zwnw/YB/SB5R3QB95gHyiwD+gD3QB9wD4wjrAP6AM3RPIB+4B9QB84I5IP7PCfD9gH9IHlHdAH3mAfKLAP6APdAH3APjCOsA/oAzdE8gH7gH1AHzgjkg/s8J8P2Af0geUd0AfeYB8osA/oA90AfcA+MI6wD+gDN0TyAfuAfUAfOCOSD+zwnw/YB/SB5R3QB95gHyiwD+gD3QB9wD4wjrAP6AM3RPIB+4B9QB84I5IP7PCfD9gH9IHlHdAH3mAfKLAP6APdwH/zwU8DhjEhSbELiQAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "aereth_sylvae_marker_v15_1.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "1",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "9c91e005-35e9-5380-ba26-8399761bb578",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAADKElEQVR4nO2WMWsTYQCG3yRtGqwmSNoOrYRKMgTcBBERJGJAhA4dFJxK6SJI7T8QlyJuDoa4anBwlixClUh1sCCKIgakoocmKomhbZJLbNM6XFO+6919FyuC5/c+UEpLvpdc7vLw+CZLc1v4A/oAIFvU9nT4cjJmDABAbLbQ0yEtk0JstgAtkwIA+He/YGJhSnpY/G0Z6B62GxEPie/WNJBP5wAA2aK2XL4787m+WNAbzxb1+tOCHhgY+rT7sO0ldEciySsjK8Vb36svr5aaXx6uhBPTUbvPqc/yn20CwUjA5w/6AKBVWWpurq90AOzveWB1+V41evT6WKv6oql/e7L2s/ZGt3ud44D+9fFau7LUCA0fHwwnZobalecNwHoJls9Ay6Tg7w8HgpFkaHOjvtksP1r78epaad/o2bDd3fHvPrzNeGtsbuzk/Pt4bLYQP3Pj3fgH32oAsN5i0yV0n7BDlx7g3Ckd92/egd5uodPp4PyFizh8+xh2RrYff99kaW4rW9R6fpQnFqaQT+egZVLm74L4pEkpasgKr+0DjG/VXrHchd/l7/lg/W1tWfy7/8jBOOApHwAYADDa/XHygeXLlE/nkM2ksF7/OFJ7PV/utKsboeETg+HEdPTA6QnLO6MP6IOdS/hPfeCEh3zAPqAPZNAHZtgHBuwD+oA+YB/YDogj7AP6QIpCPmAfsA/oAxcU8oETHvIB+4A+kEEfmGEfGLAP6AP6gH1gOyCOsA/oAykK+YB9wD6gD1xQyAdOeMgH7AP6QAZ9YIZ9YMA+oA/oA/aB7YA4wj6gD6Qo5AP2AfuAPnBBIR844SEfsA/oAxn0gRn2gQH7gD6gD9gHtgPiCPuAPpCikA/YB+wD+sAFhXzghId8wD6gD2TQB2bYBwbsA/qAPmAf2A6II+wD+kCKQj5gH7AP6AMXFPKBEx7yAfuAPpBBH5hhHxiwD+gD+oB9YDsgjrAP6AMpCvmAfcA+oA9cUMgHTnjIB+wD+kAGfWCGfWDAPqAP6AP2ge2AOMI+oA+kKOQD9gH7gD5wQSEfOOEhH7AP6AMZ9IEZ9oEB+4A++Dd88AvpMG3hSpIXnAAAAABJRU5ErkJggg=="
+    }
+  ]
+}

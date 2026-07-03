@@ -1,0 +1,30 @@
+auto-enter-on-first-join: false
+auto-enter-when-no-character: false
+
+tutorial-spawn:
+  world: world
+  x: 0.5
+  y: 80.0
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+
+lock:
+  freeze-position: true
+  cancel-damage: true
+  cancel-hunger: true
+  cancel-inventory: true
+  cancel-block-interactions: true
+  cancel-item-drop: true
+
+controls:
+  previous-slot: 0
+  confirm-slot: 4
+  back-slot: 7
+  next-slot: 8
+
+allowed-commands-while-locked:
+  - "/playercreator"
+  - "/acc"
+  - "/creator"
+  - "/aerethcreator"

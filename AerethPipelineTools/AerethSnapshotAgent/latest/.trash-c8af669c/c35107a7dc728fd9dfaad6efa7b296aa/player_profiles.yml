@@ -1,0 +1,16 @@
+players:
+  4b4818c2-6201-4cf7-9f35-035ef8fb19aa:
+    active_character: 1
+    slots:
+      '1':
+        exists: true
+        name: Character 1
+        race: sylvae
+        race_display: Sylvae
+        level: 1
+        region: tutorial
+        created_at: '2026-07-02T11:31:12.243387976Z'
+      '3':
+        locked: true
+      '4':
+        locked: true

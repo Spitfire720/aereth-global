@@ -1,0 +1,55 @@
+EchoResidue:
+  Id: ECHO_SHARD
+  Display: '&bEcho Residue'
+  Lore:
+    - '&7A memory that failed to disappear.'
+    - '&8Not loot. Evidence.'
+
+FractureResidue:
+  Id: AMETHYST_SHARD
+  Display: '&5Fracture Residue'
+  Lore:
+    - '&7The edge of a broken rule.'
+    - '&8It hums when ignored.'
+
+AnchorSplinter:
+  Id: PRISMARINE_SHARD
+  Display: '&aAnchor Splinter'
+  Lore:
+    - '&7Small, quiet, impossibly heavy.'
+    - '&8Continuity made physical.'
+
+NullDust:
+  Id: BLACK_DYE
+  Display: '&8Null Dust'
+  Lore:
+    - '&7The residue of a missing answer.'
+    - '&8It is lighter than it should be.'
+
+LivingRootThread:
+  Id: VINE
+  Display: '&aLiving Root Thread'
+  Lore:
+    - '&7A root that remembers the shape of soil.'
+    - '&8Elderwyth continuity material.'
+
+VireAsh:
+  Id: GUNPOWDER
+  Display: '&cVire Ash'
+  Lore:
+    - '&7Burnt survival memory.'
+    - '&8Warm even when dead.'
+
+ShardGlass:
+  Id: PURPLE_STAINED_GLASS_PANE
+  Display: '&dShard Glass'
+  Lore:
+    - '&7A signal split into sharp pieces.'
+    - '&8Do not look through it for long.'
+
+DriftHide:
+  Id: RABBIT_HIDE
+  Display: '&2Drift Hide'
+  Lore:
+    - '&7Toughened by crossing unstable ground.'
+    - '&8Still moving slightly.'

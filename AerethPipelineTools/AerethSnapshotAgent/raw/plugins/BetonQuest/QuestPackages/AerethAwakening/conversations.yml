@@ -1,0 +1,18 @@
+conversations:
+  remnant_awakening:
+    quester: "Unstable Echo"
+    first: "start"
+    NPC_options:
+      start:
+        text: "You are not fully written here."
+        pointers: "who"
+      who:
+        text: "A Remnant. An outline that refused to vanish."
+        events: "aereth_first_observation,aereth_first_echo"
+        pointers: "fragment"
+      fragment:
+        text: "Do not collect Fragments. Endure them."
+        events: "aereth_first_fragment"
+        pointers: "end"
+      end:
+        text: "Now leave a trace."

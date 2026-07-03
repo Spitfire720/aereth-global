@@ -1,0 +1,88 @@
+races:
+  remnant:
+    display-name: "Remnant"
+    status: playable
+    difficulty: "Medium"
+    role-hint: "Adaptive survivor"
+    region-hint: "Fractured Lowlands"
+    preview-model: "remnant_placeholder"
+    traits:
+      - "Memory-fractured origin"
+      - "Balanced physical and magical growth"
+      - "Resistant to Erasure pressure"
+
+  sylvae:
+    display-name: "Sylvae"
+    status: playable
+    difficulty: "Easy"
+    role-hint: "Nature-touched wanderer"
+    region-hint: "Ancient Groves"
+    preview-model: "sylvae_placeholder"
+    traits:
+      - "High vitality"
+      - "Natural regeneration affinity"
+      - "Strong bond with living terrain"
+
+  delver:
+    display-name: "Delver"
+    status: playable
+    difficulty: "Medium"
+    role-hint: "Stonebound explorer"
+    region-hint: "Deep Roads"
+    preview-model: "delver_placeholder"
+    traits:
+      - "Sturdy frame"
+      - "Mining and endurance affinity"
+      - "High terrain resistance"
+
+  vireborn:
+    display-name: "Vireborn"
+    status: playable
+    difficulty: "Hard"
+    role-hint: "Ash-marked aggressor"
+    region-hint: "Cinder Wastes"
+    preview-model: "vireborn_placeholder"
+    traits:
+      - "Ember-touched origin"
+      - "Aggressive combat growth"
+      - "Risk-reward pressure mechanics"
+
+  nullborn:
+    display-name: "Nullborn"
+    status: locked
+    difficulty: "Unknown"
+    role-hint: "Locked race"
+    region-hint: "Unknown"
+    preview-model: "locked_placeholder"
+    traits:
+      - "Locked for future release"
+
+  echoform:
+    display-name: "Echoform"
+    status: locked
+    difficulty: "Unknown"
+    role-hint: "Locked race"
+    region-hint: "Unknown"
+    preview-model: "locked_placeholder"
+    traits:
+      - "Locked for future release"
+
+  lumenfae:
+    display-name: "Lumenfae"
+    status: locked
+    difficulty: "Unknown"
+    role-hint: "Locked race"
+    region-hint: "Unknown"
+    preview-model: "locked_placeholder"
+    traits:
+      - "Locked for future release"
+
+  threadbound:
+    display-name: "Threadbound"
+    status: locked
+    difficulty: "Unknown"
+    role-hint: "Locked race"
+    region-hint: "Unknown"
+    preview-model: "locked_placeholder"
+    traits:
+      - "Locked for future release"

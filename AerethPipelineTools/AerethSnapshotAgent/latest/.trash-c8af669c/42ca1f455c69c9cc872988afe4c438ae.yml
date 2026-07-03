@@ -1,0 +1,28 @@
+settings:
+  autosave-seconds: 180
+  default-free-character-slots: 2
+  maximum-character-slots: 4
+creation:
+  lock-movement-until-character-created: true
+  allowed-commands-before-creation:
+    - /character
+    - /race
+    - /aereth
+  use-creation-lobby: false
+  lobby:
+    world: world
+    x: 0.5
+    y: 80.0
+    z: 0.5
+    yaw: 0.0
+    pitch: 0.0
+messages:
+  prefix: "&8[&bAereth&8]&r "
+  profile-created: "&7A new Remnant profile has formed."
+  profile-loaded: "&7Your current character profile has been loaded."
+  character-required: "&cCreate or select a character first."
+  character-created: "&aCharacter created. The world begins to read you."
+  character-selected: "&aCharacter selected."
+  character-deleted: "&cCharacter archived and slot freed."
+  locked-race: "&cThat race is locked for now."
+  nonplayable-race: "&cThat entry is part of the world, but not selectable as a player race."

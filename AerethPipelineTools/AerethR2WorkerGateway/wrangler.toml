@@ -1,0 +1,11 @@
+name = "aereth-snapshot-gateway"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+workers_dev = true
+
+[[r2_buckets]]
+binding = "SNAPSHOTS"
+bucket_name = "aerethsnaphots"
+
+[vars]
+SNAPSHOT_PREFIX = "aereth-1e766ea2214b876ed44ec889cc404cc5/latest"

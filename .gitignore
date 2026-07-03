@@ -1,0 +1,80 @@
+# Secrets
+.env
+*.env
+*.key
+*.pem
+secrets/
+credentials/
+tokens/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Java / Maven / Gradle
+target/
+build/
+.gradle/
+*.class
+
+# Compiled Minecraft / plugin files
+*.jar
+*.war
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# Raw server snapshots and runtime server files
+04_SERVER_CURRENT/SERVER_SNAPSHOT_CURRENT/
+**/server_snapshot_*/
+**/world/
+**/world_nether/
+**/world_the_end/
+**/main/
+**/main_nether/
+**/main_the_end/
+**/creator_world/
+**/logs/
+**/cache/
+**/.cache/
+**/libraries/
+**/versions/
+**/plugins/CoreProtect/database.db
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+
+# BlueMap generated web/runtime output
+**/bluemap/web/
+**/bluemap/maps/
+**/bluemap/logs/
+
+# ModelEngine generated/cache output
+**/ModelEngine/.data/
+**/ModelEngine/resource pack/
+**/ModelEngine/resource_pack/
+**/ModelEngine/generated/
+
+# Spark runtime data
+**/spark/activity.json
+
+# Nested repo / generated mirror folders
+AerethSnapshotGit/
+AerethPipelineTools/AerethSnapshotAgent/tmp/
+AerethPipelineTools/AerethSnapshotAgent/out/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Old archived material, not part of active repo
+99_ARCHIVE/

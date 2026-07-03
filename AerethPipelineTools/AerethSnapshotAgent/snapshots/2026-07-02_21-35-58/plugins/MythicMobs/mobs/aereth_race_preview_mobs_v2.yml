@@ -1,0 +1,102 @@
+# Aereth Race Preview Mobs V2 - render-ready
+# Requires the V2 ModelEngine blueprints in this patch.
+
+AerethPreviewV2_Remnant:
+  Type: ZOMBIE
+  Display: '&bRemnant Preview'
+  Health: 40
+  Damage: 0
+  AIGoalSelectors:
+    - clear
+  AITargetSelectors:
+    - clear
+  Options:
+    Silent: true
+    Despawn: false
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    PreventOtherDrops: true
+    MovementSpeed: 0
+    KnockbackResistance: 1
+    AlwaysShowName: true
+    Collidable: false
+    FollowRange: 0
+  Skills:
+    - potion{type=INVISIBILITY;duration=999999;level=1;hasParticles=false} @self ~onSpawn
+    - model{mid=aereth_remnant_preview_v2;drive=true;damage=false;invisible=true;scale=1.0} @self ~onSpawn
+    - effect:particles{p=END_ROD;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreviewV2_Sylvae:
+  Type: ZOMBIE
+  Display: '&aSylvae Preview'
+  Health: 40
+  Damage: 0
+  AIGoalSelectors:
+    - clear
+  AITargetSelectors:
+    - clear
+  Options:
+    Silent: true
+    Despawn: false
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    PreventOtherDrops: true
+    MovementSpeed: 0
+    KnockbackResistance: 1
+    AlwaysShowName: true
+    Collidable: false
+    FollowRange: 0
+  Skills:
+    - potion{type=INVISIBILITY;duration=999999;level=1;hasParticles=false} @self ~onSpawn
+    - model{mid=aereth_sylvae_preview_v2;drive=true;damage=false;invisible=true;scale=1.0} @self ~onSpawn
+    - effect:particles{p=HAPPY_VILLAGER;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreviewV2_Delver:
+  Type: ZOMBIE
+  Display: '&6Delver Preview'
+  Health: 40
+  Damage: 0
+  AIGoalSelectors:
+    - clear
+  AITargetSelectors:
+    - clear
+  Options:
+    Silent: true
+    Despawn: false
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    PreventOtherDrops: true
+    MovementSpeed: 0
+    KnockbackResistance: 1
+    AlwaysShowName: true
+    Collidable: false
+    FollowRange: 0
+  Skills:
+    - potion{type=INVISIBILITY;duration=999999;level=1;hasParticles=false} @self ~onSpawn
+    - model{mid=aereth_delver_preview_v2;drive=true;damage=false;invisible=true;scale=1.0} @self ~onSpawn
+    - effect:particles{p=CRIT;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreviewV2_Vireborn:
+  Type: ZOMBIE
+  Display: '&cVireborn Preview'
+  Health: 40
+  Damage: 0
+  AIGoalSelectors:
+    - clear
+  AITargetSelectors:
+    - clear
+  Options:
+    Silent: true
+    Despawn: false
+    PreventSunburn: true
+    PreventMobKillDrops: true
+    PreventOtherDrops: true
+    MovementSpeed: 0
+    KnockbackResistance: 1
+    AlwaysShowName: true
+    Collidable: false
+    FollowRange: 0
+  Skills:
+    - potion{type=INVISIBILITY;duration=999999;level=1;hasParticles=false} @self ~onSpawn
+    - model{mid=aereth_vireborn_preview_v2;drive=true;damage=false;invisible=true;scale=1.0} @self ~onSpawn
+    - effect:particles{p=FLAME;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20

@@ -1,0 +1,44 @@
+slot_select:
+  world: creator_world
+  player_spawn:
+    x: 0.5
+    y: 80.0
+    z: 8.5
+    yaw: 180.0
+    pitch: 0.0
+  preview_spawn:
+    x: 0.5
+    y: 80.0
+    z: 1.5
+    yaw: 180.0
+    pitch: 0.0
+
+race_select:
+  world: creator_world
+  player_spawn:
+    x: 20.5
+    y: 80.0
+    z: 8.5
+    yaw: 180.0
+    pitch: 0.0
+  preview_spawn:
+    x: 20.5
+    y: 80.0
+    z: 1.5
+    yaw: 180.0
+    pitch: 0.0
+
+confirm:
+  world: creator_world
+  player_spawn:
+    x: 40.5
+    y: 80.0
+    z: 8.5
+    yaw: 180.0
+    pitch: 0.0
+  preview_spawn:
+    x: 40.5
+    y: 80.0
+    z: 1.5
+    yaw: 180.0
+    pitch: 0.0

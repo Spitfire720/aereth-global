@@ -1,0 +1,37 @@
+Aereth_EchoPulse:
+  Skills:
+    - message{m="&8[&bEcho&8] &7Something here remembers you incorrectly."} @target
+    - command{c="aereth activity <target.name> OBSERVATION 1 mythic_echo_pulse";asOp=true} @target
+
+Aereth_EchoDeath:
+  Skills:
+    - command{c="aereth echo <trigger.name> defeated_echo_remnant personal mythicmobs";asOp=true} @trigger
+    - command{c="aereth activity <trigger.name> ENDURANCE 2 mythic_echo_death";asOp=true} @trigger
+
+Aereth_FractureTouch:
+  Skills:
+    - message{m="&8[&5Fracture&8] &7The attack leaves a tear in your outline."} @target
+    - command{c="aereth erasure <target.name> 1.5 mythic_fracture_touch";asOp=true} @target
+
+Aereth_FractureDeath:
+  Skills:
+    - command{c="aereth attach <trigger.name> fractured_core";asOp=true} @trigger
+    - command{c="aereth activity <trigger.name> EXTRACTION 2 mythic_fracture_death";asOp=true} @trigger
+
+Aereth_AnchorTrial:
+  Skills:
+    - command{c="aereth activity <target.name> INTERVENTION 1 mythic_anchor_trial";asOp=true} @target
+
+Aereth_AnchorDeath:
+  Skills:
+    - command{c="aereth attach <trigger.name> anchored_will";asOp=true} @trigger
+    - command{c="aereth echo <trigger.name> held_against_anchor personal mythicmobs";asOp=true} @trigger
+
+Aereth_MemoryBurden:
+  Skills:
+    - command{c="aereth activity <target.name> PRESERVATION 1 mythic_memory_burden";asOp=true} @target
+
+Aereth_MemoryDeath:
+  Skills:
+    - command{c="aereth attach <trigger.name> echo_burden";asOp=true} @trigger
+    - command{c="aereth echo <trigger.name> remembered_the_hollow personal mythicmobs";asOp=true} @trigger

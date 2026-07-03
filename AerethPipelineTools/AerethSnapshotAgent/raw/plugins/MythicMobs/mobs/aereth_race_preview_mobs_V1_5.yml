@@ -1,0 +1,75 @@
+# Aereth Race Preview Mobs - v1.5 fresh-ID render test
+# Uses brand new ModelEngine IDs to bypass stale model cache from previous patches.
+# Keep ONLY this file active while testing.
+
+AerethPreview15_Remnant:
+  Type: ZOMBIE
+  Display: '&bRemnant Preview v1.5'
+  Health: 999
+  Damage: 0
+  Options:
+    Silent: true
+    PreventSunburn: true
+    PreventOtherDrops: true
+    KnockbackResistance: 1
+    MovementSpeed: 0
+    NoAI: true
+    Despawn: false
+    AlwaysShowName: true
+  Skills:
+    - model{mid=aereth_remnant_marker_v15;n=false} @self ~onSpawn
+    - effect:particles{p=END_ROD;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreview15_Sylvae:
+  Type: ZOMBIE
+  Display: '&aSylvae Preview v1.5'
+  Health: 999
+  Damage: 0
+  Options:
+    Silent: true
+    PreventSunburn: true
+    PreventOtherDrops: true
+    KnockbackResistance: 1
+    MovementSpeed: 0
+    NoAI: true
+    Despawn: false
+    AlwaysShowName: true
+  Skills:
+    - model{mid=aereth_sylvae_marker_v15;n=false} @self ~onSpawn
+    - effect:particles{p=HAPPY_VILLAGER;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreview15_Delver:
+  Type: ZOMBIE
+  Display: '&dDelver Preview v1.5'
+  Health: 999
+  Damage: 0
+  Options:
+    Silent: true
+    PreventSunburn: true
+    PreventOtherDrops: true
+    KnockbackResistance: 1
+    MovementSpeed: 0
+    NoAI: true
+    Despawn: false
+    AlwaysShowName: true
+  Skills:
+    - model{mid=aereth_delver_marker_v15;n=false} @self ~onSpawn
+    - effect:particles{p=CRIT;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20
+
+AerethPreview15_Vireborn:
+  Type: ZOMBIE
+  Display: '&cVireborn Preview v1.5'
+  Health: 999
+  Damage: 0
+  Options:
+    Silent: true
+    PreventSunburn: true
+    PreventOtherDrops: true
+    KnockbackResistance: 1
+    MovementSpeed: 0
+    NoAI: true
+    Despawn: false
+    AlwaysShowName: true
+  Skills:
+    - model{mid=aereth_vireborn_marker_v15;n=false} @self ~onSpawn
+    - effect:particles{p=FLAME;amount=8;hS=0.25;vS=0.7;y=1} @self ~onTimer:20

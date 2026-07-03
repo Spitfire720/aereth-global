@@ -1,0 +1,5 @@
+events:
+  aereth_first_observation: "command aereth activity %player% OBSERVATION 3 betonquest_first_observation"
+  aereth_first_echo: "command aereth echo %player% first_remnant_contact personal betonquest_awakening"
+  aereth_first_fragment: "command aereth attach %player% echo_burden"
+  aereth_first_erasure: "command aereth erasure %player% 1.5 betonquest_awakening"

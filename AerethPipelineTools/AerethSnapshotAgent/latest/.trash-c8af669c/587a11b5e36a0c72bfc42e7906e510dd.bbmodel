@@ -1,0 +1,418 @@
+{
+  "meta": {
+    "format_version": "5.0",
+    "model_format": "free",
+    "box_uv": false
+  },
+  "name": "aereth_delver_marker_v15",
+  "model_identifier": "",
+  "visible_box": [
+    1,
+    1,
+    0
+  ],
+  "variable_placeholders": "",
+  "variable_placeholder_buttons": [],
+  "timeline_setups": [],
+  "unhandled_root_fields": {},
+  "resolution": {
+    "width": 16,
+    "height": 16
+  },
+  "elements": [
+    {
+      "name": "aereth_delver_marker_v15_part_0",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 0
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "d108dea7-7b47-5a76-b09e-05badea5cbd1"
+    },
+    {
+      "name": "aereth_delver_marker_v15_part_1",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -8,
+        0,
+        0
+      ],
+      "to": [
+        8,
+        16,
+        0
+      ],
+      "autouv": 1,
+      "color": 6,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ],
+          "texture": 1
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            0,
+            16
+          ],
+          "texture": 1
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            16,
+            0
+          ],
+          "texture": 1
+        }
+      },
+      "type": "cube",
+      "uuid": "c77a0fcf-04ad-5846-9828-e5111c412ed8"
+    },
+    {
+      "name": "aereth_delver_marker_v15_part_2",
+      "box_uv": false,
+      "render_order": "default",
+      "locked": false,
+      "allow_mirror_modeling": true,
+      "from": [
+        -1,
+        0,
+        -1
+      ],
+      "to": [
+        1,
+        2,
+        1
+      ],
+      "autouv": 1,
+      "color": 3,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ]
+        }
+      },
+      "type": "cube",
+      "uuid": "3c6aab40-f24f-5d2a-afce-d53ce0acc0dd"
+    }
+  ],
+  "groups": [
+    {
+      "uuid": "7f8e308b-6c76-568a-b690-ca2543132908",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_delver_marker_v15_front",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "8b86ef5c-b3c2-58ca-80af-97bee43b512c",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_delver_marker_v15_cross",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    },
+    {
+      "uuid": "f348c6dd-e695-5e58-a0b3-86dc06d10478",
+      "export": true,
+      "locked": false,
+      "origin": [
+        0,
+        1,
+        0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "color": 0,
+      "name": "aereth_delver_marker_v15_hitbox",
+      "children": [],
+      "reset": false,
+      "shade": true,
+      "mirror_uv": false,
+      "selected": false,
+      "visibility": true,
+      "autouv": 0,
+      "isOpen": true
+    }
+  ],
+  "outliner": [
+    {
+      "uuid": "7f8e308b-6c76-568a-b690-ca2543132908",
+      "isOpen": true,
+      "children": [
+        "d108dea7-7b47-5a76-b09e-05badea5cbd1"
+      ]
+    },
+    {
+      "uuid": "8b86ef5c-b3c2-58ca-80af-97bee43b512c",
+      "isOpen": true,
+      "children": [
+        "c77a0fcf-04ad-5846-9828-e5111c412ed8"
+      ]
+    },
+    {
+      "uuid": "f348c6dd-e695-5e58-a0b3-86dc06d10478",
+      "isOpen": true,
+      "children": [
+        "3c6aab40-f24f-5d2a-afce-d53ce0acc0dd"
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "name": "aereth_delver_marker_v15_0.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "0",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "bd254f69-48b9-52c0-852c-84a309393ed1",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAADAUlEQVR4nO2WsWsTYRiHn8RUXKpYUESLlRYncZBOxeHo4uCcVf0THLoKxskpQxdBBemguGRwEAQR2qtDBXEp6CIVB6liUFAIlCb2HK6ffMn3nh4twvHxeyCElvte3uQuD0+t280y9kEDYLm9t8PzC7sDAFqdpNShVjOl1UloNVMA6qMXpGvpXw/778EAd9ga4h/yt234FyVzCelaynKbjfV36fT3T2yRQf0AtQ+v+fnxDcdHP2rwEZK5/IKdX2Qr99hcuc/m6gM+T11gfK13M9gsGGAx2GZn/Rnfrlxr7m0AwI8vbJ+emtz7gFodBoPBvwf437bPxCSHjk4cC/4/dBe8wzNb/R6tzuUZgMNHxnn56im9Xn6L3RcdbOBuUauTMDbWYOnRIksPF7lz9zYL12/Q7+fX+c/J0Ab+kNnzl4J1XzxP/mzgtq11u1m2nx9Tbb8/59K3sYj/54O379MN/+9zZ5MZqKIPhga4J2y5zQYwDZzcfZ06M8vX0cNgPEjuIelvkT25xSZA4yD1i1c58XhVPpAPQmL3QRHV84H6QD4INvCHyAflUB/kqA/kA5AP1AfGBm4IqA8s5AOb2H2gPlAfWMgHNrH7oIjq+UB9IB8EG/hD5INyqA9y1AfyAcgH6gNjAzcE1AcW8oFN7D5QH6gPLOQDm9h9UET1fKA+kA+CDfwh8kE51Ac56gP5AOQD9YGxgRsC6gML+cAmdh+oD9QHFvKBTew+KKJ6PlAfyAfBBv4Q+aAc6oMc9YF8APKB+sDYwA0B9YGFfGATuw/UB+oDC/nAJnYfFFE9H6gP5INgA3+IfFAO9UGO+kA+APlAfWBs4IaA+sBCPrCJ3QfqA/WBhXxgE7sPiqieD9QH8kGwgT9EPiiH+iBHfSAfgHygPjA2cENAfWAhH9jE7gP1gfrAQj6wid0HRVTPB+oD+SDYwB8iH5RDfZCjPpAPQD5QHxgbuCGgPrCQD2xi94H6QH1gIR/YxO6DIqrnA/WBfBBs4A+RD8qhPshRH8gHUAUf/AZTd1FX2NX91AAAAABJRU5ErkJggg=="
+    },
+    {
+      "name": "aereth_delver_marker_v15_1.png",
+      "path": "",
+      "folder": "block",
+      "namespace": "minecraft",
+      "id": "1",
+      "group": "",
+      "width": 16,
+      "height": 512,
+      "uv_width": 16,
+      "uv_height": 16,
+      "particle": false,
+      "use_as_default": false,
+      "layers_enabled": false,
+      "sync_to_project": "",
+      "render_mode": "default",
+      "render_sides": "auto",
+      "pbr_channel": "color",
+      "frame_time": 1,
+      "frame_order_type": "loop",
+      "frame_order": "",
+      "frame_interpolate": false,
+      "visible": true,
+      "internal": true,
+      "saved": false,
+      "uuid": "79cc60f5-84d5-582b-891e-20f66e5e0423",
+      "source": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAIACAYAAACLuuzTAAAC60lEQVR4nO2Wv2qTURyG35RIszgXK2I1g1Oms4lLBG/CqQheQQMWB72B9Aacuurg7lRwcPumLgoW/wwpSDIktig2+jmcRH4n7zk1Rh0O530ghI/kPHz5w8PbeLZb1/gLmgDQ3Vnt8MHeTAAAruOWOlQdVnAdh+qwAgCsLb6hv12de9g+k2B+OCaxh+zdBoLevn+hu4Oj94Oqfvux+jJ7fG218GnxcPQjzCUA6vEYg/EYg8kEx+vruPjo4QO6MxLEqGv8OD3F6N79u6sJAGA6xbetrSurCxoN4Gx69nuB/bYtzSZajcnG+QJzuH3y+WTNdVzbdVz79q1u+/sEm69f8k/ctBfzf5jrOLx59wpPnz8BaqB5oYndxz3c2egDCCWBYC4BgBvXbtLtvoBDf7tCb9+h2qlCQeqzx5gf/iU42Fv6LLH0z5ji//Xgw3F1ZK+vXnJtIKseALgOYHP2uPzHPahr1MMhBsMhBqORegCoB4uU0oMUGfVA+4BRDzzqAaN9EBFYifYBox6ElNKDFBn1QPuAUQ886gGjfRARWIn2AaMehJTSgxQZ9UD7gFEPPOoBo30QEViJ9gGjHoSU0oMUGfVA+4BRDzzqAaN9EBFYifYBox6ElNKDFBn1QPuAUQ886gGjfRARWIn2AaMehJTSgxQZ9UD7gFEPPOoBo30QEViJ9gGjHoSU0oMUGfVA+4BRDzzqAaN9EBFYifYBox6ElNKDFBn1QPuAUQ886gGjfRARWIn2AaMehJTSgxQZ9UD7gFEPPOoBo30QEViJ9gGjHoSU0oMUGfVA+4BRDzzqAaN9EBFYifYBox6ElNKDFBn1QPuAUQ886gGjfRARWIn2AaMehJTSgxQZ9UD7gFEPPOoBo30QEViJ9gGjHoSU0oMUGfVA+4BRDzzqAaN9EBFYifYBox6ElNKDFBn1QPuAUQ886gGjfRARWIn2AaMehJTSgxQZ9UD7gFEPPOoBo30QEViJ9gGjHoT80x78BBsG+vQna61pAAAAAElFTkSuQmCC"
+    }
+  ]
+}
