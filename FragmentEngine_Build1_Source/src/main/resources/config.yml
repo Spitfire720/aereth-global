@@ -1,0 +1,179 @@
+settings:
+  autosave-seconds: 180
+  default-free-character-slots: 2
+  maximum-character-slots: 4
+  level-cap: 60
+
+storage:
+  type: "yaml"
+  # Build 1 intentionally preserves the existing runtime folders:
+  # plugins/FragmentEngine/accounts/
+  # plugins/FragmentEngine/characters/
+  accounts-folder: "accounts"
+  characters-folder: "characters"
+  agent-folder: "agent"
+  save-on-quit: true
+  save-on-character-change: true
+
+creation:
+  lock-movement-until-character-created: true
+  allowed-commands-before-creation:
+    - /character
+    - /race
+    - /aereth
+  use-creation-lobby: false
+  lobby:
+    world: creator_world
+    x: 0.5
+    y: 80.0
+    z: 0.5
+    yaw: 0.0
+    pitch: 0.0
+
+progression:
+  formula: "900 * level^1.9"
+  starting-level: 1
+  starting-xp: 0
+  level-cap: 60
+  phase-bands:
+    discovery:
+      min-level: 1
+      max-level: 15
+    commitment:
+      min-level: 16
+      max-level: 35
+    optimization:
+      min-level: 36
+      max-level: 50
+    mastery:
+      min-level: 51
+      max-level: 60
+  discovery-time-targets-minutes:
+    story:
+      1: 8
+      2: 10
+      3: 13
+      4: 16
+      5: 20
+      6: 24
+      7: 27
+      8: 30
+      9: 33
+      10: 36
+      11: 39
+      12: 42
+      13: 45
+      14: 48
+    balanced:
+      1: 8
+      2: 11
+      3: 14
+      4: 18
+      5: 22
+      6: 26
+      7: 29
+      8: 32
+      9: 35
+      10: 38
+      11: 41
+      12: 44
+      13: 47
+      14: 50
+    grind:
+      1: 12
+      2: 15
+      3: 18
+      4: 22
+      5: 26
+      6: 30
+      7: 34
+      8: 38
+      9: 42
+      10: 46
+      11: 50
+      12: 54
+      13: 58
+      14: 62
+
+stats:
+  starting:
+    vitality: 5
+    strength: 5
+    dexterity: 5
+    intelligence: 5
+    willpower: 5
+    endurance: 5
+  per-level-growth:
+    vitality: 0.8
+    strength: 0.75
+    dexterity: 0.55
+    intelligence: 0.55
+    willpower: 0.6
+    endurance: 0.7
+
+quests:
+  xp-per-minute-by-type:
+    story: 0.035
+    side: 0.025
+    daily: 0.015
+    exploration: 0.020
+    elite: 0.045
+  reward-multipliers:
+    story: 1.15
+    side: 1.0
+    daily: 0.85
+    exploration: 0.9
+    elite: 1.35
+  coins-per-minute-base: 7
+
+combat-targets:
+  trivial:
+    target-ttk-seconds: 12
+    target-player-hp-loss-percent: 5
+  easy:
+    target-ttk-seconds: 20
+    target-player-hp-loss-percent: 12
+  normal:
+    target-ttk-seconds: 32
+    target-player-hp-loss-percent: 25
+  hard:
+    target-ttk-seconds: 48
+    target-player-hp-loss-percent: 45
+  elite:
+    target-ttk-seconds: 75
+    target-player-hp-loss-percent: 70
+  boss:
+    target-ttk-seconds: 150
+    target-player-hp-loss-percent: 95
+
+fragments:
+  starting-capacity: 3
+  max-capacity: 10
+
+intent:
+  starting-slots: 1
+  max-slots: 10
+  max-pressure: 100
+
+agent-support:
+  enabled: true
+  export-on-startup: true
+  export-on-shutdown: true
+  export-on-save: true
+  redact-sensitive-values: true
+
+legacy-commands:
+  preserve-betonquest-aereth-commands: true
+
+messages:
+  prefix: "&8[&bAereth&8]&r "
+  profile-created: "&7A new Remnant profile has formed."
+  profile-loaded: "&7Your current character profile has been loaded."
+  character-required: "&cCreate or select a character first."
+  character-created: "&aCharacter created. The world begins to read you."
+  character-selected: "&aCharacter selected."
+  character-deleted: "&cCharacter archived and slot freed."
+  locked-race: "&cThat race is locked for now."
+  nonplayable-race: "&cThat entry is part of the world, but not selectable as a player race."
+  data-saved: "&aFragmentEngine data saved."
+  diagnostics-exported: "&aFragmentEngine diagnostics exported."

@@ -1,0 +1,25 @@
+name: FragmentEngine
+version: 1.8.0
+main: live.aereth.fragmentengine.FragmentEnginePlugin
+api-version: "1.20"
+author: SpitFire720
+softdepend:
+  - PlaceholderAPI
+  - AerethCharacterCreatorCore
+  - WorldFracture
+  - MythicMobs
+  - BetonQuest
+
+commands:
+  aereth:
+    description: Aereth core backend command.
+    usage: /aereth
+    aliases:
+      - fe
+      - fragmentengine
+    permission: aereth.admin
+
+permissions:
+  aereth.admin:
+    description: Allows access to FragmentEngine admin commands.
+    default: op
