@@ -91,3 +91,7 @@ AerethPipelineTools/AerethSnapshotAgent/raw/
 AerethPipelineTools/AerethSnapshotAgent/*.diff
 **/bin/
 
+
+# Maven build outputs
+**/target/
+*.class

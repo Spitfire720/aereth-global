@@ -1,0 +1,18 @@
+# AerethCreatorFragmentBridge
+# Mirrors AerethCharacterCreatorCore/player_profiles.yml into FragmentEngine/accounts and FragmentEngine/characters.
+
+auto-sync:
+  enabled: true
+  interval-seconds: 10
+
+paths:
+  character-creator-folder: "AerethCharacterCreatorCore"
+  fragment-engine-folder: "FragmentEngine"
+  character-creator-profile-file: "player_profiles.yml"
+  fragment-accounts-folder: "accounts"
+  fragment-characters-folder: "characters"
+
+sync:
+  maximum-slots: 4
+  default-free-slots: 2
+  overwrite-existing-fragment-characters: false

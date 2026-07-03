@@ -1,0 +1,17 @@
+name: AerethCreatorFragmentBridge
+version: 1.0.0
+main: live.aereth.bridge.AerethCreatorFragmentBridgePlugin
+api-version: "1.20"
+author: SpitFire720
+description: Syncs AerethCharacterCreatorCore selections into FragmentEngine Build 1 data.
+softdepend:
+  - AerethCharacterCreatorCore
+  - FragmentEngine
+commands:
+  aerethbridge:
+    description: Aereth Character Creator to FragmentEngine bridge command.
+    usage: /aerethbridge <status|sync|syncall>
+    aliases: [accbridge, creatorbridge]
+permissions:
+  aereth.bridge.admin:
+    default: op
