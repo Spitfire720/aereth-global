@@ -8,6 +8,7 @@ import live.aereth.fragmentengine.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -43,6 +44,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "status" -> status(sender);
                 case "profile" -> profile(sender, args);
                 case "character" -> character(sender, args);
+                case "stats" -> stats(sender, args);
                 case "createcharacter" -> createCharacter(sender, args);
                 case "addxp" -> addXp(sender, args);
                 case "setlevel" -> setLevel(sender, args);
@@ -51,13 +53,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "reload" -> reload(sender);
                 case "diagnostics" -> diagnostics(sender);
                 case "agent" -> agent(sender, args);
-
-                // Legacy BetonQuest hooks.
                 case "activity" -> legacyActivity(sender, args);
                 case "echo" -> legacyEcho(sender, args);
                 case "attach" -> legacyAttach(sender, args);
                 case "erasure" -> legacyErasure(sender, args);
-
                 default -> help(sender);
             }
         } catch (Exception ex) {
@@ -69,10 +68,11 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     }
 
     private void help(CommandSender sender) {
-        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 1"));
+        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 2A"));
         sender.sendMessage(Text.color("&b/aereth status"));
         sender.sendMessage(Text.color("&b/aereth profile <player>"));
         sender.sendMessage(Text.color("&b/aereth character <player>"));
+        sender.sendMessage(Text.color("&b/aereth stats <player>"));
         sender.sendMessage(Text.color("&b/aereth createcharacter <player> <slot> <race> [name...]"));
         sender.sendMessage(Text.color("&b/aereth addxp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setlevel <player> <level>"));
@@ -115,14 +115,35 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         }
 
         sender.sendMessage(prefix() + Text.color("&7Character: &b" + character.getString("name", "Unnamed")));
-        sender.sendMessage(Text.color("&7Race: &f" + character.getString("race.id", "unformed")));
-        sender.sendMessage(Text.color("&7Level: &f" + character.getInt("progression.level", 1)));
-        sender.sendMessage(Text.color("&7Phase: &f" + character.getString("progression.phase", "discovery")));
-        sender.sendMessage(Text.color("&7XP: &f" + character.getLong("progression.xp", 0L) + " / " + characters.progression().xpRequiredForLevel(character.getInt("progression.level", 1))));
+        sender.sendMessage(Text.color("&7Race: &f" + character.getString("race.display", character.getString("race.id", "unformed")) + " &8(" + character.getString("race.trait", "-") + "&8)"));
+        sender.sendMessage(Text.color("&7Level: &f" + character.getInt("progression.level", 1) + " &8/ &7Phase: &f" + character.getString("progression.phase", "discovery")));
+        sender.sendMessage(Text.color("&7XP: &f" + character.getLong("progression.xp", 0L) + " / " + characters.progression().xpRequiredForLevel(character.getInt("progression.level", 1)) + " &8(total " + character.getLong("progression.total-xp", 0L) + ")"));
+        sender.sendMessage(Text.color("&7Unspent: &f" + character.getInt("progression.unspent-stat-points", 0) + " stat &8/ &f" + character.getInt("progression.unspent-intent-points", 0) + " intent"));
         sender.sendMessage(Text.color("&7HP: &f" + character.getDouble("derived.current-health", 0.0) + " / " + character.getDouble("derived.max-health", 0.0)));
-        sender.sendMessage(Text.color("&7Attack: &f" + character.getDouble("derived.attack-power", 0.0)));
-        sender.sendMessage(Text.color("&7Defense: &f" + character.getDouble("derived.defense", 0.0)));
-        sender.sendMessage(Text.color("&7Erasure: &f" + character.getDouble("erasure", 0.0)));
+        sender.sendMessage(Text.color("&7Attack: &f" + character.getDouble("derived.attack-power", 0.0) + " &8/ &7Defense: &f" + character.getDouble("derived.defense", 0.0)));
+        sender.sendMessage(Text.color("&7Erasure: &f" + character.getDouble("erasure", 0.0) + " &8/ &7Stability: &f" + character.getDouble("derived.stability", 0.0)));
+    }
+
+    private void stats(CommandSender sender, String[] args) {
+        requireArgs(args, 2, "/aereth stats <player>");
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        YamlConfiguration character = characters.getActiveCharacter(target);
+        if (character == null) {
+            sender.sendMessage(prefix() + Text.color("&cNo active character."));
+            return;
+        }
+
+        sender.sendMessage(prefix() + Text.color("&7Stats: &b" + character.getString("name", "Unnamed")));
+        ConfigurationSection totals = character.getConfigurationSection("stats.total");
+        if (totals != null) {
+            for (String key : totals.getKeys(false)) {
+                sender.sendMessage(Text.color("&7" + key + ": &f" + totals.getDouble(key)));
+            }
+        }
+        sender.sendMessage(Text.color("&7Derived: &fHP " + character.getDouble("derived.max-health", 0.0)
+                + " &8/ &fATK " + character.getDouble("derived.attack-power", 0.0)
+                + " &8/ &fDEF " + character.getDouble("derived.defense", 0.0)
+                + " &8/ &fEVA " + character.getDouble("derived.evasion", 0.0)));
     }
 
     private void createCharacter(CommandSender sender, String[] args) throws IOException {
@@ -132,7 +153,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         String race = args[3];
         String name = args.length >= 5 ? String.join(" ", Arrays.copyOfRange(args, 4, args.length)) : null;
         YamlConfiguration character = characters.createCharacter(target, slot, race, name);
-        sender.sendMessage(prefix() + Text.color("&aCharacter created: &f" + character.getString("name", "Unnamed") + " &7(" + character.getString("race.id", "remnant") + ")"));
+        sender.sendMessage(prefix() + Text.color("&aCharacter created: &f" + character.getString("name", "Unnamed") + " &7(" + character.getString("race.display", "Remnant") + ")"));
     }
 
     private void addXp(CommandSender sender, String[] args) throws IOException {
@@ -140,6 +161,9 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
         long amount = parseLong(args[2], "amount");
         ProgressionService.LevelResult result = characters.addXp(target, amount);
+        if (result.leveledUp()) {
+            sender.sendMessage(prefix() + Text.color("&dLevel up. &7" + result.oldLevel() + " -> &f" + result.level() + " &8(+" + result.levelsGained() + ")"));
+        }
         sender.sendMessage(prefix() + Text.color("&aXP added. &7Level: &f" + result.level() + " &7XP: &f" + result.xp()));
     }
 
@@ -248,13 +272,16 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "profile", "character", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "attach", "erasure"));
+            return partial(args[0], List.of("status", "profile", "character", "stats", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "attach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));
         }
-        if (args.length == 4 && (args[0].equalsIgnoreCase("createcharacter") || args[0].equalsIgnoreCase("setrace"))) {
+        if (args.length == 4 && args[0].equalsIgnoreCase("createcharacter")) {
             return partial(args[3], List.of("remnant", "sylvae", "delver", "vireborn"));
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("setrace")) {
+            return partial(args[2], List.of("remnant", "sylvae", "delver", "vireborn"));
         }
         return new ArrayList<>();
     }

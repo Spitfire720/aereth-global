@@ -11,6 +11,7 @@ import java.io.IOException;
 public class FragmentEnginePlugin extends JavaPlugin {
     private StorageService storageService;
     private ProgressionService progressionService;
+    private RaceService raceService;
     private StatsService statsService;
     private CharacterService characterService;
     private LegacyCommandService legacyCommandService;
@@ -19,22 +20,24 @@ public class FragmentEnginePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        saveResource("races.yml", false);
 
         storageService = new StorageService(this);
         storageService.ensureFolders();
 
         progressionService = new ProgressionService(getConfig());
-        statsService = new StatsService();
-        characterService = new CharacterService(this, storageService, progressionService, statsService);
+        raceService = new RaceService(this);
+        statsService = new StatsService(getConfig(), raceService);
+        characterService = new CharacterService(this, storageService, progressionService, statsService, raceService);
         legacyCommandService = new LegacyCommandService(characterService);
         agentExportService = new AgentExportService(this, storageService);
 
         getServer().getServicesManager().register(
-        com.spitfire.fragmentengine.api.AerethProfileService.class,
-        new live.aereth.fragmentengine.api.LegacyAerethProfileService(),
-        this,
-        org.bukkit.plugin.ServicePriority.Normal
-);
+                com.spitfire.fragmentengine.api.AerethProfileService.class,
+                new live.aereth.fragmentengine.api.LegacyAerethProfileService(),
+                this,
+                org.bukkit.plugin.ServicePriority.Normal
+        );
 
         AerethCommand command = new AerethCommand(this, characterService, legacyCommandService, agentExportService);
         PluginCommand aereth = getCommand("aereth");

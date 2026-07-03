@@ -13,6 +13,14 @@ public class ProgressionService {
         return config.getInt("progression.level-cap", 60);
     }
 
+    public int statPointsPerLevel() {
+        return config.getInt("progression.stat-points-per-level", 2);
+    }
+
+    public int intentPointsPerLevel() {
+        return config.getInt("progression.intent-points-per-level", 1);
+    }
+
     public long xpRequiredForLevel(int level) {
         if (level >= getLevelCap()) {
             return 0L;
@@ -45,7 +53,8 @@ public class ProgressionService {
     }
 
     public LevelResult addXp(int currentLevel, long currentXp, long currentTotalXp, long amount) {
-        int level = Math.max(1, currentLevel);
+        int oldLevel = Math.max(1, currentLevel);
+        int level = oldLevel;
         long xp = Math.max(0L, currentXp) + Math.max(0L, amount);
         long totalXp = Math.max(0L, currentTotalXp) + Math.max(0L, amount);
 
@@ -63,8 +72,9 @@ public class ProgressionService {
             xp = 0L;
         }
 
-        return new LevelResult(level, xp, totalXp, phaseForLevel(level));
+        int levelsGained = Math.max(0, level - oldLevel);
+        return new LevelResult(level, xp, totalXp, phaseForLevel(level), oldLevel, levelsGained, levelsGained > 0);
     }
 
-    public record LevelResult(int level, long xp, long totalXp, String phase) {}
+    public record LevelResult(int level, long xp, long totalXp, String phase, int oldLevel, int levelsGained, boolean leveledUp) {}
 }

@@ -6,9 +6,6 @@ settings:
 
 storage:
   type: "yaml"
-  # Build 1 intentionally preserves the existing runtime folders:
-  # plugins/FragmentEngine/accounts/
-  # plugins/FragmentEngine/characters/
   accounts-folder: "accounts"
   characters-folder: "characters"
   agent-folder: "agent"
@@ -35,6 +32,8 @@ progression:
   starting-level: 1
   starting-xp: 0
   level-cap: 60
+  stat-points-per-level: 2
+  intent-points-per-level: 1
   phase-bands:
     discovery:
       min-level: 1
@@ -175,5 +174,6 @@ messages:
   character-deleted: "&cCharacter archived and slot freed."
   locked-race: "&cThat race is locked for now."
   nonplayable-race: "&cThat entry is part of the world, but not selectable as a player race."
+  level-up: "&dLevel up. The Fragment stabilizes around you."
   data-saved: "&aFragmentEngine data saved."
   diagnostics-exported: "&aFragmentEngine diagnostics exported."

@@ -1,42 +1,52 @@
 package live.aereth.fragmentengine.service;
 
-import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class StatsService {
-    public Map<String, Double> defaultStatsForLevel(YamlConfiguration character, int level) {
-        Map<String, Double> stats = new LinkedHashMap<>();
+    private final FileConfiguration config;
+    private final RaceService races;
 
-        double vitality = getOrDefault(character, "stats.vitality", 5.0);
-        double strength = getOrDefault(character, "stats.strength", 5.0);
-        double dexterity = getOrDefault(character, "stats.dexterity", 5.0);
-        double intelligence = getOrDefault(character, "stats.intelligence", 5.0);
-        double willpower = getOrDefault(character, "stats.willpower", 5.0);
-        double endurance = getOrDefault(character, "stats.endurance", 5.0);
-
-        if (!character.contains("stats")) {
-            int extra = Math.max(0, level - 1);
-            vitality = 5.0 + 0.8 * extra;
-            strength = 5.0 + 0.75 * extra;
-            dexterity = 5.0 + 0.55 * extra;
-            intelligence = 5.0 + 0.55 * extra;
-            willpower = 5.0 + 0.6 * extra;
-            endurance = 5.0 + 0.7 * extra;
-        }
-
-        stats.put("vitality", round(vitality));
-        stats.put("strength", round(strength));
-        stats.put("dexterity", round(dexterity));
-        stats.put("intelligence", round(intelligence));
-        stats.put("willpower", round(willpower));
-        stats.put("endurance", round(endurance));
-        return stats;
+    public StatsService(FileConfiguration config, RaceService races) {
+        this.config = config;
+        this.races = races;
     }
 
-    public Map<String, Double> derivedStats(Map<String, Double> stats, double erasurePressure) {
+    public Map<String, Double> defaultStatsForLevel(YamlConfiguration character, int level) {
+        Map<String, Double> totals = new LinkedHashMap<>();
+        String race = character.getString("race.id", "remnant");
+
+        putStat(character, totals, race, level, "vitality");
+        putStat(character, totals, race, level, "strength");
+        putStat(character, totals, race, level, "dexterity");
+        putStat(character, totals, race, level, "intelligence");
+        putStat(character, totals, race, level, "willpower");
+        putStat(character, totals, race, level, "endurance");
+
+        return totals;
+    }
+
+    private void putStat(YamlConfiguration character, Map<String, Double> totals, String race, int level, String stat) {
+        double starting = config.getDouble("stats.starting." + stat, 5.0);
+        double growth = config.getDouble("stats.per-level-growth." + stat, 0.5);
+        double base = starting + Math.max(0, level - 1) * growth;
+        double raceMod = races.statModifier(race, stat);
+        double bonus = character.getDouble("stats.bonus." + stat, 0.0);
+        double total = Math.max(0.0, base + raceMod + bonus);
+
+        character.set("stats.base." + stat, round(base));
+        character.set("stats.race." + stat, round(raceMod));
+        character.set("stats.bonus." + stat, round(bonus));
+        character.set("stats.total." + stat, round(total));
+        character.set("stats." + stat, round(total));
+        totals.put(stat, round(total));
+    }
+
+    public Map<String, Double> derivedStats(YamlConfiguration character, Map<String, Double> stats, double erasurePressure) {
+        String race = character.getString("race.id", "remnant");
         double vitality = stats.getOrDefault("vitality", 0.0);
         double strength = stats.getOrDefault("strength", 0.0);
         double dexterity = stats.getOrDefault("dexterity", 0.0);
@@ -45,14 +55,16 @@ public class StatsService {
         double endurance = stats.getOrDefault("endurance", 0.0);
 
         Map<String, Double> derived = new LinkedHashMap<>();
-        derived.put("max-health", round(100 + vitality * 12 + endurance * 6));
-        derived.put("attack-power", round(10 + strength * 2));
-        derived.put("defense", round(endurance * 1.5));
-        derived.put("crit-chance", round4(0.05 + dexterity * 0.002));
+        derived.put("max-health", round(100 + vitality * 12 + endurance * 6 + races.derivedModifier(race, "max-health")));
+        derived.put("attack-power", round(10 + strength * 2 + races.derivedModifier(race, "attack-power")));
+        derived.put("defense", round(endurance * 1.5 + races.derivedModifier(race, "defense")));
+        derived.put("crit-chance", round4(0.05 + dexterity * 0.002 + races.derivedModifier(race, "crit-chance")));
         derived.put("crit-damage", round4(1.5 + dexterity * 0.01));
-        derived.put("magic-power", round(intelligence * 2));
-        derived.put("resistance", round(willpower * 1.25));
-        derived.put("movement-speed", 1.0);
+        derived.put("magic-power", round(intelligence * 2 + races.derivedModifier(race, "magic-power")));
+        derived.put("resistance", round(willpower * 1.25 + races.derivedModifier(race, "resistance")));
+        derived.put("evasion", round4(0.02 + dexterity * 0.0015));
+        derived.put("erasure-resistance", round(willpower * 0.75 + races.derivedModifier(race, "resistance")));
+        derived.put("movement-speed", round4(1.0 + races.derivedModifier(race, "movement-speed")));
         derived.put("stability", round(clamp(100 - erasurePressure + willpower * 0.5, 0, 100)));
         return derived;
     }
@@ -62,22 +74,18 @@ public class StatsService {
         double erasure = character.getDouble("erasure", character.getDouble("fragments.erasure-pressure", 0.0));
 
         Map<String, Double> stats = defaultStatsForLevel(character, level);
-        for (Map.Entry<String, Double> entry : stats.entrySet()) {
-            character.set("stats." + entry.getKey(), entry.getValue());
-        }
-
-        Map<String, Double> derived = derivedStats(stats, erasure);
+        Map<String, Double> derived = derivedStats(character, stats, erasure);
         for (Map.Entry<String, Double> entry : derived.entrySet()) {
             character.set("derived." + entry.getKey(), entry.getValue());
         }
 
+        double maxHealth = derived.getOrDefault("max-health", 0.0);
         if (!character.contains("derived.current-health")) {
-            character.set("derived.current-health", derived.get("max-health"));
+            character.set("derived.current-health", maxHealth);
+        } else {
+            double current = character.getDouble("derived.current-health", maxHealth);
+            character.set("derived.current-health", round(clamp(current, 0.0, maxHealth)));
         }
-    }
-
-    private double getOrDefault(ConfigurationSection section, String path, double fallback) {
-        return section.contains(path) ? section.getDouble(path) : fallback;
     }
 
     private double clamp(double value, double min, double max) {
