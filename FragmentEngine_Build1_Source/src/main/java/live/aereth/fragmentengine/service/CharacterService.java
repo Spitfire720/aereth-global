@@ -37,7 +37,7 @@ public class CharacterService {
             return null;
         }
         YamlConfiguration character = storage.loadCharacter(player.getUniqueId(), slot);
-        if (!character.contains("profile-id")) {
+        if (isEmptyCharacterFile(character)) {
             return null;
         }
         ensureBuild1Fields(character, player, slot);
@@ -46,7 +46,7 @@ public class CharacterService {
 
     public YamlConfiguration getCharacter(OfflinePlayer player, int slot) {
         YamlConfiguration character = storage.loadCharacter(player.getUniqueId(), slot);
-        if (!character.contains("profile-id")) {
+        if (isEmptyCharacterFile(character)) {
             return null;
         }
         ensureBuild1Fields(character, player, slot);
@@ -252,6 +252,10 @@ public class CharacterService {
             case "threadbound" -> "Locked";
             default -> "Memory Fractured";
         };
+    }
+
+    private boolean isEmptyCharacterFile(YamlConfiguration character) {
+        return character == null || character.getKeys(false).isEmpty();
     }
 
     public StorageService storage() {
