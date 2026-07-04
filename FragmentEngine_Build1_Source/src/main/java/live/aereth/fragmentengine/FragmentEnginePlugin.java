@@ -14,6 +14,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
     private RaceService raceService;
     private StatsService statsService;
     private CharacterService characterService;
+    private FragmentService fragmentService;
     private LegacyCommandService legacyCommandService;
     private AgentExportService agentExportService;
 
@@ -21,6 +22,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         saveResource("races.yml", false);
+        saveResource("fragments.yml", false);
 
         storageService = new StorageService(this);
         storageService.ensureFolders();
@@ -29,6 +31,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         raceService = new RaceService(this);
         statsService = new StatsService(getConfig(), raceService);
         characterService = new CharacterService(this, storageService, progressionService, statsService, raceService);
+        fragmentService = new FragmentService(this, characterService);
         legacyCommandService = new LegacyCommandService(characterService);
         agentExportService = new AgentExportService(this, storageService);
 
@@ -39,7 +42,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
                 org.bukkit.plugin.ServicePriority.Normal
         );
 
-        AerethCommand command = new AerethCommand(this, characterService, legacyCommandService, agentExportService);
+        AerethCommand command = new AerethCommand(this, characterService, fragmentService, legacyCommandService, agentExportService);
         PluginCommand aereth = getCommand("aereth");
         if (aereth != null) {
             aereth.setExecutor(command);
@@ -47,7 +50,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         }
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new AerethPlaceholderExpansion(this, characterService).register();
+            new AerethPlaceholderExpansion(this, characterService, fragmentService).register();
             getLogger().info("PlaceholderAPI expansion registered: %aereth_...%");
         }
 

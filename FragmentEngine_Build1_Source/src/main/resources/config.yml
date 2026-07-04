@@ -148,6 +148,9 @@ combat-targets:
 fragments:
   starting-capacity: 3
   max-capacity: 10
+  max-pressure: 100
+  pressure-to-erasure-rate: 0.5
+  pressure-stability-penalty-rate: 1.0
 
 intent:
   starting-slots: 1

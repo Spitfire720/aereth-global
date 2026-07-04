@@ -35,11 +35,13 @@ public class StatsService {
         double base = starting + Math.max(0, level - 1) * growth;
         double raceMod = races.statModifier(race, stat);
         double bonus = character.getDouble("stats.bonus." + stat, 0.0);
-        double total = Math.max(0.0, base + raceMod + bonus);
+        double fragmentBonus = character.getDouble("stats.fragment-bonus." + stat, 0.0);
+        double total = Math.max(0.0, base + raceMod + bonus + fragmentBonus);
 
         character.set("stats.base." + stat, round(base));
         character.set("stats.race." + stat, round(raceMod));
         character.set("stats.bonus." + stat, round(bonus));
+        character.set("stats.fragment-bonus." + stat, round(fragmentBonus));
         character.set("stats.total." + stat, round(total));
         character.set("stats." + stat, round(total));
         totals.put(stat, round(total));
@@ -71,7 +73,7 @@ public class StatsService {
 
     public void applyStatsAndDerived(YamlConfiguration character) {
         int level = character.getInt("progression.level", 1);
-        double erasure = character.getDouble("erasure", character.getDouble("fragments.erasure-pressure", 0.0));
+        double erasure = character.getDouble("fragments.erasure-pressure", character.getDouble("erasure", 0.0));
 
         Map<String, Double> stats = defaultStatsForLevel(character, level);
         Map<String, Double> derived = derivedStats(character, stats, erasure);

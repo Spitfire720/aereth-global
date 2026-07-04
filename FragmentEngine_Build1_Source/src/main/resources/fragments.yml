@@ -1,0 +1,46 @@
+fragments:
+  memory_splinter:
+    display: "Memory Splinter"
+    tier: 1
+    pressure: 4.0
+    stability-cost: 1.0
+    lore: "A small shard of remembered self. Weak, but safe enough to hold."
+    modifiers:
+      stats:
+        willpower: 0.5
+        intelligence: 0.25
+
+  anchor_seed:
+    display: "Anchor Seed"
+    tier: 1
+    pressure: 6.0
+    stability-cost: 2.0
+    lore: "A root-like fragment that makes the bearer harder to displace."
+    modifiers:
+      stats:
+        vitality: 0.75
+        endurance: 0.75
+        willpower: 0.25
+
+  pressure_shard:
+    display: "Pressure Shard"
+    tier: 1
+    pressure: 9.0
+    stability-cost: 4.0
+    lore: "A hostile shard that sharpens instinct while making reality push back."
+    modifiers:
+      stats:
+        strength: 1.0
+        dexterity: 0.5
+        endurance: 0.25
+
+  ember_trace:
+    display: "Ember Trace"
+    tier: 1
+    pressure: 7.0
+    stability-cost: 3.0
+    lore: "A warm trace of impossible fire. It remembers motion before it remembers pain."
+    modifiers:
+      stats:
+        dexterity: 0.75
+        intelligence: 0.5
