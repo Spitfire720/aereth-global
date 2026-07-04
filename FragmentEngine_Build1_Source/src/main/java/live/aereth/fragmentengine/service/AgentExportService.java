@@ -56,12 +56,6 @@ public class AgentExportService {
             writer.write("  - discipline.family\n");
             writer.write("  - discipline.level-required\n");
             writer.write("  - discipline.selected\n");
-            writer.write("discipline-fields:\n");
-            writer.write("  - discipline.id\n");
-            writer.write("  - discipline.display\n");
-            writer.write("  - discipline.family\n");
-            writer.write("  - discipline.level-required\n");
-            writer.write("  - discipline.selected\n");
         }
     }
 
