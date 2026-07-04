@@ -2,6 +2,7 @@ package live.aereth.fragmentengine.papi;
 
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
+import live.aereth.fragmentengine.service.IntentService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,11 +15,13 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
     private final JavaPlugin plugin;
     private final CharacterService characters;
     private final FragmentService fragments;
+    private final IntentService intents;
 
-    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments) {
+    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
+        this.intents = intents;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
 
         String key = params.toLowerCase();
         FragmentService.FragmentSummary fragmentSummary = fragments.summary(character);
+        IntentService.IntentSummary intentSummary = intents.summary(character);
 
         return switch (key) {
             case "character_name" -> character.getString("name", "Unnamed");
@@ -82,11 +86,16 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
             case "fragment_capacity" -> String.valueOf(fragmentSummary.capacity());
             case "fragment_slots_used", "equipped_fragments" -> String.valueOf(fragmentSummary.equipped().size());
             case "fragment_slots_free" -> String.valueOf(Math.max(0, fragmentSummary.capacity() - fragmentSummary.equipped().size()));
-            case "fragment_pressure", "intent_pressure" -> String.valueOf(fragmentSummary.totalPressure());
+            case "fragment_pressure" -> String.valueOf(fragmentSummary.totalPressure());
             case "fragment_stability", "stability" -> String.valueOf(fragmentSummary.stability());
             case "fragment_equipped" -> join(fragmentSummary.equipped());
             case "fragment_discovered" -> join(fragmentSummary.discovered());
-            case "intent_slots" -> String.valueOf(character.getInt("intent.unlocked-slots", 1));
+            case "intent_primary" -> intentSummary.primary();
+            case "intent_slots", "intent_slots_max" -> String.valueOf(intentSummary.maxSlots());
+            case "intent_slots_used" -> String.valueOf(intentSummary.usedSlots());
+            case "intent_pressure" -> String.valueOf(intentSummary.pressure());
+            case "intent_stability_impact" -> String.valueOf(intentSummary.stabilityImpact());
+            case "intent_active" -> join(new java.util.ArrayList<>(intentSummary.slots().values()));
             default -> null;
         };
     }

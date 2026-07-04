@@ -3,6 +3,7 @@ package live.aereth.fragmentengine.command;
 import live.aereth.fragmentengine.service.AgentExportService;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
+import live.aereth.fragmentengine.service.IntentService;
 import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.util.Text;
@@ -17,18 +18,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class AerethCommand implements CommandExecutor, TabCompleter {
     private final JavaPlugin plugin;
     private final CharacterService characters;
     private final FragmentService fragments;
+    private final IntentService intents;
     private final LegacyCommandService legacy;
     private final AgentExportService agentExport;
 
-    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, LegacyCommandService legacy, AgentExportService agentExport) {
+    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
+        this.intents = intents;
         this.legacy = legacy;
         this.agentExport = agentExport;
     }
@@ -52,6 +56,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "discover" -> discoverFragment(sender, args);
                 case "attach" -> attachFragment(sender, args);
                 case "detach" -> detachFragment(sender, args);
+                case "intent" -> intent(sender, args);
+                case "intentlist" -> intentList(sender);
+                case "setintent" -> setIntent(sender, args);
+                case "clearintent" -> clearIntent(sender, args);
                 case "createcharacter" -> createCharacter(sender, args);
                 case "addxp" -> addXp(sender, args);
                 case "setlevel" -> setLevel(sender, args);
@@ -75,7 +83,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     }
 
     private void help(CommandSender sender) {
-        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 2B"));
+        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 2C"));
         sender.sendMessage(Text.color("&b/aereth status"));
         sender.sendMessage(Text.color("&b/aereth profile <player>"));
         sender.sendMessage(Text.color("&b/aereth character <player>"));
@@ -84,6 +92,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth discover <player> <fragmentId>"));
         sender.sendMessage(Text.color("&b/aereth attach <player> <fragmentId>"));
         sender.sendMessage(Text.color("&b/aereth detach <player> <fragmentId>"));
+        sender.sendMessage(Text.color("&b/aereth intent <player>"));
+        sender.sendMessage(Text.color("&b/aereth intentlist"));
+        sender.sendMessage(Text.color("&b/aereth setintent <player> <slot> <intentId>"));
+        sender.sendMessage(Text.color("&b/aereth clearintent <player> <slot>"));
         sender.sendMessage(Text.color("&b/aereth createcharacter <player> <slot> <race> [name...]"));
         sender.sendMessage(Text.color("&b/aereth addxp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setlevel <player> <level>"));
@@ -195,6 +207,47 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(prefix() + Text.color("&aFragment detached: &f" + fragments.displayName(result.fragmentId()) + " &8(" + result.status() + ")"));
     }
 
+    private void intent(CommandSender sender, String[] args) {
+        requireArgs(args, 2, "/aereth intent <player>");
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        YamlConfiguration character = characters.getActiveCharacter(target);
+        if (character == null) {
+            sender.sendMessage(prefix() + Text.color("&cNo active character."));
+            return;
+        }
+
+        IntentService.IntentSummary summary = intents.summary(character);
+        sender.sendMessage(prefix() + Text.color("&7Intent: &b" + character.getString("name", "Unnamed")));
+        sender.sendMessage(Text.color("&7Primary: &f" + intents.displayName(summary.primary())));
+        sender.sendMessage(Text.color("&7Slots: &f" + summary.usedSlots() + " / " + summary.maxSlots()));
+        sender.sendMessage(Text.color("&7Pressure: &f" + summary.pressure() + " &8/ &7Stability impact: &f" + summary.stabilityImpact()));
+        sender.sendMessage(Text.color("&7Active: &f" + readableIntentSlots(summary.slots())));
+    }
+
+    private void intentList(CommandSender sender) {
+        sender.sendMessage(prefix() + Text.color("&7Known intents"));
+        for (String id : intents.allIntentIds()) {
+            IntentService.IntentDefinition definition = intents.definition(id);
+            sender.sendMessage(Text.color("&b" + definition.id() + " &8- &f" + definition.display()
+                    + " &8/ &7Pressure: &f" + definition.pressure()
+                    + " &8/ &7Stability: &f" + definition.stabilityImpact()));
+        }
+    }
+
+    private void setIntent(CommandSender sender, String[] args) throws IOException {
+        requireArgs(args, 4, "/aereth setintent <player> <slot> <intentId>");
+        IntentService.IntentResult result = intents.setIntent(Bukkit.getOfflinePlayer(args[1]), args[2], args[3]);
+        sender.sendMessage(prefix() + Text.color("&aIntent set: &f" + result.slot() + " -> " + intents.displayName(result.intentId())
+                + " &8/ &7Pressure: &f" + result.summary().pressure()));
+    }
+
+    private void clearIntent(CommandSender sender, String[] args) throws IOException {
+        requireArgs(args, 3, "/aereth clearintent <player> <slot>");
+        IntentService.IntentResult result = intents.clearIntent(Bukkit.getOfflinePlayer(args[1]), args[2]);
+        sender.sendMessage(prefix() + Text.color("&aIntent cleared: &f" + result.slot()
+                + " &8/ &7Pressure: &f" + result.summary().pressure()));
+    }
+
     private void createCharacter(CommandSender sender, String[] args) throws IOException {
         requireArgs(args, 4, "/aereth createcharacter <player> <slot> <race> [name...]");
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
@@ -290,6 +343,17 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         return String.join(", ", names);
     }
 
+    private String readableIntentSlots(Map<String, String> slots) {
+        if (slots == null || slots.isEmpty()) {
+            return "none";
+        }
+        List<String> names = new ArrayList<>();
+        for (Map.Entry<String, String> entry : slots.entrySet()) {
+            names.add(entry.getKey() + "=" + intents.displayName(entry.getValue()));
+        }
+        return String.join(", ", names);
+    }
+
     private String prefix() {
         return Text.color(plugin.getConfig().getString("messages.prefix", "&8[&bAereth&8]&r "));
     }
@@ -332,13 +396,19 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));
         }
         if (args.length == 3 && (args[0].equalsIgnoreCase("discover") || args[0].equalsIgnoreCase("attach") || args[0].equalsIgnoreCase("detach"))) {
             return partial(args[2], fragments.allFragmentIds());
+        }
+        if (args.length == 3 && (args[0].equalsIgnoreCase("setintent") || args[0].equalsIgnoreCase("clearintent"))) {
+            return partial(args[2], List.of("slot1", "slot2", "slot3", "slot4", "slot5"));
+        }
+        if (args.length == 4 && args[0].equalsIgnoreCase("setintent")) {
+            return partial(args[3], intents.allIntentIds());
         }
         if (args.length == 4 && args[0].equalsIgnoreCase("createcharacter")) {
             return partial(args[3], List.of("remnant", "sylvae", "delver", "vireborn"));

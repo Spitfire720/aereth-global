@@ -1,0 +1,58 @@
+schema-version: 1
+
+settings:
+  starting-slots: 1
+  mutation-unstable-slot-enabled: false
+
+slot-rules:
+  discovery:
+    min-level: 1
+    max-level: 15
+    slots: 1
+  commitment:
+    min-level: 16
+    max-level: 35
+    slots: 2
+  optimization:
+    min-level: 36
+    max-level: 50
+    slots: 3
+  mastery:
+    min-level: 51
+    max-level: 60
+    slots: 4
+  mutation:
+    slots: 5
+    unstable: true
+
+intents:
+  anchor:
+    display: "Anchor"
+    family: "anchor"
+    pressure: 2.0
+    stability-impact: 4.0
+    description: "Actions try to hold shape. Consequences become more persistent."
+  fracture:
+    display: "Fracture"
+    family: "fracture"
+    pressure: 5.0
+    stability-impact: -6.0
+    description: "Actions break patterns. Results become volatile and forceful."
+  distortion:
+    display: "Distortion"
+    family: "distortion"
+    pressure: 4.0
+    stability-impact: -3.0
+    description: "Actions bend interpretation. Results become ambiguous or redirected."
+  memory:
+    display: "Memory"
+    family: "memory"
+    pressure: 3.0
+    stability-impact: 1.0
+    description: "Actions leave stronger traces. Results are remembered by the world."
+  null:
+    display: "Null"
+    family: "null"
+    pressure: 7.0
+    stability-impact: -10.0
+    description: "Actions erase certainty. Results are powerful, unstable, and dangerous."
