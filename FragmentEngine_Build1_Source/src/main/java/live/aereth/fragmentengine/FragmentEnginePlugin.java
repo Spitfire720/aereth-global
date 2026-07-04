@@ -16,6 +16,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
     private CharacterService characterService;
     private FragmentService fragmentService;
     private IntentService intentService;
+    private DisciplineService disciplineService;
     private LegacyCommandService legacyCommandService;
     private AgentExportService agentExportService;
 
@@ -25,6 +26,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         saveResource("races.yml", false);
         saveResource("fragments.yml", false);
         saveResource("intents.yml", false);
+        saveResource("disciplines.yml", false);
 
         storageService = new StorageService(this);
         storageService.ensureFolders();
@@ -35,6 +37,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         characterService = new CharacterService(this, storageService, progressionService, statsService, raceService);
         fragmentService = new FragmentService(this, characterService);
         intentService = new IntentService(this, characterService);
+        disciplineService = new DisciplineService(this, characterService);
         legacyCommandService = new LegacyCommandService(characterService);
         agentExportService = new AgentExportService(this, storageService);
 
@@ -45,7 +48,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
                 org.bukkit.plugin.ServicePriority.Normal
         );
 
-        AerethCommand command = new AerethCommand(this, characterService, fragmentService, intentService, legacyCommandService, agentExportService);
+        AerethCommand command = new AerethCommand(this, characterService, fragmentService, intentService, disciplineService, legacyCommandService, agentExportService);
         PluginCommand aereth = getCommand("aereth");
         if (aereth != null) {
             aereth.setExecutor(command);
@@ -53,7 +56,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         }
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new AerethPlaceholderExpansion(this, characterService, fragmentService, intentService).register();
+            new AerethPlaceholderExpansion(this, characterService, fragmentService, intentService, disciplineService).register();
             getLogger().info("PlaceholderAPI expansion registered: %aereth_...%");
         }
 

@@ -4,6 +4,7 @@ import live.aereth.fragmentengine.service.AgentExportService;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
 import live.aereth.fragmentengine.service.IntentService;
+import live.aereth.fragmentengine.service.DisciplineService;
 import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.util.Text;
@@ -25,14 +26,16 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final CharacterService characters;
     private final FragmentService fragments;
     private final IntentService intents;
+    private final DisciplineService disciplines;
     private final LegacyCommandService legacy;
     private final AgentExportService agentExport;
 
-    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, LegacyCommandService legacy, AgentExportService agentExport) {
+    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
         this.intents = intents;
+        this.disciplines = disciplines;
         this.legacy = legacy;
         this.agentExport = agentExport;
     }
@@ -60,6 +63,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "intentlist" -> intentList(sender);
                 case "setintent" -> setIntent(sender, args);
                 case "clearintent" -> clearIntent(sender, args);
+                case "discipline" -> discipline(sender, args);
+                case "disciplinelist" -> disciplineList(sender);
+                case "setdiscipline" -> setDiscipline(sender, args);
+                case "cleardiscipline" -> clearDiscipline(sender, args);
                 case "createcharacter" -> createCharacter(sender, args);
                 case "addxp" -> addXp(sender, args);
                 case "setlevel" -> setLevel(sender, args);
@@ -83,7 +90,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     }
 
     private void help(CommandSender sender) {
-        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 2C"));
+        sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 3A"));
         sender.sendMessage(Text.color("&b/aereth status"));
         sender.sendMessage(Text.color("&b/aereth profile <player>"));
         sender.sendMessage(Text.color("&b/aereth character <player>"));
@@ -96,6 +103,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth intentlist"));
         sender.sendMessage(Text.color("&b/aereth setintent <player> <slot> <intentId>"));
         sender.sendMessage(Text.color("&b/aereth clearintent <player> <slot>"));
+        sender.sendMessage(Text.color("&b/aereth disciplinelist"));
+        sender.sendMessage(Text.color("&b/aereth discipline <player>"));
+        sender.sendMessage(Text.color("&b/aereth setdiscipline <player> <disciplineId>"));
+        sender.sendMessage(Text.color("&b/aereth cleardiscipline <player>"));
         sender.sendMessage(Text.color("&b/aereth createcharacter <player> <slot> <race> [name...]"));
         sender.sendMessage(Text.color("&b/aereth addxp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setlevel <player> <level>"));
@@ -109,6 +120,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(prefix() + Text.color("&7Accounts: &b" + count(characters.storage().getAccountsFolder())));
         sender.sendMessage(prefix() + Text.color("&7Characters: &b" + count(characters.storage().getCharactersFolder())));
         sender.sendMessage(prefix() + Text.color("&7Fragments: &b" + fragments.allFragmentIds().size()));
+        sender.sendMessage(prefix() + Text.color("&7Disciplines: &b" + disciplines.allDisciplineIds().size()));
         sender.sendMessage(prefix() + Text.color("&7PlaceholderAPI: &b" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")));
     }
 
@@ -246,6 +258,46 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         IntentService.IntentResult result = intents.clearIntent(Bukkit.getOfflinePlayer(args[1]), args[2]);
         sender.sendMessage(prefix() + Text.color("&aIntent cleared: &f" + result.slot()
                 + " &8/ &7Pressure: &f" + result.summary().pressure()));
+    }
+
+    private void discipline(CommandSender sender, String[] args) {
+        requireArgs(args, 2, "/aereth discipline <player>");
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        YamlConfiguration character = characters.getActiveCharacter(target);
+        if (character == null) {
+            sender.sendMessage(prefix() + Text.color("&cNo active character."));
+            return;
+        }
+
+        DisciplineService.DisciplineSummary summary = disciplines.summary(character);
+        sender.sendMessage(prefix() + Text.color("&7Discipline: &b" + character.getString("name", "Unnamed")));
+        sender.sendMessage(Text.color("&7Current: &f" + summary.display() + " &8(" + summary.id() + ")"));
+        sender.sendMessage(Text.color("&7Family: &f" + summary.family()));
+        sender.sendMessage(Text.color("&7Selected: &f" + summary.selected() + " &8/ &7Unlocked: &f" + summary.unlocked()));
+        sender.sendMessage(Text.color("&7Required level: &f" + summary.unlockLevel() + " &8/ &7Current level: &f" + character.getInt("progression.level", 1)));
+    }
+
+    private void disciplineList(CommandSender sender) {
+        sender.sendMessage(prefix() + Text.color("&7Known disciplines"));
+        for (String id : disciplines.allDisciplineIds()) {
+            DisciplineService.DisciplineDefinition definition = disciplines.definition(id);
+            sender.sendMessage(Text.color("&b" + definition.id() + " &8- &f" + definition.display()
+                    + " &8/ &7Family: &f" + definition.family()
+                    + " &8/ &7Unlock: &f" + definition.unlockLevel()));
+        }
+    }
+
+    private void setDiscipline(CommandSender sender, String[] args) throws IOException {
+        requireArgs(args, 3, "/aereth setdiscipline <player> <disciplineId>");
+        DisciplineService.DisciplineResult result = disciplines.setDiscipline(Bukkit.getOfflinePlayer(args[1]), args[2]);
+        sender.sendMessage(prefix() + Text.color("&aDiscipline set: &f" + result.summary().display()
+                + " &8/ &7Family: &f" + result.summary().family()));
+    }
+
+    private void clearDiscipline(CommandSender sender, String[] args) throws IOException {
+        requireArgs(args, 2, "/aereth cleardiscipline <player>");
+        DisciplineService.DisciplineResult result = disciplines.clearDiscipline(Bukkit.getOfflinePlayer(args[1]));
+        sender.sendMessage(prefix() + Text.color("&aDiscipline cleared: &f" + result.summary().display()));
     }
 
     private void createCharacter(CommandSender sender, String[] args) throws IOException {
@@ -396,7 +448,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));
@@ -409,6 +461,9 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         }
         if (args.length == 4 && args[0].equalsIgnoreCase("setintent")) {
             return partial(args[3], intents.allIntentIds());
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("setdiscipline")) {
+            return partial(args[2], disciplines.allDisciplineIds());
         }
         if (args.length == 4 && args[0].equalsIgnoreCase("createcharacter")) {
             return partial(args[3], List.of("remnant", "sylvae", "delver", "vireborn"));

@@ -3,6 +3,7 @@ package live.aereth.fragmentengine.papi;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
 import live.aereth.fragmentengine.service.IntentService;
+import live.aereth.fragmentengine.service.DisciplineService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -16,12 +17,14 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
     private final CharacterService characters;
     private final FragmentService fragments;
     private final IntentService intents;
+    private final DisciplineService disciplines;
 
-    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents) {
+    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
         this.intents = intents;
+        this.disciplines = disciplines;
     }
 
     @Override
@@ -62,6 +65,7 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
         String key = params.toLowerCase();
         FragmentService.FragmentSummary fragmentSummary = fragments.summary(character);
         IntentService.IntentSummary intentSummary = intents.summary(character);
+        DisciplineService.DisciplineSummary disciplineSummary = disciplines.summary(character);
 
         return switch (key) {
             case "character_name" -> character.getString("name", "Unnamed");
@@ -96,6 +100,11 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
             case "intent_pressure" -> String.valueOf(intentSummary.pressure());
             case "intent_stability_impact" -> String.valueOf(intentSummary.stabilityImpact());
             case "intent_active" -> join(new java.util.ArrayList<>(intentSummary.slots().values()));
+            case "discipline" -> disciplineSummary.id();
+            case "discipline_display" -> disciplineSummary.display();
+            case "discipline_family" -> disciplineSummary.family();
+            case "discipline_unlocked" -> String.valueOf(disciplineSummary.unlocked());
+            case "discipline_level_required" -> String.valueOf(disciplineSummary.unlockLevel());
             default -> null;
         };
     }

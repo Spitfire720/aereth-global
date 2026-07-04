@@ -1,0 +1,121 @@
+schema-version: 1
+
+settings:
+  unlock-level: 16
+  allow-admin-clear: true
+
+disciplines:
+  vanguard:
+    display: "Vanguard"
+    family: "martial"
+    unlock-level: 16
+    description: "A committed front-line path built around pressure, presence, and controlled aggression."
+  reaver:
+    display: "Reaver"
+    family: "martial"
+    unlock-level: 16
+    description: "A brutal martial path focused on momentum, punishment, and risk."
+  skirmisher:
+    display: "Skirmisher"
+    family: "martial"
+    unlock-level: 16
+    description: "A mobile combat path built around speed, spacing, and opportunistic strikes."
+  assassin:
+    display: "Assassin"
+    family: "martial"
+    unlock-level: 16
+    description: "A precise path built around execution, timing, and weakness exploitation."
+  marksman:
+    display: "Marksman"
+    family: "martial"
+    unlock-level: 16
+    description: "A ranged martial path focused on accuracy, distance, and pressure control."
+  controller:
+    display: "Controller"
+    family: "martial"
+    unlock-level: 16
+    description: "A tactical martial path built around positioning, disruption, and battlefield control."
+
+  spellweaver:
+    display: "Spellweaver"
+    family: "arcane"
+    unlock-level: 16
+    description: "An arcane path focused on shaping unstable power into repeatable patterns."
+  arcanist:
+    display: "Arcanist"
+    family: "arcane"
+    unlock-level: 16
+    description: "A disciplined magic path built around raw arcane understanding and scaling."
+  chronomancer:
+    display: "Chronomancer"
+    family: "arcane"
+    unlock-level: 16
+    description: "A reality path that studies timing, delay, acceleration, and sequence."
+  fateweaver:
+    display: "Fateweaver"
+    family: "arcane"
+    unlock-level: 16
+    description: "A probability path built around consequence, chance, and altered outcomes."
+
+  sentinel:
+    display: "Sentinel"
+    family: "defensive"
+    unlock-level: 16
+    description: "A defensive path focused on protection, endurance, and holding ground."
+  warden:
+    display: "Warden"
+    family: "defensive"
+    unlock-level: 16
+    description: "A guardian path built around control, denial, and punishment."
+  vitalist:
+    display: "Vitalist"
+    family: "support"
+    unlock-level: 16
+    description: "A support path focused on vitality, restoration, and survival pressure."
+  necrosage:
+    display: "Necrosage"
+    family: "support"
+    unlock-level: 16
+    description: "A forbidden support path studying decay, memory, death, and recovery."
+
+  summoner:
+    display: "Summoner"
+    family: "summoning"
+    unlock-level: 16
+    description: "A command path focused on calling allies, echoes, and external force."
+  binder:
+    display: "Binder"
+    family: "summoning"
+    unlock-level: 16
+    description: "A control path built around contracts, restraints, and forced connection."
+  warforger:
+    display: "Warforger"
+    family: "construction"
+    unlock-level: 16
+    description: "A crafting-combat path focused on weapons, constructs, and prepared force."
+  architect:
+    display: "Architect"
+    family: "construction"
+    unlock-level: 16
+    description: "A structural path built around placement, design, and environmental advantage."
+
+  oracle:
+    display: "Oracle"
+    family: "aereth"
+    unlock-level: 16
+    description: "An Aereth identity path focused on reading what the world remembers."
+  paradox:
+    display: "Paradox"
+    family: "aereth"
+    unlock-level: 16
+    description: "An unstable identity path that violates simple cause and effect."
+  suppressor:
+    display: "Suppressor"
+    family: "aereth"
+    unlock-level: 16
+    description: "An anti-force identity path built around denial, silence, and cancellation."
+  anomaly:
+    display: "Anomaly"
+    family: "aereth"
+    unlock-level: 16
+    description: "A broken identity path that does not fit normal reality rules."
