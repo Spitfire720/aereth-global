@@ -29,7 +29,7 @@ public class AgentExportService {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("plugin: FragmentEngine\n");
             writer.write("version: \"" + plugin.getDescription().getVersion() + "\"\n");
-            writer.write("schema-version: 3\n");
+            writer.write("schema-version: 4\n");
             writer.write("exports:\n");
             writer.write("  - schema.yml\n");
             writer.write("  - latest-status.json\n");
@@ -45,11 +45,23 @@ public class AgentExportService {
             writer.write("account-fields:\n");
             writer.write("  - uuid\n  - username\n  - active-slot\n  - maximum-slots\n  - slots\n");
             writer.write("character-fields:\n");
-            writer.write("  - profile-id\n  - owner-uuid\n  - slot\n  - race\n  - progression\n  - stats\n  - derived\n  - fragments\n  - intent\n");
+            writer.write("  - profile-id\n  - owner-uuid\n  - slot\n  - race\n  - progression\n  - stats\n  - derived\n  - fragments\n  - intent\n  - discipline\n");
             writer.write("fragment-fields:\n");
             writer.write("  - fragments.capacity\n  - fragments.discovered-list\n  - fragments.equipped\n  - fragments.total-pressure\n  - fragments.stability\n  - fragments.erasure-pressure\n");
             writer.write("intent-fields:\n");
             writer.write("  - intent.unlocked-slots\n  - intent.active\n  - intent.primary\n  - intent.pressure\n  - intent.stability-impact\n  - intent.slots-used\n");
+            writer.write("discipline-fields:\n");
+            writer.write("  - discipline.id\n");
+            writer.write("  - discipline.display\n");
+            writer.write("  - discipline.family\n");
+            writer.write("  - discipline.level-required\n");
+            writer.write("  - discipline.selected\n");
+            writer.write("discipline-fields:\n");
+            writer.write("  - discipline.id\n");
+            writer.write("  - discipline.display\n");
+            writer.write("  - discipline.family\n");
+            writer.write("  - discipline.level-required\n");
+            writer.write("  - discipline.selected\n");
         }
     }
 
@@ -74,10 +86,10 @@ public class AgentExportService {
             writer.write("{\n");
             writer.write("  \"status\": \"ok\",\n");
             writer.write("  \"notes\": [\n");
-            writer.write("    \"Build 2C data backend active\",\n");
-            writer.write("    \"Race, progression, stats, fragments, and intent foundations implemented\",\n");
+            writer.write("    \"Build 3A data backend active\",\n");
+            writer.write("    \"Race, progression, stats, fragments, intent, and discipline foundations implemented\",\n");
             writer.write("    \"Combat execution not implemented yet\",\n");
-            writer.write("    \"Disciplines pending Build 3A\"\n");
+            writer.write("    \"Discipline abilities pending later build\"\n");
             writer.write("  ]\n");
             writer.write("}\n");
         }
