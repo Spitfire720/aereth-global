@@ -1,0 +1,34 @@
+---
+const steps = [
+  "Open Minecraft: Java Edition",
+  "Use the supported server version",
+  "Add server: play.aereth.live",
+  "Join the Discord",
+];
+---
+
+<div class="rounded-xl border border-panel-edge bg-panel/70 p-8">
+  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-dim">
+    Begin Journey
+  </div>
+  <h3 class="mt-2 font-display text-2xl text-ink">Enter Aereth. Keep what the world tries to forget.</h3>
+  <div class="mt-5 rounded-md border border-panel-edge bg-void/60 px-4 py-3 font-mono text-sm text-signal">
+    play.aereth.live
+  </div>
+  <ol class="mt-6 space-y-2.5">
+    {steps.map((step, i) => (
+      <li class="flex items-start gap-3 text-sm text-slate">
+        <span class="mt-0.5 font-mono text-xs text-slate-dim">{String(i + 1).padStart(2, "0")}</span>
+        <span>{step}</span>
+      </li>
+    ))}
+  </ol>
+  <div class="mt-6 flex flex-wrap gap-3">
+    <button class="rounded-md bg-signal px-5 py-2.5 font-mono text-xs uppercase tracking-[0.14em] text-void transition hover:brightness-110">
+      Play Now
+    </button>
+    <button class="rounded-md border border-panel-edge px-5 py-2.5 font-mono text-xs uppercase tracking-[0.14em] text-ink transition hover:border-signal hover:text-signal">
+      Join Discord
+    </button>
+  </div>
+</div>

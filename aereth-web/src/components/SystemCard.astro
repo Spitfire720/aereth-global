@@ -1,0 +1,17 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  mark: string;
+}
+const { name, description, mark } = Astro.props;
+---
+
+<div class="group relative rounded-lg border border-panel-edge bg-panel/60 p-6 transition hover:border-signal/50">
+  <div class="font-mono text-[11px] uppercase tracking-[0.18em] text-slate-dim">
+    {mark}
+  </div>
+  <h3 class="mt-2 font-display text-xl text-ink">{name}</h3>
+  <p class="mt-2 text-sm leading-relaxed text-slate">{description}</p>
+  <div class="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-signal/0 via-signal/40 to-signal/0 opacity-0 transition group-hover:opacity-100"></div>
+</div>

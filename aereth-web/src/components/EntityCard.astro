@@ -1,0 +1,22 @@
+---
+import type { Entity } from "../data/entities";
+interface Props {
+  entity: Entity;
+}
+const { entity } = Astro.props;
+
+const playableLabel =
+  entity.playable === "yes" ? "Playable" : entity.playable === "no" ? "Non-playable" : "Classification pending";
+const playableColor =
+  entity.playable === "yes" ? "text-signal" : entity.playable === "no" ? "text-slate-dim" : "text-fracture";
+---
+
+<div class="rounded-lg border border-panel-edge bg-panel/50 p-5">
+  <div class="flex items-center justify-between gap-2">
+    <h4 class="font-display text-lg text-ink">{entity.name}</h4>
+    <span class={`font-mono text-[10px] uppercase tracking-[0.12em] ${playableColor}`}>
+      {playableLabel}
+    </span>
+  </div>
+  <p class="mt-2 text-sm text-slate">{entity.note}</p>
+</div>

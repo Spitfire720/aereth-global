@@ -1,0 +1,27 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Aereth — A godless Minecraft MMORPG where memory is power",
+  description = "Aereth is a Minecraft MMORPG-style world shaped by memory, Fragments, Intent, and Erasure. Explore unstable regions and become what the world remembers you as.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class="grain">
+    <slot />
+  </body>
+</html>

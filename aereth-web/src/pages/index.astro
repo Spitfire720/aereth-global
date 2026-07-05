@@ -1,0 +1,94 @@
+---
+import Layout from "../layouts/Layout.astro";
+import WorldMap from "../components/WorldMap.tsx";
+import SystemCard from "../components/SystemCard.astro";
+import EntityCard from "../components/EntityCard.astro";
+import JoinCard from "../components/JoinCard.astro";
+import { entities } from "../data/entities";
+
+const systems = [
+  {
+    mark: "01",
+    name: "Intent",
+    description:
+      "Active mental states players shape and hold. Intent influences how a character grows and how the world responds to them.",
+  },
+  {
+    mark: "02",
+    name: "Fragments",
+    description:
+      "Persistent misalignments in reality that attach to a player. Fragments change perception, responsibility, interface, and consequence — not simple collectible upgrades.",
+  },
+  {
+    mark: "03",
+    name: "Erasure",
+    description:
+      "The force consuming Aereth. Not fire, not war — forgetting. Cities vanish from records, names lose meaning, creatures return wrong.",
+  },
+  {
+    mark: "04",
+    name: "Titles",
+    description:
+      "What the world remembers you as. Earned through play rather than chosen at creation.",
+  },
+];
+---
+
+<Layout>
+  <WorldMap client:load />
+
+  <main class="relative z-10 bg-void">
+    <section id="world-archive" class="mx-auto max-w-3xl px-6 py-24 md:py-32">
+      <div class="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-dim">
+        World Archive
+      </div>
+      <h2 class="mt-3 font-display text-3xl leading-tight text-ink md:text-4xl">
+        Aereth is not dying. It is being forgotten.
+      </h2>
+      <p class="mt-5 text-base leading-relaxed text-slate">
+        Aereth is a Minecraft MMORPG-style world shaped by memory, Fragments, Intent, and
+        Erasure. In a world without gods, players survive by shaping Intent, uncovering lost
+        histories, and becoming what the world remembers them as.
+      </p>
+    </section>
+
+    <section id="core-systems" class="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <div class="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-dim">
+        Core Systems
+      </div>
+      <h2 class="mt-3 font-display text-2xl text-ink md:text-3xl">Recovered Records</h2>
+      <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {systems.map((s) => (
+          <SystemCard mark={s.mark} name={s.name} description={s.description} />
+        ))}
+      </div>
+    </section>
+
+    <section id="known-entities" class="mx-auto max-w-6xl px-6 py-16 md:py-20">
+      <div class="font-mono text-[11px] uppercase tracking-[0.2em] text-slate-dim">
+        Known Races &amp; Entities
+      </div>
+      <h2 class="mt-3 font-display text-2xl text-ink md:text-3xl">Fragment Records</h2>
+      <p class="mt-3 max-w-2xl text-sm text-slate">
+        Most entries below are still being classified — Aereth's own rule is that nothing gets
+        art or a final role until its place in the world is settled. That uncertainty is shown
+        here rather than hidden.
+      </p>
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {entities.map((e) => (
+          <EntityCard entity={e} />
+        ))}
+      </div>
+    </section>
+
+    <section id="play" class="mx-auto max-w-3xl px-6 py-20 md:py-28">
+      <JoinCard />
+    </section>
+
+    <footer class="border-t border-panel-edge px-6 py-10 text-center">
+      <p class="font-mono text-[11px] uppercase tracking-[0.14em] text-slate-dim">
+        Aereth — World Archive · Prototype Build
+      </p>
+    </footer>
+  </main>
+</Layout>
