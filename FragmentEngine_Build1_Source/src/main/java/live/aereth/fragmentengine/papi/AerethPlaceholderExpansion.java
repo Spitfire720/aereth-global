@@ -111,6 +111,14 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
             case "discipline_xp" -> String.valueOf(disciplineProgress.xp());
             case "discipline_xp_required" -> String.valueOf(disciplineProgress.xpRequired());
             case "discipline_progress_percent" -> String.format(java.util.Locale.US, "%.2f", disciplineProgress.progressPercent());
+            case "discipline_passive_stats" -> characters.stats().passiveStatSummary(character);
+            case "discipline_passive_derived" -> characters.stats().passiveDerivedSummary(character);
+            case "discipline_bonus_vitality" -> String.valueOf(character.getDouble("stats.discipline-bonus.vitality", 0.0));
+            case "discipline_bonus_strength" -> String.valueOf(character.getDouble("stats.discipline-bonus.strength", 0.0));
+            case "discipline_bonus_dexterity" -> String.valueOf(character.getDouble("stats.discipline-bonus.dexterity", 0.0));
+            case "discipline_bonus_intelligence" -> String.valueOf(character.getDouble("stats.discipline-bonus.intelligence", 0.0));
+            case "discipline_bonus_willpower" -> String.valueOf(character.getDouble("stats.discipline-bonus.willpower", 0.0));
+            case "discipline_bonus_endurance" -> String.valueOf(character.getDouble("stats.discipline-bonus.endurance", 0.0));
             default -> null;
         };
     }

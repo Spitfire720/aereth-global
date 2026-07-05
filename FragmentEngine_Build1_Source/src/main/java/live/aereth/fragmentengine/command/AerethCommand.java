@@ -183,7 +183,8 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         if (totals != null) {
             for (String key : totals.getKeys(false)) {
                 double fragmentBonus = character.getDouble("stats.fragment-bonus." + key, 0.0);
-                sender.sendMessage(Text.color("&7" + key + ": &f" + totals.getDouble(key) + " &8(fragment +" + fragmentBonus + ")"));
+                double disciplineBonus = character.getDouble("stats.discipline-bonus." + key, 0.0);
+                sender.sendMessage(Text.color("&7" + key + ": &f" + totals.getDouble(key) + " &8(fragment +" + fragmentBonus + " / discipline +" + disciplineBonus + ")"));
             }
         }
         sender.sendMessage(Text.color("&7Derived: &fHP " + character.getDouble("derived.max-health", 0.0)

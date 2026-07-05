@@ -277,6 +277,7 @@ public class DisciplineService {
 
     private void saveCharacter(OfflinePlayer player, YamlConfiguration character) throws IOException {
         int slot = character.getInt("slot", characters.getActiveSlot(player));
+        characters.recalculate(character);
         characters.storage().saveCharacter(player.getUniqueId(), slot, character);
     }
 

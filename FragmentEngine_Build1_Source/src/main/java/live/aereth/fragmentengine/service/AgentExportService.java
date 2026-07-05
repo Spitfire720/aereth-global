@@ -29,7 +29,7 @@ public class AgentExportService {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("plugin: FragmentEngine\n");
             writer.write("version: \"" + plugin.getDescription().getVersion() + "\"\n");
-            writer.write("schema-version: 5\n");
+            writer.write("schema-version: 6\n");
             writer.write("exports:\n");
             writer.write("  - schema.yml\n");
             writer.write("  - latest-status.json\n");
@@ -62,6 +62,11 @@ public class AgentExportService {
             writer.write("  - discipline.progression.xp-required\n");
             writer.write("  - discipline.progression.progress-percent\n");
             writer.write("  - discipline.progression.max-rank\n");
+            writer.write("discipline-passive-fields:\n");
+            writer.write("  - stats.discipline-bonus\n");
+            writer.write("  - derived.discipline-bonus\n");
+            writer.write("  - discipline.passives.stat-summary\n");
+            writer.write("  - discipline.passives.derived-summary\n");
         }
     }
 
@@ -86,10 +91,10 @@ public class AgentExportService {
             writer.write("{\n");
             writer.write("  \"status\": \"ok\",\n");
             writer.write("  \"notes\": [\n");
-            writer.write("    \"Build 3B data backend active\",\n");
-            writer.write("    \"Race, progression, stats, fragments, intent, discipline identity, and discipline progression foundations implemented\",\n");
+            writer.write("    \"Build 3C data backend active\",\n");
+            writer.write("    \"Race, progression, stats, fragments, intent, discipline identity, discipline progression, and discipline passive modifiers implemented\",\n");
             writer.write("    \"Combat execution not implemented yet\",\n");
-            writer.write("    \"Discipline passives and abilities pending later builds\"\n");
+            writer.write("    \"Discipline active abilities pending later build\"\n");
             writer.write("  ]\n");
             writer.write("}\n");
         }

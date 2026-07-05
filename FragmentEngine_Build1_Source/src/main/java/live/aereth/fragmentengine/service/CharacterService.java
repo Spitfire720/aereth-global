@@ -27,6 +27,10 @@ public class CharacterService {
         return storage.loadAccount(player);
     }
 
+    public void recalculate(YamlConfiguration character) {
+        stats.applyStatsAndDerived(character);
+    }
+
     public int getActiveSlot(OfflinePlayer player) {
         YamlConfiguration account = storage.loadAccount(player);
         return account.getInt("active-slot", account.getInt("active-character-slot", 0));
