@@ -112,3 +112,7 @@ website/.env
 website/*.env
 # Local cleanup backups
 archive/repo-cleanup-backups/*
+# Local-only archive material
+archive/local-only/
+# Local tool scratch
+tools/local-only/

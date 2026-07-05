@@ -4,6 +4,7 @@ import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
 import live.aereth.fragmentengine.service.IntentService;
 import live.aereth.fragmentengine.service.DisciplineService;
+import live.aereth.fragmentengine.service.AbilityService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,13 +19,15 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
     private final FragmentService fragments;
     private final IntentService intents;
     private final DisciplineService disciplines;
+    private final AbilityService abilities;
 
-    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines) {
+    public AerethPlaceholderExpansion(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
         this.intents = intents;
         this.disciplines = disciplines;
+        this.abilities = abilities;
     }
 
     @Override
@@ -67,6 +70,7 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
         IntentService.IntentSummary intentSummary = intents.summary(character);
         DisciplineService.DisciplineSummary disciplineSummary = disciplines.summary(character);
         DisciplineService.DisciplineProgressSummary disciplineProgress = disciplines.progress(character);
+        AbilityService.AbilitySummary abilitySummary = abilities.summary(character);
 
         return switch (key) {
             case "character_name" -> character.getString("name", "Unnamed");
@@ -119,6 +123,10 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
             case "discipline_bonus_intelligence" -> String.valueOf(character.getDouble("stats.discipline-bonus.intelligence", 0.0));
             case "discipline_bonus_willpower" -> String.valueOf(character.getDouble("stats.discipline-bonus.willpower", 0.0));
             case "discipline_bonus_endurance" -> String.valueOf(character.getDouble("stats.discipline-bonus.endurance", 0.0));
+            case "abilities_unlocked" -> join(abilitySummary.unlocked());
+            case "abilities_locked" -> join(abilitySummary.locked());
+            case "abilities_active" -> join(abilitySummary.available());
+            case "ability_count" -> String.valueOf(abilitySummary.count());
             default -> null;
         };
     }

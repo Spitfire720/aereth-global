@@ -29,7 +29,7 @@ public class AgentExportService {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("plugin: FragmentEngine\n");
             writer.write("version: \"" + plugin.getDescription().getVersion() + "\"\n");
-            writer.write("schema-version: 6\n");
+            writer.write("schema-version: 7\n");
             writer.write("exports:\n");
             writer.write("  - schema.yml\n");
             writer.write("  - latest-status.json\n");
@@ -45,7 +45,7 @@ public class AgentExportService {
             writer.write("account-fields:\n");
             writer.write("  - uuid\n  - username\n  - active-slot\n  - maximum-slots\n  - slots\n");
             writer.write("character-fields:\n");
-            writer.write("  - profile-id\n  - owner-uuid\n  - slot\n  - race\n  - progression\n  - stats\n  - derived\n  - fragments\n  - intent\n  - discipline\n");
+            writer.write("  - profile-id\n  - owner-uuid\n  - slot\n  - race\n  - progression\n  - stats\n  - derived\n  - fragments\n  - intent\n  - discipline\n  - abilities\n");
             writer.write("fragment-fields:\n");
             writer.write("  - fragments.capacity\n  - fragments.discovered-list\n  - fragments.equipped\n  - fragments.total-pressure\n  - fragments.stability\n  - fragments.erasure-pressure\n");
             writer.write("intent-fields:\n");
@@ -67,6 +67,12 @@ public class AgentExportService {
             writer.write("  - derived.discipline-bonus\n");
             writer.write("  - discipline.passives.stat-summary\n");
             writer.write("  - discipline.passives.derived-summary\n");
+            writer.write("ability-fields:\n");
+            writer.write("  - abilities.unlocked\n");
+            writer.write("  - abilities.locked\n");
+            writer.write("  - abilities.available\n");
+            writer.write("  - abilities.count\n");
+            writer.write("  - abilities.by-discipline\n");
         }
     }
 
@@ -91,10 +97,10 @@ public class AgentExportService {
             writer.write("{\n");
             writer.write("  \"status\": \"ok\",\n");
             writer.write("  \"notes\": [\n");
-            writer.write("    \"Build 3C data backend active\",\n");
-            writer.write("    \"Race, progression, stats, fragments, intent, discipline identity, discipline progression, and discipline passive modifiers implemented\",\n");
+            writer.write("    \"Build 3D data backend active\",\n");
+            writer.write("    \"Race, progression, stats, fragments, intent, discipline identity, discipline progression, discipline passive modifiers, and discipline ability framework implemented\",\n");
             writer.write("    \"Combat execution not implemented yet\",\n");
-            writer.write("    \"Discipline active abilities pending later build\"\n");
+            writer.write("    \"Ability casting and combat effects pending later build\"\n");
             writer.write("  ]\n");
             writer.write("}\n");
         }

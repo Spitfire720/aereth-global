@@ -5,6 +5,7 @@ import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.FragmentService;
 import live.aereth.fragmentengine.service.IntentService;
 import live.aereth.fragmentengine.service.DisciplineService;
+import live.aereth.fragmentengine.service.AbilityService;
 import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.util.Text;
@@ -27,15 +28,17 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final FragmentService fragments;
     private final IntentService intents;
     private final DisciplineService disciplines;
+    private final AbilityService abilities;
     private final LegacyCommandService legacy;
     private final AgentExportService agentExport;
 
-    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, LegacyCommandService legacy, AgentExportService agentExport) {
+    public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
         this.characters = characters;
         this.fragments = fragments;
         this.intents = intents;
         this.disciplines = disciplines;
+        this.abilities = abilities;
         this.legacy = legacy;
         this.agentExport = agentExport;
     }
@@ -71,6 +74,8 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "adddisciplinexp" -> addDisciplineXp(sender, args);
                 case "setdisciplinerank" -> setDisciplineRank(sender, args);
                 case "resetdisciplineprogress" -> resetDisciplineProgress(sender, args);
+                case "abilitylist" -> abilityList(sender);
+                case "abilities" -> abilities(sender, args);
                 case "createcharacter" -> createCharacter(sender, args);
                 case "addxp" -> addXp(sender, args);
                 case "setlevel" -> setLevel(sender, args);
@@ -115,6 +120,8 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth adddisciplinexp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setdisciplinerank <player> <rank>"));
         sender.sendMessage(Text.color("&b/aereth resetdisciplineprogress <player>"));
+        sender.sendMessage(Text.color("&b/aereth abilitylist"));
+        sender.sendMessage(Text.color("&b/aereth abilities <player>"));
         sender.sendMessage(Text.color("&b/aereth createcharacter <player> <slot> <race> [name...]"));
         sender.sendMessage(Text.color("&b/aereth addxp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setlevel <player> <level>"));
@@ -359,6 +366,38 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 + " &8/ &7XP: &f" + result.progress().xp()));
     }
 
+    private void abilityList(CommandSender sender) {
+        sender.sendMessage(prefix() + Text.color("&7Known Discipline abilities"));
+
+        for (AbilityService.AbilityDefinition definition : this.abilities.allDefinitions()) {
+            sender.sendMessage(Text.color("&b" + definition.id()
+                    + " &8- &f" + definition.display()
+                    + " &8/ &7Discipline: &f" + definition.discipline()
+                    + " &8/ &7Rank: &f" + definition.unlockRank()
+                    + " &8/ &7Cost: &f" + definition.costAmount() + " " + definition.costType()
+                    + " &8/ &7Cooldown: &f" + definition.cooldownSeconds() + "s"));
+        }
+    }
+
+    private void abilities(CommandSender sender, String[] args) {
+        requireArgs(args, 2, "/aereth abilities <player>");
+        OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
+        YamlConfiguration character = characters.getActiveCharacter(target);
+
+        if (character == null) {
+            sender.sendMessage(prefix() + Text.color("&cNo active character."));
+            return;
+        }
+
+        AbilityService.AbilitySummary summary = this.abilities.summary(character);
+
+        sender.sendMessage(prefix() + Text.color("&7Abilities: &b" + character.getString("name", "Unnamed")));
+        sender.sendMessage(Text.color("&7Discipline: &f" + summary.discipline() + " &8/ &7Rank: &f" + summary.rank()));
+        sender.sendMessage(Text.color("&7Unlocked: &f" + String.join(", ", summary.unlocked())));
+        sender.sendMessage(Text.color("&7Locked: &f" + String.join(", ", summary.locked())));
+        sender.sendMessage(Text.color("&7Count: &f" + summary.count()));
+    }
+
     private void createCharacter(CommandSender sender, String[] args) throws IOException {
         requireArgs(args, 4, "/aereth createcharacter <player> <slot> <race> [name...]");
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
@@ -507,7 +546,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));

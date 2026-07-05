@@ -1,5 +1,5 @@
 name: FragmentEngine
-version: 1.14.0
+version: 1.15.0
 main: live.aereth.fragmentengine.FragmentEnginePlugin
 api-version: "1.20"
 author: SpitFire720

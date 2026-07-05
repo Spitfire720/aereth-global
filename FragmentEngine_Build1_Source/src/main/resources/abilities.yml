@@ -1,0 +1,229 @@
+settings:
+  schema-version: 1
+  unlock-source: discipline-rank
+
+abilities:
+  vanguard_guardian_stance:
+    display-name: "Guardian Stance"
+    discipline: vanguard
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 10
+    cooldown-seconds: 20
+    description: "Brace into a defensive stance. Backend definition only."
+
+  vanguard_linebreaker:
+    display-name: "Linebreaker"
+    discipline: vanguard
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 18
+    cooldown-seconds: 30
+    description: "Prepare a heavy frontline breach. Backend definition only."
+
+  vanguard_unbroken_wall:
+    display-name: "Unbroken Wall"
+    discipline: vanguard
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 35
+    cooldown-seconds: 60
+    description: "Anchor the battlefield through pure pressure. Backend definition only."
+
+  reaver_blood_mark:
+    display-name: "Blood Mark"
+    discipline: reaver
+    unlock-rank: 1
+    cost-type: health
+    cost-amount: 6
+    cooldown-seconds: 18
+    description: "Mark a target for violent pressure. Backend definition only."
+
+  reaver_ravaging_cut:
+    display-name: "Ravaging Cut"
+    discipline: reaver
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 16
+    cooldown-seconds: 28
+    description: "Commit to a brutal strike pattern. Backend definition only."
+
+  skirmisher_quickstep:
+    display-name: "Quickstep"
+    discipline: skirmisher
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 8
+    cooldown-seconds: 12
+    description: "Prepare a movement burst. Backend definition only."
+
+  assassin_shadow_cut:
+    display-name: "Shadow Cut"
+    discipline: assassin
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 12
+    cooldown-seconds: 20
+    description: "Prime a silent critical strike. Backend definition only."
+
+  marksman_deadeye:
+    display-name: "Deadeye"
+    discipline: marksman
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 10
+    cooldown-seconds: 22
+    description: "Prepare precision targeting. Backend definition only."
+
+  controller_gravity_hook:
+    display-name: "Gravity Hook"
+    discipline: controller
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 14
+    cooldown-seconds: 26
+    description: "Shape enemy position through pressure. Backend definition only."
+
+  spellweaver_arc_thread:
+    display-name: "Arc Thread"
+    discipline: spellweaver
+    unlock-rank: 1
+    cost-type: mana
+    cost-amount: 12
+    cooldown-seconds: 18
+    description: "Weave raw arcane force. Backend definition only."
+
+  arcanist_null_sigils:
+    display-name: "Null Sigils"
+    discipline: arcanist
+    unlock-rank: 1
+    cost-type: mana
+    cost-amount: 14
+    cooldown-seconds: 24
+    description: "Prepare layered arcane marks. Backend definition only."
+
+  chronomancer_time_skip:
+    display-name: "Time Skip"
+    discipline: chronomancer
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 16
+    cooldown-seconds: 35
+    description: "Bend a moment out of order. Backend definition only."
+
+  fateweaver_red_thread:
+    display-name: "Red Thread"
+    discipline: fateweaver
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 12
+    cooldown-seconds: 30
+    description: "Pull probability toward an outcome. Backend definition only."
+
+  sentinel_iron_oath:
+    display-name: "Iron Oath"
+    discipline: sentinel
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 10
+    cooldown-seconds: 25
+    description: "Stand as the shield line. Backend definition only."
+
+  warden_root_bind:
+    display-name: "Root Bind"
+    discipline: warden
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 12
+    cooldown-seconds: 28
+    description: "Bind space through anchored force. Backend definition only."
+
+  vitalist_pulse_mend:
+    display-name: "Pulse Mend"
+    discipline: vitalist
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 10
+    cooldown-seconds: 24
+    description: "Prepare restorative energy. Backend definition only."
+
+  necrosage_grave_whisper:
+    display-name: "Grave Whisper"
+    discipline: necrosage
+    unlock-rank: 1
+    cost-type: mana
+    cost-amount: 12
+    cooldown-seconds: 28
+    description: "Call memory from ruined echoes. Backend definition only."
+
+  summoner_echo_call:
+    display-name: "Echo Call"
+    discipline: summoner
+    unlock-rank: 1
+    cost-type: mana
+    cost-amount: 14
+    cooldown-seconds: 30
+    description: "Prepare a summoned echo. Backend definition only."
+
+  binder_chain_law:
+    display-name: "Chain Law"
+    discipline: binder
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 12
+    cooldown-seconds: 26
+    description: "Define a binding rule. Backend definition only."
+
+  warforger_anvil_spark:
+    display-name: "Anvil Spark"
+    discipline: warforger
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 12
+    cooldown-seconds: 24
+    description: "Prime forged battle energy. Backend definition only."
+
+  architect_field_frame:
+    display-name: "Field Frame"
+    discipline: architect
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 14
+    cooldown-seconds: 32
+    description: "Sketch a structure into battlefield logic. Backend definition only."
+
+  oracle_clear_sight:
+    display-name: "Clear Sight"
+    discipline: oracle
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 10
+    cooldown-seconds: 25
+    description: "Read a possible path. Backend definition only."
+
+  paradox_wrong_step:
+    display-name: "Wrong Step"
+    discipline: paradox
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 16
+    cooldown-seconds: 35
+    description: "Make reality trip over itself. Backend definition only."
+
+  suppressor_silence_field:
+    display-name: "Silence Field"
+    discipline: suppressor
+    unlock-rank: 1
+    cost-type: focus
+    cost-amount: 14
+    cooldown-seconds: 30
+    description: "Suppress hostile force. Backend definition only."
+
+  anomaly_static_bloom:
+    display-name: "Static Bloom"
+    discipline: anomaly
+    unlock-rank: 1
+    cost-type: instability
+    cost-amount: 8
+    cooldown-seconds: 27
+    description: "Release controlled impossibility. Backend definition only."
