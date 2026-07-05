@@ -97,3 +97,18 @@ AerethPipelineTools/AerethSnapshotAgent/*.diff
 *.class
 
 FragmentEngine_Build1_Source_BACKUP*/
+# Frontend / website
+node_modules/
+website/node_modules/
+website/dist/
+website/build/
+website/.next/
+website/.nuxt/
+website/.astro/
+website/.vite/
+website/.vercel/
+website/.netlify/
+website/.env
+website/*.env
+# Local cleanup backups
+archive/repo-cleanup-backups/*
