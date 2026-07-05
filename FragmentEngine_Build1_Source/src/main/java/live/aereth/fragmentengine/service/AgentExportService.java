@@ -29,7 +29,7 @@ public class AgentExportService {
         try (FileWriter writer = new FileWriter(file)) {
             writer.write("plugin: FragmentEngine\n");
             writer.write("version: \"" + plugin.getDescription().getVersion() + "\"\n");
-            writer.write("schema-version: 4\n");
+            writer.write("schema-version: 5\n");
             writer.write("exports:\n");
             writer.write("  - schema.yml\n");
             writer.write("  - latest-status.json\n");
@@ -56,6 +56,12 @@ public class AgentExportService {
             writer.write("  - discipline.family\n");
             writer.write("  - discipline.level-required\n");
             writer.write("  - discipline.selected\n");
+            writer.write("  - discipline.progression.rank\n");
+            writer.write("  - discipline.progression.rank-name\n");
+            writer.write("  - discipline.progression.xp\n");
+            writer.write("  - discipline.progression.xp-required\n");
+            writer.write("  - discipline.progression.progress-percent\n");
+            writer.write("  - discipline.progression.max-rank\n");
         }
     }
 
@@ -80,10 +86,10 @@ public class AgentExportService {
             writer.write("{\n");
             writer.write("  \"status\": \"ok\",\n");
             writer.write("  \"notes\": [\n");
-            writer.write("    \"Build 3A data backend active\",\n");
-            writer.write("    \"Race, progression, stats, fragments, intent, and discipline foundations implemented\",\n");
+            writer.write("    \"Build 3B data backend active\",\n");
+            writer.write("    \"Race, progression, stats, fragments, intent, discipline identity, and discipline progression foundations implemented\",\n");
             writer.write("    \"Combat execution not implemented yet\",\n");
-            writer.write("    \"Discipline abilities pending later build\"\n");
+            writer.write("    \"Discipline passives and abilities pending later builds\"\n");
             writer.write("  ]\n");
             writer.write("}\n");
         }

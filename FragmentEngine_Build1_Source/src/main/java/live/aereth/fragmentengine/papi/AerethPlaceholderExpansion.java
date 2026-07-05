@@ -66,6 +66,7 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
         FragmentService.FragmentSummary fragmentSummary = fragments.summary(character);
         IntentService.IntentSummary intentSummary = intents.summary(character);
         DisciplineService.DisciplineSummary disciplineSummary = disciplines.summary(character);
+        DisciplineService.DisciplineProgressSummary disciplineProgress = disciplines.progress(character);
 
         return switch (key) {
             case "character_name" -> character.getString("name", "Unnamed");
@@ -105,6 +106,11 @@ public class AerethPlaceholderExpansion extends PlaceholderExpansion {
             case "discipline_family" -> disciplineSummary.family();
             case "discipline_unlocked" -> String.valueOf(disciplineSummary.unlocked());
             case "discipline_level_required" -> String.valueOf(disciplineSummary.unlockLevel());
+            case "discipline_rank" -> String.valueOf(disciplineProgress.rank());
+            case "discipline_rank_name" -> disciplineProgress.rankName();
+            case "discipline_xp" -> String.valueOf(disciplineProgress.xp());
+            case "discipline_xp_required" -> String.valueOf(disciplineProgress.xpRequired());
+            case "discipline_progress_percent" -> String.format(java.util.Locale.US, "%.2f", disciplineProgress.progressPercent());
             default -> null;
         };
     }

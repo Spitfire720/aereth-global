@@ -88,6 +88,28 @@ public class DisciplineService {
         );
     }
 
+    public DisciplineProgressSummary progress(YamlConfiguration character) {
+        DisciplineSummary discipline = summary(character);
+        boolean selected = discipline.selected();
+
+        int rank = character.getInt("discipline.progression.rank", selected ? 1 : 0);
+        rank = clamp(rank, 0, maxRank());
+
+        long xp = Math.max(0L, character.getLong("discipline.progression.xp", 0L));
+        long required = rank >= maxRank() || rank <= 0 ? 0L : xpRequiredForRank(rank);
+        double percent = required <= 0L ? (rank >= maxRank() ? 100.0 : 0.0) : Math.min(100.0, (xp * 100.0) / required);
+
+        return new DisciplineProgressSummary(
+                rank,
+                rankName(rank),
+                xp,
+                required,
+                roundTwo(percent),
+                maxRank(),
+                rank >= maxRank()
+        );
+    }
+
     public DisciplineResult setDiscipline(OfflinePlayer player, String rawDiscipline) throws IOException {
         YamlConfiguration character = activeCharacter(player);
         String id = normalizeDiscipline(rawDiscipline);
@@ -112,6 +134,8 @@ public class DisciplineService {
         character.set("profession", definition.id().toUpperCase());
         character.set("remnant-state", "COMMITTED");
 
+        writeProgressionFields(character, 1, 0L);
+
         saveCharacter(player, character);
 
         return new DisciplineResult(definition.id(), "set", summary(character));
@@ -129,9 +153,118 @@ public class DisciplineService {
         character.set("profession", "UNFORMED");
         character.set("remnant-state", "UNCOMMITTED");
 
+        writeProgressionFields(character, 0, 0L);
+
         saveCharacter(player, character);
 
         return new DisciplineResult("unformed", "cleared", summary(character));
+    }
+
+    public DisciplineProgressResult addDisciplineXp(OfflinePlayer player, long amount) throws IOException {
+        if (amount <= 0L) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
+        YamlConfiguration character = activeCharacter(player);
+        DisciplineSummary discipline = summary(character);
+
+        if (!discipline.selected()) {
+            throw new IllegalStateException("No Discipline selected.");
+        }
+
+        DisciplineProgressSummary before = progress(character);
+        int rank = before.rank() <= 0 ? 1 : before.rank();
+        long xp = before.xp() + amount;
+        int ranksGained = 0;
+
+        while (rank < maxRank()) {
+            long required = xpRequiredForRank(rank);
+            if (xp < required) {
+                break;
+            }
+            xp -= required;
+            rank++;
+            ranksGained++;
+        }
+
+        if (rank >= maxRank()) {
+            rank = maxRank();
+            xp = 0L;
+        }
+
+        writeProgressionFields(character, rank, xp);
+        saveCharacter(player, character);
+
+        return new DisciplineProgressResult(amount, ranksGained, progress(character));
+    }
+
+    public DisciplineProgressResult setDisciplineRank(OfflinePlayer player, int rank) throws IOException {
+        if (rank < 0 || rank > maxRank()) {
+            throw new IllegalArgumentException("Rank must be between 0 and " + maxRank() + ".");
+        }
+
+        YamlConfiguration character = activeCharacter(player);
+        DisciplineSummary discipline = summary(character);
+
+        if (!discipline.selected() && rank > 0) {
+            throw new IllegalStateException("No Discipline selected.");
+        }
+
+        writeProgressionFields(character, rank, 0L);
+        saveCharacter(player, character);
+
+        return new DisciplineProgressResult(0L, 0, progress(character));
+    }
+
+    public DisciplineProgressResult resetDisciplineProgress(OfflinePlayer player) throws IOException {
+        YamlConfiguration character = activeCharacter(player);
+        DisciplineSummary discipline = summary(character);
+
+        int rank = discipline.selected() ? 1 : 0;
+        writeProgressionFields(character, rank, 0L);
+        saveCharacter(player, character);
+
+        return new DisciplineProgressResult(0L, 0, progress(character));
+    }
+
+    public long xpRequiredForRank(int rank) {
+        return switch (rank) {
+            case 1 -> 1000L;
+            case 2 -> 2500L;
+            case 3 -> 5000L;
+            case 4 -> 9000L;
+            default -> rank <= 0 || rank >= maxRank() ? 0L : (long) Math.floor(1000.0 * Math.pow(rank, 1.5));
+        };
+    }
+
+    public int maxRank() {
+        return definitions.getInt("settings.max-rank", 5);
+    }
+
+    public String rankName(int rank) {
+        return switch (rank) {
+            case 1 -> "Initiate";
+            case 2 -> "Adept";
+            case 3 -> "Specialist";
+            case 4 -> "Master";
+            case 5 -> "Ascendant";
+            default -> "Untrained";
+        };
+    }
+
+    private void writeProgressionFields(YamlConfiguration character, int rank, long xp) {
+        rank = clamp(rank, 0, maxRank());
+        xp = Math.max(0L, xp);
+
+        long required = rank <= 0 || rank >= maxRank() ? 0L : xpRequiredForRank(rank);
+        double percent = required <= 0L ? (rank >= maxRank() ? 100.0 : 0.0) : Math.min(100.0, (xp * 100.0) / required);
+
+        character.set("discipline.progression.rank", rank);
+        character.set("discipline.progression.rank-name", rankName(rank));
+        character.set("discipline.progression.xp", xp);
+        character.set("discipline.progression.xp-required", required);
+        character.set("discipline.progression.progress-percent", roundTwo(percent));
+        character.set("discipline.progression.max-rank", maxRank());
     }
 
     private YamlConfiguration activeCharacter(OfflinePlayer player) {
@@ -163,6 +296,14 @@ public class DisciplineService {
         return clean.substring(0, 1).toUpperCase() + clean.substring(1);
     }
 
+    private int clamp(int value, int min, int max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
+    private double roundTwo(double value) {
+        return Math.round(value * 100.0) / 100.0;
+    }
+
     public record DisciplineDefinition(
             String id,
             String display,
@@ -182,10 +323,28 @@ public class DisciplineService {
     ) {
     }
 
+    public record DisciplineProgressSummary(
+            int rank,
+            String rankName,
+            long xp,
+            long xpRequired,
+            double progressPercent,
+            int maxRank,
+            boolean atCap
+    ) {
+    }
+
     public record DisciplineResult(
             String disciplineId,
             String status,
             DisciplineSummary summary
+    ) {
+    }
+
+    public record DisciplineProgressResult(
+            long amountAdded,
+            int ranksGained,
+            DisciplineProgressSummary progress
     ) {
     }
 }
