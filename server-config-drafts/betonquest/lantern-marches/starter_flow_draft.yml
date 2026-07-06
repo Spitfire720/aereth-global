@@ -1,0 +1,112 @@
+# BetonQuest draft - Lantern Marches starter flow
+# This is a design skeleton, not guaranteed final plugin syntax.
+
+package: lantern_marches_starter
+
+npcs:
+  mara_venn:
+    display_name: "Mara Venn"
+    role: "Roadwarden"
+  cael_orwyn:
+    display_name: "Archivist Cael Orwyn"
+    role: "Registry Archivist"
+  ilya_marr:
+    display_name: "Ilya Marr"
+    role: "Ledger Clerk"
+  tavin_echo:
+    display_name: "Echo of Tavin"
+    role: "Memory Echo"
+
+flags:
+  - lm_intro_started
+  - lm_registry_registered
+  - lm_race_acknowledged
+  - lm_remnant_acknowledged
+  - lm_bentroad_marker_seen
+  - lm_mirrorfen_reflection_solved
+  - lm_oldwick_satchel_recovered
+  - lm_hollowglass_event_seen
+  - lm_hollowglass_survived
+  - lm_lantern_marches_known
+
+quest_flow:
+  q01_the_road_still_burns:
+    start_npc: mara_venn
+    objectives:
+      - talk_to_mara
+      - go_to_registry_hall
+      - talk_to_cael
+    set_flags:
+      - lm_intro_started
+
+  q02_register_what_remains:
+    start_npc: cael_orwyn
+    requires:
+      - lm_intro_started
+    objectives:
+      - acknowledge_remnant_condition
+      - acknowledge_race_identity
+      - speak_to_ilya
+    set_flags:
+      - lm_registry_registered
+      - lm_race_acknowledged
+      - lm_remnant_acknowledged
+
+  q03_the_bent_road:
+    start_npc: ilya_marr
+    requires:
+      - lm_registry_registered
+    objectives:
+      - inspect_marker_1
+      - inspect_marker_2
+      - inspect_repeated_marker
+      - survive_roadstrays
+    set_flags:
+      - lm_bentroad_marker_seen
+
+  q04_names_in_the_water:
+    location: mirrorfen
+    requires:
+      - lm_bentroad_marker_seen
+    objectives:
+      - inspect_reflection_markers
+      - choose_true_reflection
+      - speak_to_tavin_echo
+    set_flags:
+      - lm_mirrorfen_reflection_solved
+
+  q05_old_wick_post:
+    location: old_wick_post
+    requires:
+      - lm_mirrorfen_reflection_solved
+    objectives:
+      - recover_registry_satchel
+      - defeat_wick_touched
+    set_flags:
+      - lm_oldwick_satchel_recovered
+
+  q06_hollowglass:
+    location: hollowglass_pool
+    requires:
+      - lm_oldwick_satchel_recovered
+    objectives:
+      - place_satchel
+      - trigger_anomaly
+      - survive_shardlings
+    set_flags:
+      - lm_hollowglass_event_seen
+      - lm_hollowglass_survived
+
+  q07_a_name_held_in_lanternlight:
+    start_npc: cael_orwyn
+    requires:
+      - lm_hollowglass_survived
+    objectives:
+      - return_to_registry
+      - receive_local_recognition
+    set_flags:
+      - lm_lantern_marches_known
+    rewards:
+      xp: starter_small
+      items:
+        - aereth_lantern_marches_token

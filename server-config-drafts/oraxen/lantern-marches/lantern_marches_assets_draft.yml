@@ -1,0 +1,56 @@
+# Oraxen draft - Lantern Marches starter assets
+# This is a design skeleton. Model paths and material IDs are placeholders.
+
+aereth_registry_ledger:
+  displayname: "<gold>Registry Ledger"
+  material: PAPER
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/registry_ledger
+
+aereth_road_marker_bent:
+  displayname: "<gray>Bent Road Marker"
+  material: STONE
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/road_marker_bent
+
+aereth_lantern_marches_token:
+  displayname: "<yellow>Lantern Marches Token"
+  material: AMETHYST_SHARD
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/lantern_marches_token
+
+aereth_hollowglass_shard:
+  displayname: "<aqua>Hollowglass Shard"
+  material: PRISMARINE_SHARD
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/hollowglass_shard
+
+aereth_quiet_ledger_seal:
+  displayname: "<gold>Quiet Ledger Seal"
+  material: ECHO_SHARD
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/quiet_ledger_seal
+
+aereth_old_wick_lantern:
+  displayname: "<yellow>Old Wick Lantern"
+  material: LANTERN
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/old_wick_lantern

@@ -1,0 +1,56 @@
+# MythicMobs draft - Lantern Marches starter mobs
+# This is a design skeleton, not guaranteed final plugin syntax.
+
+Roadstray:
+  Type: WOLF
+  Display: '&7Roadstray'
+  Health: 16
+  Damage: 2
+  Options:
+    MovementSpeed: 0.24
+    PreventOtherDrops: true
+  Skills:
+    - effect:particles{p=crit;amount=8;speed=0.05} @self ~onTimer:40
+
+WickTouched:
+  Type: HUSK
+  Display: '&6Wick-Touched'
+  Health: 22
+  Damage: 3
+  Options:
+    MovementSpeed: 0.21
+    PreventOtherDrops: true
+  Skills:
+    - effect:particles{p=smoke;amount=12;speed=0.04} @self ~onTimer:50
+
+MirrorfenWisp:
+  Type: VEX
+  Display: '&bMirrorfen Wisp'
+  Health: 12
+  Damage: 2
+  Options:
+    PreventOtherDrops: true
+    Silent: true
+  Skills:
+    - effect:particles{p=glow;amount=10;speed=0.02} @self ~onTimer:30
+
+HollowglassShardling:
+  Type: SILVERFISH
+  Display: '&bHollowglass Shardling'
+  Health: 10
+  Damage: 2
+  Options:
+    PreventOtherDrops: true
+  Skills:
+    - effect:particles{p=crystal_spore;amount=8;speed=0.03} @self ~onTimer:30
+
+Ashling:
+  Type: MAGMA_CUBE
+  Display: '&8Ashling'
+  Health: 14
+  Damage: 2
+  Options:
+    Size: 1
+    PreventOtherDrops: true
+  Skills:
+    - effect:particles{p=ash;amount=12;speed=0.02} @self ~onTimer:30
