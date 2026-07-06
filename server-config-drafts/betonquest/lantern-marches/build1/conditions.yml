@@ -1,0 +1,5 @@
+conditions:
+  lm_registered: "tag lm_registered"
+  lm_started_bent_road: "tag lm_started_bent_road"
+  lm_hollowglass_done: "tag lm_hollowglass_done"
+  lm_build1_complete: "tag lm_build1_complete"

@@ -1,0 +1,17 @@
+HollowglassWisp:
+  Type: ALLAY
+  Display: '&bHollowglass Wisp'
+  Health: 14
+  Damage: 2
+  Faction: LanternMarchesHostile
+  Options:
+    PreventOtherDrops: true
+    Silent: true
+    MovementSpeed: 0.24
+    FollowRange: 16
+    Despawn: true
+  Skills:
+    - effect:particles{p=end_rod;amount=12;speed=0.02;hS=0.3;vS=0.3} @self ~onTimer:20
+    - skill{s=LM_Hollowglass_Glint} @target ~onTimer:100
+  Drops:
+    - exp 3 1

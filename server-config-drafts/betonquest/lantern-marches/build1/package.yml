@@ -1,0 +1,17 @@
+# BetonQuest draft package for Lantern Marches Build 01.
+# Validate against the exact BetonQuest version installed on the server before using live.
+
+package:
+  name: lantern_marches_build1
+  author: Aereth
+  version: 0.1.0
+  description: First playable starter loop for Lantern's Rest and The Bent Road.
+
+include:
+  - conversations/archivist_maerin.yml
+  - conversations/road_warden_tovan.yml
+  - objectives.yml
+  - events.yml
+  - conditions.yml
+  - journal.yml
+  - items.yml

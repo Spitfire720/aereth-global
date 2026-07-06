@@ -1,0 +1,15 @@
+journal:
+  lm_journal_01:
+    en: "Register at The Quiet Ledger, then follow The Bent Road toward the disturbance."
+  lm_journal_02:
+    en: "You reached The Bent Road. Clear the Roadstrays gathering near the old markers."
+  lm_journal_03:
+    en: "The road is passable. Continue toward Hollowglass Pool."
+  lm_journal_04:
+    en: "The pool is reflecting more than water. Investigate the disturbance."
+  lm_journal_05:
+    en: "The Hollowglass Wisp dispersed. Return to Archivist Maerin at The Quiet Ledger."
+  lm_journal_06:
+    en: "Report what you saw at Hollowglass Pool."
+  lm_journal_complete:
+    en: "Your first record has been written. Aereth remembers you, for better or worse."

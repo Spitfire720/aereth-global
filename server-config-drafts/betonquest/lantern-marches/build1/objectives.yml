@@ -1,0 +1,6 @@
+objectives:
+  lm_reach_bent_road: "location 0;64;0;12 events:lm_reached_bent_road"
+  lm_kill_roadstray: "mobkill Roadstray amount:2 events:lm_roadstray_cleared"
+  lm_reach_hollowglass: "location 100;64;100;10 events:lm_reached_hollowglass"
+  lm_kill_hollowglass_wisp: "mobkill HollowglassWisp amount:1 events:lm_hollowglass_done_event"
+  lm_return_to_ledger: "location -10;65;5;8 events:lm_returned_to_ledger"

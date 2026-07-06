@@ -1,0 +1,58 @@
+lantern_registry_ledger:
+  displayname: "<gradient:#5eead4:#93c5fd>Registry Ledger</gradient>"
+  material: PAPER
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/registry_ledger
+  Mechanics:
+    furniture:
+      barrier: true
+      light: 3
+
+bent_road_marker:
+  displayname: "<#9ca3af>Bent Road Marker</#9ca3af>"
+  material: STICK
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/bent_road_marker
+  Mechanics:
+    furniture:
+      barrier: true
+
+hollowglass_shard:
+  displayname: "<gradient:#67e8f9:#c084fc>Hollowglass Shard</gradient>"
+  material: AMETHYST_SHARD
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/hollowglass_shard
+
+lantern_march_waystone:
+  displayname: "<gradient:#facc15:#5eead4>Lantern March Waystone</gradient>"
+  material: LANTERN
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/lantern_march_waystone
+  Mechanics:
+    furniture:
+      barrier: true
+      light: 10
+
+sealed_ash_gate_marker:
+  displayname: "<#f97316>Sealed Ash Gate Marker</#f97316>"
+  material: NETHER_BRICK
+  Pack:
+    generate_model: true
+    parent_model: item/generated
+    textures:
+      - aereth/lantern_marches/sealed_ash_gate_marker
+  Mechanics:
+    furniture:
+      barrier: true

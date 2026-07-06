@@ -1,0 +1,12 @@
+items:
+  bent_road_marker:
+    material: PAPER
+    name: "&bBent Road Marker"
+    lore:
+      - "&7A small route marker stamped by The Quiet Ledger."
+      - "&7It does not make the road safer. It only proves someone expected you back."
+  hollowglass_trace:
+    material: AMETHYST_SHARD
+    name: "&dHollowglass Trace"
+    lore:
+      - "&7A reflective shard that remembers light from the wrong direction."

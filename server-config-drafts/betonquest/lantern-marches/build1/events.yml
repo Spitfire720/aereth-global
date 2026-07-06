@@ -1,0 +1,9 @@
+events:
+  lm_register_player: "tag add lm_registered"
+  lm_start_bent_road: "tag add lm_started_bent_road,journal add lm_journal_01,objective start lm_reach_bent_road"
+  lm_reached_bent_road: "journal add lm_journal_02,objective start lm_kill_roadstray"
+  lm_roadstray_cleared: "journal add lm_journal_03,objective start lm_reach_hollowglass"
+  lm_reached_hollowglass: "journal add lm_journal_04,objective start lm_kill_hollowglass_wisp"
+  lm_hollowglass_done_event: "tag add lm_hollowglass_done,journal add lm_journal_05,objective start lm_return_to_ledger"
+  lm_returned_to_ledger: "journal add lm_journal_06"
+  lm_complete_build1: "tag add lm_build1_complete,journal add lm_journal_complete,experience 25"

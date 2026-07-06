@@ -1,0 +1,27 @@
+Roadstray:
+  Type: ZOMBIE
+  Display: '&7Roadstray'
+  Health: 18
+  Damage: 3
+  Armor: 1
+  Faction: LanternMarchesHostile
+  Options:
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    Silent: false
+    MovementSpeed: 0.21
+    FollowRange: 18
+    Despawn: true
+  AIGoalSelectors:
+    - clear
+    - meleeattack
+    - randomstroll
+    - lookatplayers
+  AITargetSelectors:
+    - clear
+    - players
+  Skills:
+    - skill{s=LM_Roadstray_WanderCry} @self ~onSpawn
+    - skill{s=LM_Roadstray_Lurch} @target ~onTimer:120
+  Drops:
+    - exp 2 1

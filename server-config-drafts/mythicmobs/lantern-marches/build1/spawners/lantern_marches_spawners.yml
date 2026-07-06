@@ -1,0 +1,33 @@
+LM_BentRoad_Roadstrays_01:
+  MobName: Roadstray
+  World: world
+  X: 0
+  Y: 64
+  Z: 0
+  Radius: 8
+  UseTimer: true
+  MaxMobs: 3
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 20
+  Warmup: 10
+  ActivationRange: 32
+  LeashRange: 24
+  ResetThreatOnSpawn: true
+
+LM_Hollowglass_Wisp_01:
+  MobName: HollowglassWisp
+  World: world
+  X: 100
+  Y: 64
+  Z: 100
+  Radius: 6
+  UseTimer: true
+  MaxMobs: 1
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 45
+  Warmup: 20
+  ActivationRange: 32
+  LeashRange: 20
+  ResetThreatOnSpawn: true

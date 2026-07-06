@@ -1,0 +1,21 @@
+LM_Roadstray_WanderCry:
+  Skills:
+    - sound{s=entity.zombie.ambient;v=0.5;p=0.8} @self
+    - effect:particles{p=ash;amount=8;speed=0.01;hS=0.25;vS=0.15} @self
+
+LM_Roadstray_Lurch:
+  Cooldown: 8
+  Conditions:
+    - targetwithin{d=4}
+  Skills:
+    - sound{s=entity.zombie.step;v=0.6;p=0.6} @self
+    - damage{a=1} @target
+
+LM_Hollowglass_Glint:
+  Cooldown: 10
+  Conditions:
+    - targetwithin{d=8}
+  Skills:
+    - sound{s=block.amethyst_block.chime;v=0.7;p=1.4} @self
+    - effect:particles{p=glow;amount=16;speed=0.02;hS=0.4;vS=0.4} @self
+    - potion{type=SLOW;duration=30;level=0} @target

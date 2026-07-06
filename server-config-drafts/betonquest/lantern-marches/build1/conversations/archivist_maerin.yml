@@ -1,0 +1,44 @@
+conversations:
+  archivist_maerin:
+    quester: "Archivist Maerin Vale"
+    first: "first_meeting,registered_return,after_hollowglass"
+    NPC_options:
+      first_meeting:
+        text: "Name first. Certainty later. Around here, the ledger remembers what people cannot."
+        conditions: "!lm_registered"
+        pointer: "player_register_question"
+      explain_remnant:
+        text: "Remnant is not a race. It is the condition you woke into. Everyone like you carries a persistence the world failed to erase."
+        pointer: "player_ask_refragment"
+      explain_refragment:
+        text: "RE:FRAGMENT happened before you arrived here. Some call it Erasure. Some call it Unmaking. The ledger only records what survived."
+        pointer: "player_accept_registration"
+      send_to_road:
+        text: "The Bent Road is showing a small disturbance near Hollowglass Pool. Low risk, if the road behaves. Take a marker and return with what you see."
+        events: "lm_register_player,lm_start_bent_road"
+        pointer: "player_leave"
+      registered_return:
+        text: "Back already? The road rarely lets people keep a simple answer."
+        conditions: "lm_registered,!lm_hollowglass_done"
+        pointer: "player_status"
+      after_hollowglass:
+        text: "A reflection that moved late. Good. Bad, obviously, but useful. We will record this."
+        conditions: "lm_hollowglass_done,!lm_build1_complete"
+        events: "lm_complete_build1"
+        pointer: "player_finish"
+    player_options:
+      player_register_question:
+        text: "Register me."
+        pointer: "explain_remnant"
+      player_ask_refragment:
+        text: "What happened to Aereth?"
+        pointer: "explain_refragment"
+      player_accept_registration:
+        text: "I will inspect the road."
+        pointer: "send_to_road"
+      player_leave:
+        text: "I'll return."
+      player_status:
+        text: "I am still investigating."
+      player_finish:
+        text: "What happens next?"

@@ -1,0 +1,14 @@
+conversations:
+  road_warden_tovan:
+    quester: "Road Warden Tovan"
+    first: "warn_new,road_active,road_done"
+    NPC_options:
+      warn_new:
+        text: "Road's open, not safe. Those are different things. Talk to Maerin at the Ledger before wandering out."
+        conditions: "!lm_registered"
+      road_active:
+        text: "The road bends where it should not. Stay near the markers. If the glass starts reflecting things behind your eyes, walk back."
+        conditions: "lm_registered,!lm_hollowglass_done"
+      road_done:
+        text: "You came back with all your edges. Better than most first walks."
+        conditions: "lm_hollowglass_done"
