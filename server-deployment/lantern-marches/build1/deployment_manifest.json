@@ -1,0 +1,24 @@
+{
+  "pack": "Aereth_Lantern_Marches_Build1_Live_Deployment_Pack_v1",
+  "region": "The Lantern Marches",
+  "hub": "Lantern's Rest",
+  "build": "Build 01",
+  "purpose": "Controlled live deployment workflow for the first starter vertical slice.",
+  "draft_sources": {
+    "worldguard": "server-config-drafts/worldguard/lantern-marches/build1/worldguard_region_commands.md",
+    "betonquest": "server-config-drafts/betonquest/lantern-marches/build1/",
+    "mythicmobs": "server-config-drafts/mythicmobs/lantern-marches/build1/",
+    "oraxen": "server-config-drafts/oraxen/lantern-marches/build1/",
+    "fragmentengine": "server-config-drafts/fragmentengine/lantern-marches/build1/fragmentengine_hooks_draft.md"
+  },
+  "live_order": [
+    "backup",
+    "world_blockout",
+    "worldguard",
+    "betonquest",
+    "mythicmobs",
+    "oraxen",
+    "fragmentengine_hooks",
+    "test_run"
+  ]
+}
