@@ -10,6 +10,7 @@ import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.gui.CharacterCardGui;
 import live.aereth.fragmentengine.gui.IntentSlotsGui;
+import live.aereth.fragmentengine.gui.DisciplineCodexGui;
 import live.aereth.fragmentengine.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -36,6 +37,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final AgentExportService agentExport;
     private final CharacterCardGui characterCardGui;
     private final IntentSlotsGui intentSlotsGui;
+    private final DisciplineCodexGui disciplineCodexGui;
 
     public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
@@ -48,6 +50,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         this.agentExport = agentExport;
         this.characterCardGui = new CharacterCardGui(plugin, characters, fragments, intents, disciplines, abilities);
         this.intentSlotsGui = new IntentSlotsGui(plugin, characters, intents);
+        this.disciplineCodexGui = new DisciplineCodexGui(plugin, characters, disciplines);
     }
 
     @Override
@@ -75,6 +78,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "intentlist" -> intentList(sender);
                 case "setintent" -> setIntent(sender, args);
                 case "clearintent" -> clearIntent(sender, args);
+                case "disciplinegui" -> disciplineGui(sender);
                 case "discipline" -> discipline(sender, args);
                 case "disciplinelist" -> disciplineList(sender);
                 case "setdiscipline" -> setDiscipline(sender, args);
@@ -124,6 +128,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth setintent <player> <slot> <intentId>"));
         sender.sendMessage(Text.color("&b/aereth clearintent <player> <slot>"));
         sender.sendMessage(Text.color("&b/aereth disciplinelist"));
+        sender.sendMessage(Text.color("&b/aereth disciplinegui"));
         sender.sendMessage(Text.color("&b/aereth discipline <player>"));
         sender.sendMessage(Text.color("&b/aereth setdiscipline <player> <disciplineId>"));
         sender.sendMessage(Text.color("&b/aereth cleardiscipline <player>"));
@@ -165,6 +170,14 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
             return;
         }
         intentSlotsGui.open(player);
+    }
+
+    private void disciplineGui(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Discipline Codex GUI."));
+            return;
+        }
+        disciplineCodexGui.open(player);
     }
     private void profile(CommandSender sender, String[] args) {
         requireArgs(args, 2, "/aereth profile <player>");
@@ -573,7 +586,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "card", "intentgui", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+            return partial(args[0], List.of("status", "card", "intentgui", "disciplinegui", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));

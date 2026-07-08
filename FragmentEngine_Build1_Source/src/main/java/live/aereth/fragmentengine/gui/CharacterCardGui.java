@@ -13,8 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-
 public class CharacterCardGui {
     public static final String TITLE = "&b✦ Character Card ✦";
 
@@ -113,7 +111,9 @@ public class CharacterCardGui {
                 "&7Unlocked: &f" + yesNo(disciplineSummary.unlocked()),
                 "&7Required Level: &f" + disciplineSummary.unlockLevel(),
                 "&7Rank: &f" + disciplineProgress.rank() + " &8/ &f" + disciplineProgress.rankName(),
-                "&7XP: &f" + disciplineProgress.xp() + " &8/ &f" + disciplineProgress.xpRequired()
+                "&7XP: &f" + disciplineProgress.xp() + " &8/ &f" + disciplineProgress.xpRequired(),
+                "",
+                "&eClick to open Discipline Codex."
         )));
 
         inventory.setItem(28, GuiItem.item(Material.BLAZE_POWDER, "&bAbilities", GuiItem.lore(
@@ -134,7 +134,7 @@ public class CharacterCardGui {
         inventory.setItem(32, GuiItem.item(Material.RECOVERY_COMPASS, "&bOutcome Bias", GuiItem.lore(
                 "&7Current: &fUnresolved",
                 "&8Outcome Effects will read Fragment + Intent state.",
-                "&8This is intentionally display-only for S2A."
+                "&8This is intentionally display-only for now."
         )));
 
         inventory.setItem(34, GuiItem.item(Material.BARRIER, "&8Mutations", GuiItem.lore(
