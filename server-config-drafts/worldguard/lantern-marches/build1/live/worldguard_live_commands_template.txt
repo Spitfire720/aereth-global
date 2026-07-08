@@ -1,0 +1,146 @@
+# Aereth Lantern Marches Build 01 — WorldGuard Live Commands Template
+# Replace TODO_WORLD_NAME and coordinate placeholders before using.
+# Recommended: paste one block at a time, then test.
+
+# ============================================================
+# 0. VERSION CHECKS
+# ============================================================
+/version Paper
+/version WorldGuard
+/version WorldEdit
+
+# ============================================================
+# 1. REGION DEFINITIONS
+# Select each cuboid in-game with WorldEdit before running define.
+# Use //pos1 and //pos2, then /rg define <id>
+# ============================================================
+
+# Outer Build 01 Area
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_build1_outer
+/rg priority aereth_lm_build1_outer 10
+
+# Lantern's Rest Safe Hub
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_lanterns_rest
+/rg priority aereth_lm_lanterns_rest 50
+
+# Registry Post
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_registry_post
+/rg priority aereth_lm_registry_post 70
+
+# The Bent Road
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_bent_road
+/rg priority aereth_lm_bent_road 40
+
+# Hollowglass Pool
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_hollowglass_pool
+/rg priority aereth_lm_hollowglass_pool 45
+
+# Hollowglass Inner
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_hollowglass_inner
+/rg priority aereth_lm_hollowglass_inner 80
+
+# Builder Staging
+# Select: TODO_POS1 -> TODO_POS2
+/rg define aereth_lm_builder_staging
+/rg priority aereth_lm_builder_staging 90
+
+# ============================================================
+# 2. OUTER SHELL FLAGS
+# ============================================================
+/rg flag aereth_lm_build1_outer pvp deny
+/rg flag aereth_lm_build1_outer block-break deny
+/rg flag aereth_lm_build1_outer block-place deny
+/rg flag aereth_lm_build1_outer creeper-explosion deny
+/rg flag aereth_lm_build1_outer other-explosion deny
+/rg flag aereth_lm_build1_outer tnt deny
+/rg flag aereth_lm_build1_outer enderdragon-block-damage deny
+/rg flag aereth_lm_build1_outer ghast-fireball deny
+/rg flag aereth_lm_build1_outer fire-spread deny
+/rg flag aereth_lm_build1_outer lava-fire deny
+
+# ============================================================
+# 3. LANTERN'S REST FLAGS
+# ============================================================
+/rg flag aereth_lm_lanterns_rest pvp deny
+/rg flag aereth_lm_lanterns_rest mob-spawning deny
+/rg flag aereth_lm_lanterns_rest mob-damage deny
+/rg flag aereth_lm_lanterns_rest block-break deny
+/rg flag aereth_lm_lanterns_rest block-place deny
+/rg flag aereth_lm_lanterns_rest creeper-explosion deny
+/rg flag aereth_lm_lanterns_rest other-explosion deny
+/rg flag aereth_lm_lanterns_rest tnt deny
+/rg flag aereth_lm_lanterns_rest fire-spread deny
+
+# ============================================================
+# 4. REGISTRY POST FLAGS
+# Keep interaction permissive until NPC/Oraxen testing confirms behavior.
+# ============================================================
+/rg flag aereth_lm_registry_post pvp deny
+/rg flag aereth_lm_registry_post mob-spawning deny
+/rg flag aereth_lm_registry_post mob-damage deny
+/rg flag aereth_lm_registry_post block-break deny
+/rg flag aereth_lm_registry_post block-place deny
+
+# ============================================================
+# 5. BENT ROAD FLAGS
+# ============================================================
+/rg flag aereth_lm_bent_road pvp deny
+/rg flag aereth_lm_bent_road mob-spawning deny
+/rg flag aereth_lm_bent_road block-break deny
+/rg flag aereth_lm_bent_road block-place deny
+/rg flag aereth_lm_bent_road creeper-explosion deny
+/rg flag aereth_lm_bent_road other-explosion deny
+/rg flag aereth_lm_bent_road fire-spread deny
+
+# ============================================================
+# 6. HOLLOWGLASS POOL FLAGS
+# First pass: protected but not fully safe. Mob spawning can be enabled later.
+# ============================================================
+/rg flag aereth_lm_hollowglass_pool pvp deny
+/rg flag aereth_lm_hollowglass_pool block-break deny
+/rg flag aereth_lm_hollowglass_pool block-place deny
+/rg flag aereth_lm_hollowglass_pool creeper-explosion deny
+/rg flag aereth_lm_hollowglass_pool other-explosion deny
+/rg flag aereth_lm_hollowglass_pool tnt deny
+/rg flag aereth_lm_hollowglass_pool fire-spread deny
+
+# ============================================================
+# 7. HOLLOWGLASS INNER FLAGS
+# Future quest trigger zone. Keep player entry allowed for now.
+# ============================================================
+/rg flag aereth_lm_hollowglass_inner pvp deny
+/rg flag aereth_lm_hollowglass_inner block-break deny
+/rg flag aereth_lm_hollowglass_inner block-place deny
+/rg flag aereth_lm_hollowglass_inner creeper-explosion deny
+/rg flag aereth_lm_hollowglass_inner other-explosion deny
+
+# ============================================================
+# 8. BUILDER STAGING FLAGS
+# Staff-only entry. Add builders as members or owners before testing.
+# ============================================================
+/rg flag aereth_lm_builder_staging pvp deny
+/rg flag aereth_lm_builder_staging mob-spawning deny
+/rg flag aereth_lm_builder_staging block-break deny
+/rg flag aereth_lm_builder_staging block-place deny
+/rg flag aereth_lm_builder_staging entry deny
+
+# Add builder access manually:
+# /rg addmember aereth_lm_builder_staging <player>
+# /rg addowner aereth_lm_builder_staging <player>
+
+# ============================================================
+# 9. INFO CHECKS
+# ============================================================
+/rg info aereth_lm_build1_outer
+/rg info aereth_lm_lanterns_rest
+/rg info aereth_lm_registry_post
+/rg info aereth_lm_bent_road
+/rg info aereth_lm_hollowglass_pool
+/rg info aereth_lm_hollowglass_inner
+/rg info aereth_lm_builder_staging

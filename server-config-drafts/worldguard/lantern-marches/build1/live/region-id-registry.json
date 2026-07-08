@@ -1,0 +1,49 @@
+{
+  "pack": "Aereth Lantern Marches Build 01 WorldGuard Regions Pack v1",
+  "region_prefix": "aereth_lm_",
+  "regions": [
+    {
+      "id": "aereth_lm_build1_outer",
+      "purpose": "Outer container for Build 01 test area",
+      "priority": 10,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_lanterns_rest",
+      "purpose": "Safe starter hub",
+      "priority": 50,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_registry_post",
+      "purpose": "Remnant registry/tutorial area",
+      "priority": 70,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_bent_road",
+      "purpose": "Protected starter route",
+      "priority": 40,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_hollowglass_pool",
+      "purpose": "Low-risk Fragment anomaly site",
+      "priority": 45,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_hollowglass_inner",
+      "purpose": "Inner anomaly trigger zone",
+      "priority": 80,
+      "status": "planned"
+    },
+    {
+      "id": "aereth_lm_builder_staging",
+      "purpose": "Staff-only staging area",
+      "priority": 90,
+      "status": "planned"
+    }
+  ],
+  "notes": "Images and lore notes are reference. Live WorldGuard applied commands become operational truth after test pass."
+}

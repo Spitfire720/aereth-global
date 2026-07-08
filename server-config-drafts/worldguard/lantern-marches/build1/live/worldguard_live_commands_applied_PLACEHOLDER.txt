@@ -1,0 +1,5 @@
+# After live deployment, paste the exact commands actually used here.
+# This should include any changed region names, coordinates notes, and final flags.
+# Commit the filled file after the server test passes.
+
+NOT_APPLIED_YET
