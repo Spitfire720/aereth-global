@@ -1,0 +1,17 @@
+# Aereth - Lantern Marches Build 01
+# BetonQuest objectives draft
+# Replace all coordinates before live deployment.
+# Confirm objective syntax with installed BetonQuest version.
+
+# Objective: Visit The Quiet Ledger
+# Placeholder: location objective syntax varies by BetonQuest version.
+obj_quiet_ledger: "location WORLD_NAME QUIET_LEDGER_X QUIET_LEDGER_Y QUIET_LEDGER_Z 4 events:set_quiet_ledger_seen,journal_registered,start_obj_bent_road"
+
+# Objective: Reach The Bent Road marker
+obj_bent_road_marker: "location WORLD_NAME BENT_ROAD_X BENT_ROAD_Y BENT_ROAD_Z 5 events:set_bent_road_reached,journal_bent_road,start_obj_hollowglass"
+
+# Objective: Investigate Hollowglass Pool
+obj_hollowglass_pool: "location WORLD_NAME HOLLOWGLASS_X HOLLOWGLASS_Y HOLLOWGLASS_Z 6 events:set_hollowglass_investigated,journal_hollowglass,start_obj_return_registry"
+
+# Objective: Return to Lantern's Rest registry
+obj_return_registry: "location WORLD_NAME RETURN_REGISTRY_X RETURN_REGISTRY_Y RETURN_REGISTRY_Z 4 events:set_lm_intro_complete,journal_complete,reward_lm_intro_complete"

@@ -1,0 +1,22 @@
+# Aereth - Lantern Marches Build 01
+# Journal entries draft
+
+after_refragment_start:
+  en: "Report to the registry in Lantern's Rest. The world has already broken once. The living keep records because memory cannot be trusted."
+  pt: "Apresenta-te no registo de Lantern's Rest. O mundo já se partiu uma vez. Os vivos mantêm registos porque a memória já não é de confiança."
+
+after_refragment_registered:
+  en: "You have been registered as a Remnant. Visit The Quiet Ledger and speak with Archivist Maera Vale."
+  pt: "Foste registado como Remnant. Vai até The Quiet Ledger e fala com a Archivist Maera Vale."
+
+after_refragment_bent_road:
+  en: "The Bent Road still leads somewhere, though not always to the same place. Follow the old markers beyond Lantern's Rest."
+  pt: "The Bent Road ainda leva a algum lado, embora nem sempre ao mesmo sítio. Segue os antigos marcadores para lá de Lantern's Rest."
+
+after_refragment_hollowglass:
+  en: "Hollowglass Pool reflects things that are not standing there. Return to the registry before the reflection notices you."
+  pt: "Hollowglass Pool reflete coisas que não estão lá. Volta ao registo antes que o reflexo repare em ti."
+
+after_refragment_complete:
+  en: "Lantern's Rest has recorded your name. The road outward is open, but the world beyond does not promise sense."
+  pt: "Lantern's Rest registou o teu nome. A estrada para fora está aberta, mas o mundo lá fora não promete fazer sentido."

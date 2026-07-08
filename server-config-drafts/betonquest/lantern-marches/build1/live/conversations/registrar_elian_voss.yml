@@ -1,0 +1,36 @@
+# Conversation draft: Registrar Elian Voss
+# Role: first registration NPC in Lantern's Rest
+# Confirm conversation syntax with installed BetonQuest version.
+
+quester: "Registrar Elian Voss"
+first: "start"
+
+NPC_options:
+  start:
+    text: "Name, origin, and whether you remember arriving. In that order. The ledger does not enjoy drama."
+    pointers: "who, register, leave"
+  who:
+    text: "This is Lantern's Rest. Last honest stop before the roads start arguing with themselves."
+    pointers: "register, leave"
+  registered:
+    text: "There. Your name is written. Speak with Archivist Maera Vale at The Quiet Ledger. She explains the parts people prefer not to explain."
+    events: "set_aereth_started,set_remnant_registered,journal_start_after_refragment,start_obj_quiet_ledger"
+    pointers: "leave"
+  already_registered:
+    text: "You are already in the ledger. Try not to make me cross your name out."
+    pointers: "leave"
+
+player_options:
+  who:
+    text: "Where am I?"
+    pointer: "who"
+  register:
+    text: "Register me."
+    pointer: "registered"
+    conditions: "not_registered"
+  register_again:
+    text: "Am I already registered?"
+    pointer: "already_registered"
+    conditions: "has_registered"
+  leave:
+    text: "I will go."

@@ -1,0 +1,41 @@
+# Conversation draft: Archivist Maera Vale
+# Role: introduces RE:FRAGMENT, Remnants, and memory unreliability.
+
+quester: "Archivist Maera Vale"
+first: "start"
+
+NPC_options:
+  start:
+    text: "You are newly written into the registry. That makes you safer than the nameless, not safe. There is a difference."
+    pointers: "refragment, remnant, road, leave"
+  refragment:
+    text: "RE:FRAGMENT is the name we use when we are being careful. Others say Erasure, Unmaking, Veiling. Names are bandages over missing skin."
+    pointers: "remnant, road, leave"
+  remnant:
+    text: "A Remnant is not a race. It is a condition. You continue where something else did not. Try to deserve the continuation."
+    pointers: "road, leave"
+  road:
+    text: "Road Warden Tollen watches The Bent Road. Follow his markers, then return if the reflection at Hollowglass Pool behaves strangely. It will."
+    events: "set_bent_road_assigned,journal_bent_road,start_obj_bent_road"
+    pointers: "leave"
+  already:
+    text: "The road has already been assigned. If you are lost, follow the old lantern stones. If they move, stop following them."
+    pointers: "leave"
+
+player_options:
+  refragment:
+    text: "What happened to Aereth?"
+    pointer: "refragment"
+  remnant:
+    text: "What is a Remnant?"
+    pointer: "remnant"
+  road:
+    text: "What should I do next?"
+    pointer: "road"
+    conditions: "has_registered,!has_bent_road_assignment"
+  road_again:
+    text: "Remind me where to go."
+    pointer: "already"
+    conditions: "has_bent_road_assignment"
+  leave:
+    text: "I understand enough."

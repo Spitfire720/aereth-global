@@ -1,0 +1,28 @@
+# Aereth - Lantern Marches Build 01
+# BetonQuest package draft
+# Package ID: lantern_marches_build1
+#
+# IMPORTANT:
+# Confirm syntax against the installed BetonQuest version before copying live.
+# This file intentionally keeps player identity logic out of BetonQuest.
+
+package:
+  name: "Lantern Marches Build 01"
+  description: "Starter quest flow for Lantern's Rest, The Bent Road, and Hollowglass Pool."
+  author: "Aereth"
+
+# Suggested package file layout:
+# - package.yml
+# - events.yml
+# - conditions.yml
+# - objectives.yml
+# - journal.yml
+# - conversations/registrar_elian_voss.yml
+# - conversations/archivist_maera_vale.yml
+# - conversations/road_warden_tollen.yml
+
+# Canon notes:
+# Remnant is an existential condition shared by all player characters.
+# RE:FRAGMENT happened before the player arrives.
+# Fragments never grant raw power directly.
+# The first starter loop introduces responsibility, perception, and consequence.

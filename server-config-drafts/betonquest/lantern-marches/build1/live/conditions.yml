@@ -1,0 +1,15 @@
+# Aereth - Lantern Marches Build 01
+# BetonQuest conditions draft
+# Confirm exact syntax with installed BetonQuest version.
+
+has_started: "tag aereth_started"
+has_registered: "tag remnant_registered"
+has_seen_quiet_ledger: "tag quiet_ledger_seen"
+has_bent_road_assignment: "tag bent_road_assigned"
+has_reached_bent_road: "tag bent_road_reached"
+has_investigated_hollowglass: "tag hollowglass_investigated"
+has_completed_intro: "tag lm_intro_complete"
+
+not_started: "!has_started"
+not_registered: "!has_registered"
+not_completed_intro: "!has_completed_intro"

@@ -1,0 +1,32 @@
+# Aereth - Lantern Marches Build 01
+# BetonQuest events draft
+# Confirm exact syntax with installed BetonQuest version.
+
+# Tag/flag events
+set_aereth_started: "tag add aereth_started"
+set_remnant_registered: "tag add remnant_registered"
+set_quiet_ledger_seen: "tag add quiet_ledger_seen"
+set_bent_road_assigned: "tag add bent_road_assigned"
+set_bent_road_reached: "tag add bent_road_reached"
+set_hollowglass_investigated: "tag add hollowglass_investigated"
+set_lm_intro_complete: "tag add lm_intro_complete"
+
+# Journal events
+journal_start_after_refragment: "journal add after_refragment_start"
+journal_registered: "journal add after_refragment_registered"
+journal_bent_road: "journal add after_refragment_bent_road"
+journal_hollowglass: "journal add after_refragment_hollowglass"
+journal_complete: "journal add after_refragment_complete"
+
+# Objective start events - replace objective names once syntax is confirmed.
+start_obj_quiet_ledger: "objective start obj_quiet_ledger"
+start_obj_bent_road: "objective start obj_bent_road_marker"
+start_obj_hollowglass: "objective start obj_hollowglass_pool"
+start_obj_return_registry: "objective start obj_return_registry"
+
+# Placeholder rewards
+# Keep rewards modest. Do not grant Fragments here as items.
+reward_lm_intro_complete: "notify &bLantern's Rest remembers your name."
+
+# Optional command hook placeholder for FragmentEngine, not live until API command exists.
+# fragmentengine_register_remnant: "command fragmentengine player register %player% remnant"

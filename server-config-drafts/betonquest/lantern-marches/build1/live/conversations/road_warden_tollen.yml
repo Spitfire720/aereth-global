@@ -1,0 +1,33 @@
+# Conversation draft: Road Warden Tollen
+# Role: practical route NPC for The Bent Road and Hollowglass Pool.
+
+quester: "Road Warden Tollen"
+first: "start"
+
+NPC_options:
+  start:
+    text: "Road's bent again. Not broken. Broken roads stop. Bent roads choose."
+    pointers: "markers, hollowglass, leave"
+  markers:
+    text: "Keep to the lantern stones. If you see the same stone twice, do not turn around. Keep walking until the road admits it lost."
+    pointers: "hollowglass, leave"
+  hollowglass:
+    text: "Hollowglass Pool sits past the old marker. Look, do not stare. Reflections love attention like wolves love sheep."
+    pointers: "leave"
+  done:
+    text: "You came back with both eyes pointing forward. Good enough for the Marches."
+    pointers: "leave"
+
+player_options:
+  markers:
+    text: "How do I follow the road?"
+    pointer: "markers"
+  hollowglass:
+    text: "What is Hollowglass Pool?"
+    pointer: "hollowglass"
+  done:
+    text: "I returned from Hollowglass Pool."
+    pointer: "done"
+    conditions: "has_investigated_hollowglass"
+  leave:
+    text: "I will keep moving."
