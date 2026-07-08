@@ -1,0 +1,35 @@
+build: Lantern_Marches_Build_01
+status: not_started
+release_gate: qa_vertical_slice
+required_systems:
+  worldguard:
+    required: true
+    status: pending
+    notes: Region protection must pass before live quest/mob tests.
+  betonquest:
+    required: true
+    status: pending
+    notes: Dialogue and objective flow only. Not RPG state owner.
+  mythicmobs:
+    required: true
+    status: pending
+    notes: Starter mobs must be manually spawned before spawners are enabled.
+  oraxen:
+    required: true
+    status: pending
+    notes: Props and pack must be tested with a real client.
+  fragmentengine:
+    required: true
+    status: pending
+    notes: Permanent player identity and tutorial state owner.
+  placeholderapi:
+    required: false
+    status: pending
+    notes: Display bridge. Should not block core progression unless used in required dialogue.
+acceptance:
+  non_op_full_slice: false
+  relog_persistence: false
+  no_critical_console_errors: false
+  rollback_plan_confirmed: false
+blockers: []
+known_minor_issues: []
