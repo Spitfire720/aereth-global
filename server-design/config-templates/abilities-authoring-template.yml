@@ -1,0 +1,32 @@
+# Aereth ability authoring template
+# This file is a design template, not live config.
+
+abilities:
+  example_discipline_example_ability:
+    display-name: Example Ability
+    discipline: example_discipline
+    unlock-rank: 1
+    cost-type: stamina
+    cost-amount: 10.0
+    cooldown-seconds: 20.0
+    target-mode: self
+    effect-route: placeholder
+    description: Short player-facing explanation of what the ability is meant to do.
+
+    # Design-only notes. Do not rely on these at runtime yet.
+    design:
+      slot-role: core_identity
+      fantasy: What should the player feel when using this?
+      gameplay-effect: What should actually happen?
+      constraints:
+        pve-only: true
+        pvp-damage: false
+        requires-line-of-sight: false
+        can-affect-bosses: pending
+      scaling-intent:
+        potency: pending
+        duration: pending
+        radius: pending
+        cooldown: pending
+        cost: pending
+      implementation-status: design_stub
