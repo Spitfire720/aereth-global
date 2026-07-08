@@ -8,12 +8,15 @@ import live.aereth.fragmentengine.service.DisciplineService;
 import live.aereth.fragmentengine.service.AbilityService;
 import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
+import live.aereth.fragmentengine.gui.CharacterCardGui;
+import live.aereth.fragmentengine.gui.IntentSlotsGui;
 import live.aereth.fragmentengine.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -31,6 +34,8 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final AbilityService abilities;
     private final LegacyCommandService legacy;
     private final AgentExportService agentExport;
+    private final CharacterCardGui characterCardGui;
+    private final IntentSlotsGui intentSlotsGui;
 
     public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
@@ -41,6 +46,8 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         this.abilities = abilities;
         this.legacy = legacy;
         this.agentExport = agentExport;
+        this.characterCardGui = new CharacterCardGui(plugin, characters, fragments, intents, disciplines, abilities);
+        this.intentSlotsGui = new IntentSlotsGui(plugin, characters, intents);
     }
 
     @Override
@@ -55,6 +62,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         try {
             switch (sub) {
                 case "status" -> status(sender);
+                case "card" -> card(sender);
                 case "profile" -> profile(sender, args);
                 case "character" -> character(sender, args);
                 case "stats" -> stats(sender, args);
@@ -63,6 +71,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "attach" -> attachFragment(sender, args);
                 case "detach" -> detachFragment(sender, args);
                 case "intent" -> intent(sender, args);
+                case "intentgui" -> intentGui(sender);
                 case "intentlist" -> intentList(sender);
                 case "setintent" -> setIntent(sender, args);
                 case "clearintent" -> clearIntent(sender, args);
@@ -101,6 +110,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private void help(CommandSender sender) {
         sender.sendMessage(prefix() + Text.color("&7FragmentEngine Build 3B"));
         sender.sendMessage(Text.color("&b/aereth status"));
+        sender.sendMessage(Text.color("&b/aereth card"));
         sender.sendMessage(Text.color("&b/aereth profile <player>"));
         sender.sendMessage(Text.color("&b/aereth character <player>"));
         sender.sendMessage(Text.color("&b/aereth stats <player>"));
@@ -109,6 +119,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth attach <player> <fragmentId>"));
         sender.sendMessage(Text.color("&b/aereth detach <player> <fragmentId>"));
         sender.sendMessage(Text.color("&b/aereth intent <player>"));
+        sender.sendMessage(Text.color("&b/aereth intentgui"));
         sender.sendMessage(Text.color("&b/aereth intentlist"));
         sender.sendMessage(Text.color("&b/aereth setintent <player> <slot> <intentId>"));
         sender.sendMessage(Text.color("&b/aereth clearintent <player> <slot>"));
@@ -139,6 +150,22 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(prefix() + Text.color("&7PlaceholderAPI: &b" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")));
     }
 
+
+    private void card(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Character Card GUI."));
+            return;
+        }
+        characterCardGui.open(player);
+    }
+
+    private void intentGui(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Intent Slots GUI."));
+            return;
+        }
+        intentSlotsGui.open(player);
+    }
     private void profile(CommandSender sender, String[] args) {
         requireArgs(args, 2, "/aereth profile <player>");
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
@@ -546,7 +573,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
-            return partial(args[0], List.of("status", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+            return partial(args[0], List.of("status", "card", "intentgui", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));

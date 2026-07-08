@@ -1,6 +1,7 @@
 package live.aereth.fragmentengine;
 
 import live.aereth.fragmentengine.command.AerethCommand;
+import live.aereth.fragmentengine.listener.FragmentEngineGuiListener;
 import live.aereth.fragmentengine.papi.AerethPlaceholderExpansion;
 import live.aereth.fragmentengine.service.*;
 import org.bukkit.command.PluginCommand;
@@ -57,6 +58,8 @@ public class FragmentEnginePlugin extends JavaPlugin {
             aereth.setExecutor(command);
             aereth.setTabCompleter(command);
         }
+        getServer().getPluginManager().registerEvents(new FragmentEngineGuiListener(this, characterService, fragmentService, intentService, disciplineService, abilityService), this);
+
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             new AerethPlaceholderExpansion(this, characterService, fragmentService, intentService, disciplineService, abilityService).register();
