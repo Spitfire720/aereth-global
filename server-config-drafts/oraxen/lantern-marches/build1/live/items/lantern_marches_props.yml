@@ -1,0 +1,160 @@
+# Aereth - Lantern Marches Build 01 Oraxen Starter Props
+# Status: DRAFT. Verify against your Oraxen dev build before live deployment.
+# Target live path suggestion: /plugins/Oraxen/items/aereth/lantern_marches_props.yml
+# Asset note: model and texture paths below are placeholders until real Blockbench/pixel assets exist.
+
+lm_registry_ledger:
+  displayname: "<gradient:#7ddcff:#d6fff7>Registry Ledger"
+  material: BOOK
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/registry_ledger
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      light: 4
+      hardness: 2
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_registry_ledger, probability: 1.0 }
+
+lm_bent_road_marker:
+  displayname: "<gradient:#d8b46a:#fff1ba>Bent Road Marker"
+  material: STICK
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/bent_road_marker
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      light: 2
+      hardness: 3
+      limited_placing:
+        roof: false
+        floor: true
+        wall: false
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_bent_road_marker, probability: 1.0 }
+
+lm_hollowglass_shard:
+  displayname: "<gradient:#49f3ff:#a982ff>Hollowglass Shard"
+  material: AMETHYST_SHARD
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/hollowglass_shard
+    models:
+      dim: aereth/lantern_marches/hollowglass_shard_dim
+      active: aereth/lantern_marches/hollowglass_shard_active
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      light: 7
+      hardness: 1
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_hollowglass_shard, probability: 1.0 }
+
+lm_lantern_waymarker:
+  displayname: "<gradient:#69f0ff:#fff6b5>Lantern Waymarker"
+  material: LANTERN
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/lantern_waymarker
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      light: 12
+      hardness: 3
+      limited_placing:
+        roof: false
+        floor: true
+        wall: false
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_lantern_waymarker, probability: 1.0 }
+
+lm_archive_crate:
+  displayname: "<gradient:#8aa0b8:#f0e6cb>Archive Crate"
+  material: BARREL
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/archive_crate
+    models:
+      sealed: aereth/lantern_marches/archive_crate_sealed
+      opened: aereth/lantern_marches/archive_crate_opened
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      hardness: 4
+      storage:
+        type: STORAGE
+        rows: 3
+        title: "<dark_aqua>Archive Crate"
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_archive_crate, probability: 1.0 }
+
+lm_quiet_ledger_stamp:
+  displayname: "<gradient:#9fb8c9:#f5ecd6>Quiet Ledger Stamp"
+  material: PAPER
+  Pack:
+    generate_model: true
+    parent_model: "item/generated"
+    textures:
+      - aereth/lantern_marches/quiet_ledger_stamp.png
+
+lm_ash_mile_charcoal_post:
+  displayname: "<gradient:#3f3a35:#d16a3d>Ash Mile Charcoal Post"
+  material: CHARCOAL
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/ash_mile_charcoal_post
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: true
+      rotatable: true
+      light: 3
+      hardness: 3
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_ash_mile_charcoal_post, probability: 1.0 }
+
+lm_mirrorfen_reed_charm:
+  displayname: "<gradient:#82d5b8:#c8fff1>Mirrorfen Reed Charm"
+  material: WHEAT
+  Pack:
+    generate_model: false
+    model: aereth/lantern_marches/mirrorfen_reed_charm
+  Mechanics:
+    furniture:
+      type: DISPLAY_ENTITY
+      barrier: false
+      rotatable: true
+      light: 1
+      hardness: 1
+      limited_placing:
+        roof: false
+        floor: true
+        wall: false
+      drop:
+        silktouch: false
+        loots:
+          - { oraxen_item: lm_mirrorfen_reed_charm, probability: 1.0 }
