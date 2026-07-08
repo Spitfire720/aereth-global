@@ -1,0 +1,7 @@
+/* Aereth Canon Vault Theme */
+body { --accent-h:190; --accent-s:100%; --accent-l:55%; --h1-color:#ffd98a; --h2-color:#00d7ff; --h3-color:#ff4fd8; --link-color:#00d7ff; --link-color-hover:#ff4fd8; --interactive-accent:#00d7ff; }
+.markdown-preview-view h1,.cm-header-1{color:#ffd98a;letter-spacing:.04em;text-transform:uppercase;text-shadow:0 0 10px rgba(255,217,138,.25)}
+.markdown-preview-view h2,.cm-header-2{color:#00d7ff;border-bottom:1px solid rgba(0,215,255,.35);padding-bottom:.18em}
+.markdown-preview-view h3,.cm-header-3{color:#ff4fd8}.internal-link{text-decoration:none;font-weight:600}.tag{color:#ff4d4d;border:1px solid rgba(255,77,77,.45);border-radius:999px;padding:1px 6px}
+.callout[data-callout="canon"]{--callout-color:0,215,255;--callout-icon:lucide-book-check}.callout[data-callout="locked"]{--callout-color:255,217,138;--callout-icon:lucide-lock-keyhole}.callout[data-callout="mystery"]{--callout-color:180,110,255;--callout-icon:lucide-eye}.callout[data-callout="map"]{--callout-color:0,215,255;--callout-icon:lucide-map}.callout[data-callout="faction"]{--callout-color:255,79,216;--callout-icon:lucide-flag}.callout[data-callout="system"]{--callout-color:80,255,180;--callout-icon:lucide-cpu}.callout[data-callout="warning"]{--callout-color:255,80,80;--callout-icon:lucide-alert-triangle}
+.markdown-preview-view blockquote{border-left:4px solid #00d7ff;background:rgba(0,215,255,.06);padding:.6em 1em}.markdown-preview-view th{color:#ffd98a;background:rgba(0,215,255,.08)}

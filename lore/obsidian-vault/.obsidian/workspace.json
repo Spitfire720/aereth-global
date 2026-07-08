@@ -1,0 +1,201 @@
+{
+  "main": {
+    "id": "1c3d63dd6fe01846",
+    "type": "split",
+    "children": [
+      {
+        "id": "6881a8416e987f34",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b88fd48d654fa12c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "06_SYSTEMS_AS_LORE/02_Intent/Defiance.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Defiance"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "4411c74d851c76a5",
+    "type": "split",
+    "children": [
+      {
+        "id": "18480e676ec9963d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5811fff9731b5575",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "b05164c07db18190",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "68f21b6dd0eb8fe2",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "5072485ca415bdc1",
+    "type": "split",
+    "children": [
+      {
+        "id": "915e8be3ddbe3b7a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d606e1c5334d9487",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "06_SYSTEMS_AS_LORE/02_Intent/Defiance.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Defiance"
+            }
+          },
+          {
+            "id": "944a33d94d2cb821",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "06_SYSTEMS_AS_LORE/02_Intent/Defiance.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Defiance"
+            }
+          },
+          {
+            "id": "2ad744fb972e179d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "32fe0f7967c8effa",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "5811fff9731b5575",
+  "lastOpenFiles": [
+    "06_SYSTEMS_AS_LORE/02_Intent/Anchor.md",
+    "07_DISCIPLINES/01_Base_Disciplines/Chronomancer.md",
+    "07_DISCIPLINES/01_Base_Disciplines/Architect.md",
+    "07_DISCIPLINES/01_Base_Disciplines/Anomaly.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/_README.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/Vestige Guild.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/The Severed.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/Concord of Echoes.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/Synod of the Shattered Sun.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/The Cartotheca.md",
+    "08_FACTIONS_AND_POWERS/01_Core_Transregional/Archivists of the Last Echo.md",
+    "11_CREATURES_AND_ENEMIES/01_Mob_Families/Nullborn Husk.md",
+    "11_CREATURES_AND_ENEMIES/01_Mob_Families/Mnemonic Beast.md",
+    "11_CREATURES_AND_ENEMIES/01_Mob_Families/Fractured Sentinel.md",
+    "11_CREATURES_AND_ENEMIES/01_Mob_Families/Driftbeast.md",
+    "11_CREATURES_AND_ENEMIES/01_Mob_Families/Cenotaph Walker.md",
+    "12_STORIES_QUESTS_AND_ARCS/01_Starter_Arc/The Lantern Marches Starter Arc.md",
+    "12_STORIES_QUESTS_AND_ARCS/01_Starter_Arc/_README.md",
+    "13_PUBLIC_WIKI_DRAFTS/Wiki - World Map.md",
+    "13_PUBLIC_WIKI_DRAFTS/Wiki - RE-FRAGMENT.md",
+    "13_PUBLIC_WIKI_DRAFTS/Wiki - Races.md",
+    "13_PUBLIC_WIKI_DRAFTS/Wiki - Fragments.md",
+    "13_PUBLIC_WIKI_DRAFTS/_README.md",
+    "13_PUBLIC_WIKI_DRAFTS/Wiki - What is Aereth.md",
+    "17_SOURCE_IMPORTS/Source Index.md",
+    "17_SOURCE_IMPORTS/Old Factions Page Summary.md",
+    "_attachments/maps/First_Known_Map_Reference.png"
+  ]
+}
