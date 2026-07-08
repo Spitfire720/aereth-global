@@ -1,0 +1,8 @@
+region_id,display_name,world,pos1_x,pos1_y,pos1_z,pos2_x,pos2_y,pos2_z,parent_region,priority,status,notes
+lm_build01_total_slice,Build 01 Total Slice,,,,,,,,,1,TODO,Outer area containing Lantern's Rest, The Bent Road, and Hollowglass Pool
+lm_lanterns_rest_safe,Lantern's Rest Safe Zone,,,,,,,,lm_build01_total_slice,20,TODO,Main protected starter hub
+lm_lanterns_rest_registry,Lantern's Rest Registry,,,,,,,,lm_lanterns_rest_safe,30,TODO,Registry/Archive interior
+lm_bent_road_route,The Bent Road,,,,,,,,lm_build01_total_slice,10,TODO,Starter route region
+lm_hollowglass_pool_outer,Hollowglass Pool Outer,,,,,,,,lm_build01_total_slice,15,TODO,Anomaly site outer area
+lm_hollowglass_pool_inner,Hollowglass Pool Inner,,,,,,,,lm_hollowglass_pool_outer,25,TODO,Core low-risk Fragment disturbance area
+lm_hollowglass_spawn_edges,Hollowglass Spawn Edges,,,,,,,,lm_hollowglass_pool_outer,12,TODO,Optional starter mob control area

@@ -1,0 +1,85 @@
+# Lantern Marches Build 01 - WorldGuard Region Commands Template
+# Replace placeholders before running live.
+# Run commands in-game or console after selecting the relevant cuboid with WorldEdit.
+
+# =========================================================
+# 0. Build 01 Total Slice
+# =========================================================
+# Select region with //pos1 and //pos2 first.
+/rg define lm_build01_total_slice
+/rg priority lm_build01_total_slice 1
+/rg flag lm_build01_total_slice pvp deny
+/rg flag lm_build01_total_slice creeper-explosion deny
+/rg flag lm_build01_total_slice enderman-grief deny
+/rg flag lm_build01_total_slice fire-spread deny
+
+# =========================================================
+# 1. Lantern's Rest Safe Zone
+# =========================================================
+# Select Lantern's Rest safe region first.
+/rg define lm_lanterns_rest_safe
+/rg parent lm_lanterns_rest_safe lm_build01_total_slice
+/rg priority lm_lanterns_rest_safe 20
+/rg flag lm_lanterns_rest_safe pvp deny
+/rg flag lm_lanterns_rest_safe mob-spawning deny
+/rg flag lm_lanterns_rest_safe creeper-explosion deny
+/rg flag lm_lanterns_rest_safe enderman-grief deny
+/rg flag lm_lanterns_rest_safe fire-spread deny
+/rg flag lm_lanterns_rest_safe greeting &bEntering Lantern's Rest
+/rg flag lm_lanterns_rest_safe greeting-title &6Lantern's Rest
+
+# =========================================================
+# 2. Lantern's Rest Registry
+# =========================================================
+# Select registry building/interior first.
+/rg define lm_lanterns_rest_registry
+/rg parent lm_lanterns_rest_registry lm_lanterns_rest_safe
+/rg priority lm_lanterns_rest_registry 30
+/rg flag lm_lanterns_rest_registry mob-spawning deny
+/rg flag lm_lanterns_rest_registry greeting &7The Quiet Ledger waits to record what remains.
+
+# =========================================================
+# 3. The Bent Road
+# =========================================================
+# Select route corridor first.
+/rg define lm_bent_road_route
+/rg parent lm_bent_road_route lm_build01_total_slice
+/rg priority lm_bent_road_route 10
+/rg flag lm_bent_road_route pvp deny
+/rg flag lm_bent_road_route creeper-explosion deny
+/rg flag lm_bent_road_route enderman-grief deny
+/rg flag lm_bent_road_route fire-spread deny
+/rg flag lm_bent_road_route greeting &7The Bent Road remembers where it used to lead.
+
+# =========================================================
+# 4. Hollowglass Pool Outer
+# =========================================================
+# Select outer anomaly zone first.
+/rg define lm_hollowglass_pool_outer
+/rg parent lm_hollowglass_pool_outer lm_build01_total_slice
+/rg priority lm_hollowglass_pool_outer 15
+/rg flag lm_hollowglass_pool_outer pvp deny
+/rg flag lm_hollowglass_pool_outer creeper-explosion deny
+/rg flag lm_hollowglass_pool_outer enderman-grief deny
+/rg flag lm_hollowglass_pool_outer fire-spread deny
+/rg flag lm_hollowglass_pool_outer greeting &bThe air bends around Hollowglass Pool.
+
+# =========================================================
+# 5. Hollowglass Pool Inner
+# =========================================================
+# Select inner pool/anomaly core first.
+/rg define lm_hollowglass_pool_inner
+/rg parent lm_hollowglass_pool_inner lm_hollowglass_pool_outer
+/rg priority lm_hollowglass_pool_inner 25
+/rg flag lm_hollowglass_pool_inner pvp deny
+/rg flag lm_hollowglass_pool_inner mob-spawning deny
+/rg flag lm_hollowglass_pool_inner greeting &3Your reflection moves half a second late.
+
+# =========================================================
+# 6. Optional Hollowglass Spawn Edges
+# =========================================================
+# Use only when MythicMobs controlled spawns are ready.
+/rg define lm_hollowglass_spawn_edges
+/rg parent lm_hollowglass_spawn_edges lm_hollowglass_pool_outer
+/rg priority lm_hollowglass_spawn_edges 12
+/rg flag lm_hollowglass_spawn_edges pvp deny

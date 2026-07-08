@@ -1,0 +1,53 @@
+# Lantern Marches Build 01 - Region Placeholder Coordinates
+# This is documentation only. Convert to live WorldGuard regions using selections/commands.
+
+world: "REPLACE_WORLD_NAME"
+regions:
+  lm_build01_total_slice:
+    display: "Build 01 Total Slice"
+    priority: 1
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: null
+
+  lm_lanterns_rest_safe:
+    display: "Lantern's Rest Safe Zone"
+    priority: 20
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_build01_total_slice"
+
+  lm_lanterns_rest_registry:
+    display: "Lantern's Rest Registry"
+    priority: 30
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_lanterns_rest_safe"
+
+  lm_bent_road_route:
+    display: "The Bent Road"
+    priority: 10
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_build01_total_slice"
+
+  lm_hollowglass_pool_outer:
+    display: "Hollowglass Pool Outer"
+    priority: 15
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_build01_total_slice"
+
+  lm_hollowglass_pool_inner:
+    display: "Hollowglass Pool Inner"
+    priority: 25
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_hollowglass_pool_outer"
+
+  lm_hollowglass_spawn_edges:
+    display: "Hollowglass Spawn Edges"
+    priority: 12
+    pos1: { x: null, y: null, z: null }
+    pos2: { x: null, y: null, z: null }
+    parent: "lm_hollowglass_pool_outer"

@@ -1,0 +1,9 @@
+anchor_id,display_name,world,x,y,z,orientation,notes
+lantern_rest_center,Lantern's Rest Center,,,,,,Primary coordinate origin for Build 01
+registry_ledger,Registry Ledger Position,,,,,,Future interaction/NPC objective
+archive_post,Small Archive Post,,,,,,Archivist NPC area
+road_gate,Roadward Gate,,,,,,Visible route out of hub
+bent_road_mid,The Bent Road Midpoint,,,,,,Route readability check
+hollowglass_approach,Hollowglass Approach,,,,,,First view of anomaly
+hollowglass_core,Hollowglass Pool Core,,,,,,Core anomaly coordinate
+return_marker,Return Route Marker,,,,,,Helps loop back to Lantern's Rest
