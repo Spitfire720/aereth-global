@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$AbilitiesPath = "FragmentEngine_Build1_Source\src\main\resources\abilities.yml"
 )
 
