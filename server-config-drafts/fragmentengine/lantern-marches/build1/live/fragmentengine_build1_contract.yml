@@ -1,0 +1,53 @@
+# Aereth FragmentEngine Build 01 integration contract
+# This is a draft/reference contract. Do not copy live unless FragmentEngine is designed to read this file.
+
+build: "lantern_marches_build_01"
+region_id: "lantern_marches"
+source_of_truth: "FragmentEngine"
+
+persistent_states:
+  remnant_status:
+    owner: "FragmentEngine"
+    type: "identity"
+    default: "confirmed"
+  race_id:
+    owner: "FragmentEngine"
+    type: "identity"
+    allowed:
+      - continuant
+      - sylvae
+      - delver
+      - vireborn
+  registration_status:
+    owner: "FragmentEngine"
+    type: "starter_progress"
+    default: "incomplete"
+    complete_value: "lantern_marches_registered"
+  first_fragment_contact:
+    owner: "FragmentEngine"
+    type: "tutorial_state"
+    default: "none"
+    build1_value: "hollowglass_pool"
+  first_intent_prompt:
+    owner: "FragmentEngine"
+    type: "tutorial_state"
+    default: "none"
+    build1_value: "clarity"
+  starter_intro_complete:
+    owner: "FragmentEngine"
+    type: "starter_progress"
+    default: false
+
+quest_owned_tags:
+  - lm_bq_started_after_refragment
+  - lm_bq_spoke_registrar
+  - lm_bq_spoke_archivist
+  - lm_bq_checked_bent_road
+  - lm_bq_returned_to_lanterns_rest
+
+forbidden_ownership:
+  race_id: "BetonQuest"
+  fragments: "Oraxen/MMOItems"
+  intent: "MMOItems"
+  titles: "cosmetic_badges"
+  player_identity: "MythicMobs"

@@ -1,0 +1,18 @@
+# FragmentEngine command contract reference
+# These commands may not exist yet. Confirm against FragmentEngine source before wiring them into BetonQuest.
+
+/aereth debug player <player>
+/aereth debug reset-starter <player>
+/aereth debug set-race <player> <race_id>
+/aereth debug set-remnant <player> true
+/aereth debug set-starter-flag <player> <flag> <value>
+
+/aereth starter register <player> lantern_marches
+/aereth starter mark-fragment-contact <player> hollowglass_pool
+/aereth starter mark-intent-prompt <player> clarity
+/aereth starter complete-step <player> intro_complete
+
+/aereth state get <player> race_id
+/aereth state get <player> remnant_status
+/aereth state get <player> registration_status
+/aereth state get <player> first_fragment_contact
