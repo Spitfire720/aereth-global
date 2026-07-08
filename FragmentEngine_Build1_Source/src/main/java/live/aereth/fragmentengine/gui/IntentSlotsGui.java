@@ -10,25 +10,32 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 public class IntentSlotsGui {
     public static final String TITLE = "&b✦ Intent Slots ✦";
-
-    public static final int BACK_SLOT = 45;
-    public static final int CLEAR_SLOT = 48;
-    public static final int REFRESH_SLOT = 49;
-    public static final int CLOSE_SLOT = 53;
 
     private static final int[] INTENT_DEFINITION_SLOTS = {
             28, 29, 30, 31, 32, 33, 34,
             37, 38, 39, 40, 41, 42, 43
     };
 
+    private static final Map<Integer, Integer> SLOT_BUTTONS = Map.of(
+            19, 1,
+            21, 2,
+            23, 3,
+            25, 4
+    );
+
     private final JavaPlugin plugin;
     private final CharacterService characters;
     private final IntentService intents;
+    private final Map<UUID, Integer> selectedSlots = new HashMap<>();
 
     public IntentSlotsGui(JavaPlugin plugin, CharacterService characters, IntentService intents) {
         this.plugin = plugin;
@@ -37,10 +44,6 @@ public class IntentSlotsGui {
     }
 
     public void open(Player player) {
-        open(player, 0);
-    }
-
-    public void open(Player player, int selectedSlot) {
         YamlConfiguration character = characters.getActiveCharacter(player);
         if (character == null) {
             player.sendMessage(prefix() + Text.color("&cNo active character."));
@@ -48,7 +51,11 @@ public class IntentSlotsGui {
         }
 
         IntentService.IntentSummary summary = intents.summary(character);
-        int safeSelectedSlot = selectedSlot >= 1 && selectedSlot <= summary.maxSlots() ? selectedSlot : 0;
+        int selectedSlot = selectedSlots.getOrDefault(player.getUniqueId(), 1);
+        if (selectedSlot < 1 || selectedSlot > summary.maxSlots()) {
+            selectedSlot = 1;
+            selectedSlots.put(player.getUniqueId(), selectedSlot);
+        }
 
         Inventory inventory = Bukkit.createInventory(player, 54, Text.color(TITLE));
         fillBorder(inventory);
@@ -57,24 +64,22 @@ public class IntentSlotsGui {
                 "&7Character: &f" + character.getString("name", player.getName()),
                 "&7Primary: &f" + intents.displayName(summary.primary()),
                 "&7Slots Used: &f" + summary.usedSlots() + " &8/ &f" + summary.maxSlots(),
+                "&7Selected Slot: &c" + selectedSlot,
                 "&7Pressure: &f" + round(summary.pressure()),
-                "&7Stability Impact: &f" + round(summary.stabilityImpact()),
-                "",
-                safeSelectedSlot > 0
-                        ? "&eSelected Slot: &f" + safeSelectedSlot + " &8→ &eClick an Intent below."
-                        : "&8Select an unlocked slot, then click an Intent."
+                "&7Stability Impact: &f" + round(summary.stabilityImpact())
         )));
 
-        placeIntentSlot(inventory, 19, 1, summary, safeSelectedSlot);
-        placeIntentSlot(inventory, 21, 2, summary, safeSelectedSlot);
-        placeIntentSlot(inventory, 23, 3, summary, safeSelectedSlot);
-        placeIntentSlot(inventory, 25, 4, summary, safeSelectedSlot);
+        placeIntentSlot(inventory, 19, 1, selectedSlot, summary);
+        placeIntentSlot(inventory, 21, 2, selectedSlot, summary);
+        placeIntentSlot(inventory, 23, 3, selectedSlot, summary);
+        placeIntentSlot(inventory, 25, 4, selectedSlot, summary);
 
         List<String> ids = intents.allIntentIds();
         for (int i = 0; i < Math.min(ids.size(), INTENT_DEFINITION_SLOTS.length); i++) {
             String id = ids.get(i);
             IntentService.IntentDefinition definition = intents.definition(id);
             Material material = materialForIntent(definition.id());
+
             inventory.setItem(INTENT_DEFINITION_SLOTS[i], GuiItem.item(material, "&b" + definition.display(), GuiItem.lore(
                     "&7Id: &f" + definition.id(),
                     "&7Family: &f" + definition.family(),
@@ -83,64 +88,103 @@ public class IntentSlotsGui {
                     "",
                     "&8" + trim(definition.description()),
                     "",
-                    safeSelectedSlot > 0
-                            ? "&eClick to assign to Slot " + safeSelectedSlot + "."
-                            : "&8Select a slot first."
+                    "&eClick to assign to Slot " + selectedSlot + "."
             )));
         }
 
-        inventory.setItem(BACK_SLOT, GuiItem.item(Material.ARROW, "&bBack to Character Card", GuiItem.lore("&eClick to return.")));
-
-        if (safeSelectedSlot > 0) {
-            inventory.setItem(CLEAR_SLOT, GuiItem.item(Material.RED_DYE, "&cClear Selected Slot", GuiItem.lore(
-                    "&7Selected Slot: &f" + safeSelectedSlot,
-                    "&eClick to remove this slot's Intent."
-            )));
-        } else {
-            inventory.setItem(CLEAR_SLOT, GuiItem.item(Material.GRAY_DYE, "&8Clear Slot", GuiItem.lore(
-                    "&7Select a slot first."
-            )));
-        }
-
-        inventory.setItem(REFRESH_SLOT, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload Intent state.")));
-        inventory.setItem(CLOSE_SLOT, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
+        inventory.setItem(45, GuiItem.item(Material.ARROW, "&bBack to Character Card", GuiItem.lore("&eClick to return.")));
+        inventory.setItem(48, GuiItem.item(Material.RED_DYE, "&cClear Selected Slot", GuiItem.lore(
+                "&7Selected Slot: &f" + selectedSlot,
+                "&eClick to clear this Intent slot."
+        )));
+        inventory.setItem(49, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload Intent state.")));
+        inventory.setItem(53, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
 
         player.openInventory(inventory);
     }
 
-    public Integer intentSlotFromButton(int inventorySlot) {
-        return switch (inventorySlot) {
-            case 19 -> 1;
-            case 21 -> 2;
-            case 23 -> 3;
-            case 25 -> 4;
-            default -> null;
-        };
-    }
-
-    public String intentIdAt(int inventorySlot) {
-        int index = -1;
-        for (int i = 0; i < INTENT_DEFINITION_SLOTS.length; i++) {
-            if (INTENT_DEFINITION_SLOTS[i] == inventorySlot) {
-                index = i;
-                break;
-            }
+    public void handleClick(Player player, int rawSlot) {
+        YamlConfiguration character = characters.getActiveCharacter(player);
+        if (character == null) {
+            player.sendMessage(prefix() + Text.color("&cNo active character."));
+            player.closeInventory();
+            return;
         }
 
-        if (index < 0) {
-            return null;
+        IntentService.IntentSummary summary = intents.summary(character);
+
+        if (rawSlot == 45) {
+            player.performCommand("aereth card");
+            return;
+        }
+
+        if (rawSlot == 49) {
+            open(player);
+            return;
+        }
+
+        if (rawSlot == 53) {
+            player.closeInventory();
+            return;
+        }
+
+        if (SLOT_BUTTONS.containsKey(rawSlot)) {
+            int intentSlot = SLOT_BUTTONS.get(rawSlot);
+            if (intentSlot > summary.maxSlots()) {
+                player.sendMessage(prefix() + Text.color("&cSlot " + intentSlot + " is locked."));
+                return;
+            }
+
+            selectedSlots.put(player.getUniqueId(), intentSlot);
+            player.sendMessage(prefix() + Text.color("&aSelected Intent Slot " + intentSlot + "."));
+            open(player);
+            return;
+        }
+
+        if (rawSlot == 48) {
+            int selectedSlot = selectedSlots.getOrDefault(player.getUniqueId(), 1);
+            try {
+                intents.clearIntent(player, "slot" + selectedSlot);
+                player.sendMessage(prefix() + Text.color("&aCleared Intent Slot " + selectedSlot + "."));
+                open(player);
+            } catch (IOException | IllegalArgumentException | IllegalStateException ex) {
+                player.sendMessage(prefix() + Text.color("&c" + ex.getMessage()));
+            }
+            return;
+        }
+
+        int definitionIndex = indexOfDefinitionSlot(rawSlot);
+        if (definitionIndex < 0) {
+            return;
         }
 
         List<String> ids = intents.allIntentIds();
-        if (index >= ids.size()) {
-            return null;
+        if (definitionIndex >= ids.size()) {
+            return;
         }
 
-        return ids.get(index);
+        int selectedSlot = selectedSlots.getOrDefault(player.getUniqueId(), 1);
+        String intentId = ids.get(definitionIndex);
+
+        try {
+            IntentService.IntentResult result = intents.setIntent(player, "slot" + selectedSlot, intentId);
+            player.sendMessage(prefix() + Text.color("&aIntent set: &f" + result.slot() + " -> " + intents.displayName(result.intentId())));
+            open(player);
+        } catch (IOException | IllegalArgumentException | IllegalStateException ex) {
+            player.sendMessage(prefix() + Text.color("&c" + ex.getMessage()));
+        }
     }
 
-    private void placeIntentSlot(Inventory inventory, int inventorySlot, int intentSlot,
-                                 IntentService.IntentSummary summary, int selectedSlot) {
+    private int indexOfDefinitionSlot(int rawSlot) {
+        for (int i = 0; i < INTENT_DEFINITION_SLOTS.length; i++) {
+            if (INTENT_DEFINITION_SLOTS[i] == rawSlot) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void placeIntentSlot(Inventory inventory, int inventorySlot, int intentSlot, int selectedSlot, IntentService.IntentSummary summary) {
         boolean unlocked = intentSlot <= summary.maxSlots();
         boolean selected = intentSlot == selectedSlot;
         String key = "slot" + intentSlot;
@@ -155,33 +199,25 @@ public class IntentSlotsGui {
             return;
         }
 
+        String prefix = selected ? "&e▶ " : "";
+        Material material = selected ? Material.YELLOW_DYE : Material.GRAY_DYE;
+
         if (active == null || active.isBlank()) {
-            inventory.setItem(inventorySlot, GuiItem.item(
-                    selected ? Material.LIGHT_BLUE_DYE : Material.GRAY_DYE,
-                    selected ? "&bSlot " + intentSlot + ": Empty &e[Selected]" : "&7Slot " + intentSlot + ": Empty",
-                    GuiItem.lore(
-                            "&7Status: &fAvailable",
-                            selected ? "&eClick an Intent below to assign it." : "&eClick to select this slot."
-                    ),
-                    intentSlot
-            ));
+            inventory.setItem(inventorySlot, GuiItem.item(material, prefix + "&7Slot " + intentSlot + ": Empty", GuiItem.lore(
+                    "&7Status: &fAvailable",
+                    selected ? "&eCurrently selected." : "&eClick to select this slot."
+            )));
             return;
         }
 
         IntentService.IntentDefinition definition = intents.definition(active);
-        inventory.setItem(inventorySlot, GuiItem.item(
-                selected ? Material.LIME_DYE : Material.GREEN_DYE,
-                selected ? "&aSlot " + intentSlot + ": " + definition.display() + " &e[Selected]" : "&aSlot " + intentSlot + ": " + definition.display(),
-                GuiItem.lore(
-                        "&7Id: &f" + definition.id(),
-                        "&7Family: &f" + definition.family(),
-                        "&7Pressure: &f" + round(definition.pressure()),
-                        "&7Stability Impact: &f" + round(definition.stabilityImpact()),
-                        "",
-                        selected ? "&eClick an Intent below to replace it." : "&eClick to select this slot."
-                ),
-                intentSlot
-        ));
+        inventory.setItem(inventorySlot, GuiItem.item(selected ? Material.YELLOW_DYE : Material.LIME_DYE, prefix + "&aSlot " + intentSlot + ": " + definition.display(), GuiItem.lore(
+                "&7Id: &f" + definition.id(),
+                "&7Family: &f" + definition.family(),
+                "&7Pressure: &f" + round(definition.pressure()),
+                "&7Stability Impact: &f" + round(definition.stabilityImpact()),
+                selected ? "&eCurrently selected." : "&eClick to select this slot."
+        )));
     }
 
     private Material materialForIntent(String id) {
@@ -196,6 +232,9 @@ public class IntentSlotsGui {
             case "dominion" -> Material.GOLDEN_HELMET;
             case "veil" -> Material.ENDER_PEARL;
             case "fracture" -> Material.AMETHYST_CLUSTER;
+            case "distortion" -> Material.CHORUS_FRUIT;
+            case "memory" -> Material.WRITABLE_BOOK;
+            case "null" -> Material.BLACK_DYE;
             default -> Material.KNOWLEDGE_BOOK;
         };
     }
@@ -216,7 +255,7 @@ public class IntentSlotsGui {
     }
 
     private String round(double value) {
-        return String.format(java.util.Locale.US, "%.2f", value);
+        return String.format(Locale.US, "%.2f", value);
     }
 
     private String prefix() {

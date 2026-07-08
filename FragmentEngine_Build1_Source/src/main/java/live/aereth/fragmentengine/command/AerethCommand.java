@@ -11,6 +11,7 @@ import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.gui.CharacterCardGui;
 import live.aereth.fragmentengine.gui.IntentSlotsGui;
 import live.aereth.fragmentengine.gui.DisciplineCodexGui;
+import live.aereth.fragmentengine.gui.AbilityCodexGui;
 import live.aereth.fragmentengine.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -38,6 +39,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final CharacterCardGui characterCardGui;
     private final IntentSlotsGui intentSlotsGui;
     private final DisciplineCodexGui disciplineCodexGui;
+    private final AbilityCodexGui abilityCodexGui;
 
     public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
@@ -51,6 +53,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         this.characterCardGui = new CharacterCardGui(plugin, characters, fragments, intents, disciplines, abilities);
         this.intentSlotsGui = new IntentSlotsGui(plugin, characters, intents);
         this.disciplineCodexGui = new DisciplineCodexGui(plugin, characters, disciplines);
+        this.abilityCodexGui = new AbilityCodexGui(plugin, characters, disciplines, abilities);
     }
 
     @Override
@@ -87,6 +90,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "adddisciplinexp" -> addDisciplineXp(sender, args);
                 case "setdisciplinerank" -> setDisciplineRank(sender, args);
                 case "resetdisciplineprogress" -> resetDisciplineProgress(sender, args);
+                case "abilitygui" -> abilityGui(sender);
                 case "abilitylist" -> abilityList(sender);
                 case "abilities" -> abilities(sender, args);
                 case "createcharacter" -> createCharacter(sender, args);
@@ -136,6 +140,7 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth adddisciplinexp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setdisciplinerank <player> <rank>"));
         sender.sendMessage(Text.color("&b/aereth resetdisciplineprogress <player>"));
+        sender.sendMessage(Text.color("&b/aereth abilitygui"));
         sender.sendMessage(Text.color("&b/aereth abilitylist"));
         sender.sendMessage(Text.color("&b/aereth abilities <player>"));
         sender.sendMessage(Text.color("&b/aereth createcharacter <player> <slot> <race> [name...]"));
@@ -178,6 +183,13 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
             return;
         }
         disciplineCodexGui.open(player);
+    }
+    private void abilityGui(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Ability Codex GUI."));
+            return;
+        }
+        abilityCodexGui.open(player);
     }
     private void profile(CommandSender sender, String[] args) {
         requireArgs(args, 2, "/aereth profile <player>");

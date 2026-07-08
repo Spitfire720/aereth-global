@@ -8,17 +8,16 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DisciplineCodexGui {
     public static final String TITLE = "&b✦ Discipline Codex ✦";
-
-    public static final int BACK_SLOT = 45;
-    public static final int CLEAR_SLOT = 48;
-    public static final int REFRESH_SLOT = 49;
-    public static final int CLOSE_SLOT = 53;
 
     private static final int[] DISCIPLINE_SLOTS = {
             10, 11, 12, 13, 14, 15, 16,
@@ -44,105 +43,119 @@ public class DisciplineCodexGui {
             return;
         }
 
-        int level = character.getInt("progression.level", 1);
-        DisciplineService.DisciplineSummary summary = disciplines.summary(character);
+        DisciplineService.DisciplineSummary current = disciplines.summary(character);
         DisciplineService.DisciplineProgressSummary progress = disciplines.progress(character);
-
         Inventory inventory = Bukkit.createInventory(player, 54, Text.color(TITLE));
         fillBorder(inventory);
 
         inventory.setItem(4, GuiItem.item(Material.NETHER_STAR, "&bDiscipline Codex", GuiItem.lore(
                 "&7Character: &f" + character.getString("name", player.getName()),
-                "&7Level: &f" + level,
-                "&7Current: &f" + summary.display(),
-                "&7Family: &f" + summary.family(),
+                "&7Current: &f" + current.display(),
                 "&7Rank: &f" + progress.rank() + " &8/ &f" + progress.rankName(),
-                "&7Progress: &f" + progress.progressPercent() + "%",
-                "",
-                "&8Click an unlocked Discipline to commit."
+                "&7Level: &f" + character.getInt("progression.level", 1),
+                "&7Required Level: &f" + current.unlockLevel()
         )));
 
-        List<String> ids = disciplines.allDisciplineIds();
-        for (int i = 0; i < Math.min(ids.size(), DISCIPLINE_SLOTS.length); i++) {
-            String id = ids.get(i);
+        for (Map.Entry<Integer, String> entry : disciplineSlots().entrySet()) {
+            String id = entry.getValue();
             DisciplineService.DisciplineDefinition definition = disciplines.definition(id);
-            boolean selected = summary.selected() && summary.id().equals(definition.id());
-            boolean unlocked = level >= definition.unlockLevel();
-            inventory.setItem(DISCIPLINE_SLOTS[i], disciplineItem(definition, level, selected, unlocked));
+            boolean selected = current.id().equals(definition.id()) && current.selected();
+            boolean unlocked = character.getInt("progression.level", 1) >= definition.unlockLevel();
+            inventory.setItem(entry.getKey(), disciplineItem(definition, selected, unlocked, character.getInt("progression.level", 1)));
         }
 
-        inventory.setItem(BACK_SLOT, GuiItem.item(Material.ARROW, "&bBack to Character Card", GuiItem.lore("&eClick to return.")));
-
-        if (summary.selected()) {
-            inventory.setItem(CLEAR_SLOT, GuiItem.item(Material.RED_DYE, "&cClear Current Discipline", GuiItem.lore(
-                    "&7Current: &f" + summary.display(),
-                    "&8Dev/admin reset path.",
-                    "&eClick to return to Unformed."
-            )));
-        } else {
-            inventory.setItem(CLEAR_SLOT, GuiItem.item(Material.GRAY_DYE, "&8Clear Discipline", GuiItem.lore(
-                    "&7No Discipline selected."
-            )));
-        }
-
-        inventory.setItem(REFRESH_SLOT, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload Discipline state.")));
-        inventory.setItem(CLOSE_SLOT, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
+        inventory.setItem(45, GuiItem.item(Material.ARROW, "&bBack to Character Card", GuiItem.lore("&eClick to return.")));
+        inventory.setItem(47, GuiItem.item(Material.BLAZE_POWDER, "&bOpen Ability Codex", GuiItem.lore("&eClick to view Discipline abilities.")));
+        inventory.setItem(49, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload Discipline state.")));
+        inventory.setItem(51, GuiItem.item(Material.GRAY_DYE, "&8Clear Discipline", GuiItem.lore("&7Clears the current Discipline.", "&8Useful during testing. Dangerous later.")));
+        inventory.setItem(53, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
 
         player.openInventory(inventory);
     }
 
-    public String disciplineIdAt(int inventorySlot) {
-        int index = -1;
-        for (int i = 0; i < DISCIPLINE_SLOTS.length; i++) {
-            if (DISCIPLINE_SLOTS[i] == inventorySlot) {
-                index = i;
-                break;
+    public void handleClick(Player player, int rawSlot) {
+        if (rawSlot == 49) {
+            open(player);
+            return;
+        }
+        if (rawSlot == 53) {
+            player.closeInventory();
+            return;
+        }
+        if (rawSlot == 51) {
+            try {
+                DisciplineService.DisciplineResult result = disciplines.clearDiscipline(player);
+                player.sendMessage(prefix() + Text.color("&aDiscipline cleared: &f" + result.summary().display()));
+            } catch (IOException | IllegalArgumentException | IllegalStateException ex) {
+                player.sendMessage(prefix() + Text.color("&c" + ex.getMessage()));
             }
+            open(player);
+            return;
         }
 
-        if (index < 0) {
-            return null;
+        String disciplineId = disciplineSlots().get(rawSlot);
+        if (disciplineId == null) {
+            return;
         }
 
-        List<String> ids = disciplines.allDisciplineIds();
-        if (index >= ids.size()) {
-            return null;
+        try {
+            DisciplineService.DisciplineResult result = disciplines.setDiscipline(player, disciplineId);
+            player.sendMessage(prefix() + Text.color("&aDiscipline set: &f" + result.summary().display()));
+        } catch (IOException | IllegalArgumentException | IllegalStateException ex) {
+            player.sendMessage(prefix() + Text.color("&c" + ex.getMessage()));
         }
-
-        return ids.get(index);
+        open(player);
     }
 
-    private org.bukkit.inventory.ItemStack disciplineItem(DisciplineService.DisciplineDefinition definition, int level,
-                                                          boolean selected, boolean unlocked) {
-        Material material = selected ? Material.NETHER_STAR : unlocked ? materialForFamily(definition.family()) : Material.BARRIER;
-        String name = selected
-                ? "&d" + definition.display() + " &e[Selected]"
-                : unlocked ? "&b" + definition.display() : "&8" + definition.display() + " &7[Locked]";
+    private ItemStack disciplineItem(DisciplineService.DisciplineDefinition definition, boolean selected, boolean unlocked, int currentLevel) {
+        Material material;
+        String name;
+        if (selected) {
+            material = Material.NETHER_STAR;
+            name = "&a" + definition.display();
+        } else if (unlocked) {
+            material = materialForFamily(definition.family());
+            name = "&b" + definition.display();
+        } else {
+            material = Material.GRAY_DYE;
+            name = "&8" + definition.display();
+        }
 
         return GuiItem.item(material, name, GuiItem.lore(
                 "&7Id: &f" + definition.id(),
                 "&7Family: &f" + definition.family(),
                 "&7Required Level: &f" + definition.unlockLevel(),
-                "&7Current Level: &f" + level,
+                "&7Current Level: &f" + currentLevel,
+                "&7Status: " + (selected ? "&aSelected" : unlocked ? "&bUnlocked" : "&8Locked"),
                 "",
                 "&8" + trim(definition.description()),
                 "",
-                selected ? "&aThis Discipline is currently active."
-                        : unlocked ? "&eClick to select this Discipline."
-                        : "&8Reach level " + definition.unlockLevel() + " to unlock."
+                unlocked ? "&eClick to select." : "&8Locked by level."
         ));
     }
 
+    private Map<Integer, String> disciplineSlots() {
+        List<String> ids = disciplines.allDisciplineIds();
+        Map<Integer, String> result = new LinkedHashMap<>();
+        for (int i = 0; i < Math.min(ids.size(), DISCIPLINE_SLOTS.length); i++) {
+            result.put(DISCIPLINE_SLOTS[i], ids.get(i));
+        }
+        return result;
+    }
+
     private Material materialForFamily(String family) {
-        return switch (family == null ? "" : family.toLowerCase()) {
+        if (family == null) {
+            return Material.BOOK;
+        }
+        return switch (family.toLowerCase()) {
             case "martial" -> Material.IRON_SWORD;
+            case "arcane" -> Material.ENCHANTED_BOOK;
             case "defensive" -> Material.SHIELD;
             case "support" -> Material.GOLDEN_APPLE;
-            case "arcane" -> Material.ENCHANTED_BOOK;
-            case "summoning" -> Material.TOTEM_OF_UNDYING;
-            case "construction" -> Material.ANVIL;
+            case "summoning" -> Material.ENDER_EYE;
+            case "construction" -> Material.SMITHING_TABLE;
             case "aereth" -> Material.ECHO_SHARD;
-            default -> Material.KNOWLEDGE_BOOK;
+            default -> Material.BOOK;
         };
     }
 
