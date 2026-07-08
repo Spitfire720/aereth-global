@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class AbilityEffectService {
@@ -21,9 +22,11 @@ public class AbilityEffectService {
     private static final double AREA_RADIUS = 5.0;
 
     private final JavaPlugin plugin;
+    private final AbilityCombatService combat;
 
     public AbilityEffectService(JavaPlugin plugin) {
         this.plugin = plugin;
+        this.combat = new AbilityCombatService(plugin);
     }
 
     public EffectResult apply(Player player, AbilityService.AbilityDefinition definition, int slot, AbilityTargetingService.TargetResult target) {
@@ -55,37 +58,38 @@ public class AbilityEffectService {
         applyPotion(player, duration(120, scaling), 0, "ABSORPTION");
         safeSound(player, "BLOCK_ANVIL_PLACE", 0.45f, 1.25f);
         safeParticle(player, targetLocation(player, target), "END_ROD", particleCount(28, scaling), 0.75 * scaling.radiusMultiplier(), 0.85, 0.75 * scaling.radiusMultiplier(), 0.01);
-        message(player, "&b" + definition.display() + " &7forms a scaled defensive pulse. &8[" + scaleTag(scaling) + "]");
-        return new EffectResult("defensive_pulse", "applied_scaled", "Applied scaled Resistance/Absorption. " + scaleDetail(scaling));
+        message(player, "&b" + definition.display() + " &7anchors a PvE-safe defensive pulse. &8[" + scaleTag(scaling) + "]");
+        return new EffectResult("defensive_pulse", "applied_combat_safe", "Applied scaled Resistance/Absorption. No hostile damage route. " + scaleDetail(scaling));
     }
 
     private EffectResult bloodPressure(Player player, AbilityService.AbilityDefinition definition, int slot,
                                        AbilityTargetingService.TargetResult target, AbilityScalingService.ScalingResult scaling) {
         LivingEntity aimed = aimedLivingTarget(player);
-        boolean damaged = safeDamage(player, aimed, damage(3.0, scaling));
         boolean marked = applyPotion(aimed, duration(120, scaling), 0, "GLOWING");
+        AbilityCombatService.CombatImpact impact = combat.damageOne(player, aimed, damage(4.0, scaling), "blood_pressure", scaling);
         if (aimed == null) {
             applyPotion(player, duration(80, scaling), amplifier(0, scaling), "INCREASE_DAMAGE", "STRENGTH");
         }
         safeSound(player, "ENTITY_PLAYER_ATTACK_CRIT", 0.6f, 0.85f);
         safeParticle(player, targetLocation(player, target), "CRIT", particleCount(36, scaling), 0.55, 0.75, 0.55, 0.08);
-        message(player, "&c" + definition.display() + " &7pressures &f" + targetLabel(target) + "&7. &8[" + scaleTag(scaling) + "]");
-        return new EffectResult("blood_pressure", "applied_scaled", "Marked=" + marked + ", non-player damage=" + damaged + ", damage=" + damage(3.0, scaling) + ". " + scaleDetail(scaling));
+        message(player, "&c" + definition.display() + " &7pressures &f" + targetLabel(target) + "&7. &8[PvE hits " + impact.targetsAffected() + ", " + scaleTag(scaling) + "]");
+        return new EffectResult("blood_pressure", "combat_integrated", "Marked=" + marked + ". " + impact.detail() + " BlockedPlayers=" + impact.blockedPlayers() + ". " + scaleDetail(scaling));
     }
 
     private EffectResult arcaneSpark(Player player, AbilityService.AbilityDefinition definition, int slot,
                                      AbilityTargetingService.TargetResult target, AbilityScalingService.ScalingResult scaling) {
         Location location = targetLocation(player, target);
         double radius = radius(3.5, scaling);
-        int affected = applyNearby(location, player, radius, entity -> {
+        List<LivingEntity> targets = combat.nearbyPvETargets(location, player, radius);
+        for (LivingEntity entity : targets) {
             applyPotion(entity, duration(80, scaling), 0, "SLOW", "SLOWNESS");
             applyPotion(entity, duration(80, scaling), 0, "GLOWING");
-            safeDamage(player, entity, damage(2.0, scaling));
-        });
+        }
+        AbilityCombatService.CombatImpact impact = combat.damageTargets(player, targets, damage(2.5, scaling), "arcane_spark", scaling);
         safeSound(player, "BLOCK_AMETHYST_BLOCK_CHIME", 0.7f, 1.35f);
         safeParticle(player, location, "ENCHANT", particleCount(48, scaling), 0.85 * scaling.radiusMultiplier(), 0.9, 0.85 * scaling.radiusMultiplier(), 0.035);
-        message(player, "&d" + definition.display() + " &7scales arcane force through &f" + targetLabel(target) + "&7. &8[Affected " + affected + ", " + scaleTag(scaling) + "]");
-        return new EffectResult("arcane_spark", "applied_scaled", "Arcane slow/glow/damage affected " + affected + " entities at radius " + round(radius) + ". " + scaleDetail(scaling));
+        message(player, "&d" + definition.display() + " &7detonates through &f" + targetLabel(target) + "&7. &8[PvE hits " + impact.targetsAffected() + ", r" + round(radius) + "]");
+        return new EffectResult("arcane_spark", "combat_integrated", "Arcane slow/glow. " + impact.detail() + " Radius=" + round(radius) + ". " + scaleDetail(scaling));
     }
 
     private EffectResult focusThread(Player player, AbilityService.AbilityDefinition definition, int slot,
@@ -95,25 +99,28 @@ public class AbilityEffectService {
         if (aimed != null && !(aimed instanceof Player)) {
             applyPotion(aimed, duration(60, scaling), 0, "SLOW", "SLOWNESS");
         }
+        AbilityCombatService.CombatImpact impact = combat.damageOne(player, aimed, damage(1.5, scaling), "focus_thread", scaling);
         applyPotion(player, duration(120, scaling), amplifier(0, scaling), "SPEED");
         safeSound(player, "ENTITY_EXPERIENCE_ORB_PICKUP", 0.55f, 1.45f);
         safeParticle(player, targetLocation(player, target), "END_ROD", particleCount(24, scaling), 0.35, 0.55, 0.35, 0.0);
-        message(player, "&e" + definition.display() + " &7threads scaled focus into &f" + targetLabel(target) + "&7. &8[" + scaleTag(scaling) + "]");
-        return new EffectResult("focus_thread", "applied_scaled", "Caster gained scaled Speed. Aimed entity focused=" + focused + ". " + scaleDetail(scaling));
+        message(player, "&e" + definition.display() + " &7threads combat focus into &f" + targetLabel(target) + "&7. &8[PvE hits " + impact.targetsAffected() + ", " + scaleTag(scaling) + "]");
+        return new EffectResult("focus_thread", "combat_integrated", "Caster gained scaled Speed. Aimed entity focused=" + focused + ". " + impact.detail() + " " + scaleDetail(scaling));
     }
 
     private EffectResult unstableBloom(Player player, AbilityService.AbilityDefinition definition, int slot,
                                        AbilityTargetingService.TargetResult target, AbilityScalingService.ScalingResult scaling) {
         Location location = targetLocation(player, target);
         double radius = radius(AREA_RADIUS, scaling);
-        int affected = applyNearby(location, player, radius, entity -> {
+        List<LivingEntity> targets = combat.nearbyPvETargets(location, player, radius);
+        for (LivingEntity entity : targets) {
             applyPotion(entity, duration(80, scaling), 0, "CONFUSION", "NAUSEA");
             applyPotion(entity, duration(80, scaling), 0, "SLOW", "SLOWNESS");
-        });
+        }
+        AbilityCombatService.CombatImpact impact = combat.damageTargets(player, targets, damage(1.75, scaling), "unstable_bloom", scaling);
         safeSound(player, "ENTITY_ENDERMAN_TELEPORT", 0.5f, 1.55f);
         safeParticle(player, location, "PORTAL", particleCount(64, scaling), 0.85 * scaling.radiusMultiplier(), 1.0, 0.85 * scaling.radiusMultiplier(), 0.1);
-        message(player, "&5" + definition.display() + " &7detonates a scaled unstable bloom. &8[Affected " + affected + ", " + scaleTag(scaling) + "]");
-        return new EffectResult("unstable_bloom", "applied_scaled", "Instability slow/confusion affected " + affected + " entities at radius " + round(radius) + ". " + scaleDetail(scaling));
+        message(player, "&5" + definition.display() + " &7blooms into controlled PvE disruption. &8[PvE hits " + impact.targetsAffected() + ", r" + round(radius) + "]");
+        return new EffectResult("unstable_bloom", "combat_integrated", "Instability slow/confusion. " + impact.detail() + " Radius=" + round(radius) + ". " + scaleDetail(scaling));
     }
 
     private EffectResult staminaSurge(Player player, AbilityService.AbilityDefinition definition, int slot,
@@ -129,8 +136,8 @@ public class AbilityEffectService {
         }
         safeSound(player, "ENTITY_HORSE_BREATHE", 0.45f, 1.2f);
         safeParticle(player, player.getLocation().add(0.0, 0.25, 0.0), "CLOUD", particleCount(28, scaling), 0.45, 0.25, 0.45, 0.02);
-        message(player, "&a" + definition.display() + " &7surges with scaled movement. &8[" + scaleTag(scaling) + "]");
-        return new EffectResult("stamina_surge", "applied_scaled", "Applied scaled Speed, Jump Boost, and movement impulse. " + scaleDetail(scaling));
+        message(player, "&a" + definition.display() + " &7surges with combat-ready movement. &8[" + scaleTag(scaling) + "]");
+        return new EffectResult("stamina_surge", "applied_combat_safe", "Applied scaled Speed, Jump Boost, and movement impulse. No hostile damage route. " + scaleDetail(scaling));
     }
 
     private EffectResult resonancePing(Player player, AbilityService.AbilityDefinition definition, int slot,
@@ -138,31 +145,8 @@ public class AbilityEffectService {
         applyPotion(player, duration(80, scaling), 0, "REGENERATION", "REGEN");
         safeSound(player, "BLOCK_NOTE_BLOCK_PLING", 0.45f, 1.2f);
         safeParticle(player, targetLocation(player, target), "END_ROD", particleCount(18, scaling), 0.45, 0.55, 0.45, 0.0);
-        message(player, "&b" + definition.display() + " &7resonates into a scaled stabilizing pulse. &8[" + scaleTag(scaling) + "]");
-        return new EffectResult("resonance_ping", "applied_scaled", "Applied scaled minor Regeneration. " + scaleDetail(scaling));
-    }
-
-    private int applyNearby(Location center, Player caster, double radius, NearbyEffect effect) {
-        if (center == null || center.getWorld() == null) {
-            return 0;
-        }
-
-        int affected = 0;
-        for (Entity entity : center.getWorld().getNearbyEntities(center, radius, radius, radius)) {
-            if (!(entity instanceof LivingEntity living)) {
-                continue;
-            }
-            if (caster != null && entity.getUniqueId().equals(caster.getUniqueId())) {
-                continue;
-            }
-            if (entity instanceof Player) {
-                continue;
-            }
-
-            effect.apply(living);
-            affected++;
-        }
-        return affected;
+        message(player, "&b" + definition.display() + " &7resonates into a stabilizing combat pulse. &8[" + scaleTag(scaling) + "]");
+        return new EffectResult("resonance_ping", "applied_combat_safe", "Applied scaled minor Regeneration. No hostile damage route. " + scaleDetail(scaling));
     }
 
     private LivingEntity aimedLivingTarget(Player player) {
@@ -181,22 +165,6 @@ public class AbilityEffectService {
             return living;
         } catch (RuntimeException ignored) {
             return null;
-        }
-    }
-
-    private boolean safeDamage(Player caster, LivingEntity target, double amount) {
-        if (target == null || target.isDead()) {
-            return false;
-        }
-        if (target instanceof Player) {
-            return false;
-        }
-
-        try {
-            target.damage(amount, caster);
-            return true;
-        } catch (RuntimeException ignored) {
-            return false;
         }
     }
 
@@ -350,10 +318,6 @@ public class AbilityEffectService {
 
     private String prefix() {
         return Text.color(plugin.getConfig().getString("messages.prefix", "&8[&bAereth&8]&r "));
-    }
-
-    private interface NearbyEffect {
-        void apply(LivingEntity entity);
     }
 
     public record EffectResult(
