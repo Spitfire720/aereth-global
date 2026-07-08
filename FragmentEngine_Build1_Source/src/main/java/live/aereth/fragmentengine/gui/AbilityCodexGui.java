@@ -1,5 +1,6 @@
 package live.aereth.fragmentengine.gui;
 
+import live.aereth.fragmentengine.service.AbilityProgressionPolishService;
 import live.aereth.fragmentengine.service.AbilityService;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.DisciplineService;
@@ -12,7 +13,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AbilityCodexGui {
@@ -27,12 +27,14 @@ public class AbilityCodexGui {
     private final CharacterService characters;
     private final DisciplineService disciplines;
     private final AbilityService abilities;
+    private final AbilityProgressionPolishService polish;
 
     public AbilityCodexGui(JavaPlugin plugin, CharacterService characters, DisciplineService disciplines, AbilityService abilities) {
         this.plugin = plugin;
         this.characters = characters;
         this.disciplines = disciplines;
         this.abilities = abilities;
+        this.polish = new AbilityProgressionPolishService(abilities);
     }
 
     public void open(Player player) {
@@ -45,6 +47,7 @@ public class AbilityCodexGui {
         DisciplineService.DisciplineSummary discipline = disciplines.summary(character);
         DisciplineService.DisciplineProgressSummary progress = disciplines.progress(character);
         AbilityService.AbilitySummary summary = abilities.summary(character);
+        AbilityProgressionPolishService.ProgressionView view = polish.view(character);
 
         Inventory inventory = Bukkit.createInventory(player, 54, Text.color(TITLE));
         fillBorder(inventory);
@@ -53,9 +56,10 @@ public class AbilityCodexGui {
                 "&7Character: &f" + character.getString("name", player.getName()),
                 "&7Discipline: &f" + discipline.display(),
                 "&7Rank: &f" + progress.rank() + " &8/ &f" + progress.rankName(),
-                "&7Unlocked: &f" + summary.unlocked().size(),
-                "&7Locked: &f" + summary.locked().size(),
-                "&7Loadout Count: &f" + character.getInt("abilities.loadout.count", 0)
+                "&7Unlocked: &f" + view.unlockedAbilities() + " &8/ &f" + view.totalAbilities(),
+                "&7Completion: &f" + round(view.completionPercent()) + "%",
+                "&7Loadout Count: &f" + character.getInt("abilities.loadout.count", 0),
+                "&8S3L adds reveal progress, roadmap, and cleaner unlock feedback."
         )));
 
         inventory.setItem(10, GuiItem.item(discipline.selected() ? Material.NETHER_STAR : Material.GRAY_DYE, "&bCurrent Discipline", GuiItem.lore(
@@ -71,25 +75,28 @@ public class AbilityCodexGui {
                 "&7Name: &f" + progress.rankName(),
                 "&7XP: &f" + progress.xp() + " &8/ &f" + progress.xpRequired(),
                 "&7Progress: &f" + round(progress.progressPercent()) + "%",
-                "&7At Cap: &f" + yesNo(progress.atCap())
+                "&7At Cap: &f" + yesNo(progress.atCap()),
+                "&7Ability Path: &f" + view.unlockedAbilities() + "&8/&f" + view.totalAbilities() + " revealed"
         )));
 
-        inventory.setItem(14, GuiItem.item(Material.HEART_OF_THE_SEA, "&bAbility State", GuiItem.lore(
+        inventory.setItem(14, GuiItem.item(Material.HEART_OF_THE_SEA, "&bAbility Reveal State", GuiItem.lore(
                 "&7Available: &f" + summary.available().size(),
-                "&7Unlocked: &f" + summary.unlocked().size(),
-                "&7Locked: &f" + summary.locked().size(),
-                "&8Abilities unlock through Discipline rank."
+                "&7Unlocked: &f" + view.unlockedAbilities(),
+                "&7Locked: &f" + view.lockedAbilities(),
+                "&7Next: &f" + trim(view.nextLine(), 42),
+                "&8Abilities unlock through Discipline rank. Apparently progress matters."
         )));
 
-        inventory.setItem(16, GuiItem.item(Material.BARRIER, "&8Progression Actions", GuiItem.lore(
-                "&7Direct XP buttons are intentionally disabled.",
-                "&7Rank XP should come from quests, combat, trials,",
-                "&7or admin commands during testing.",
+        inventory.setItem(16, GuiItem.item(nextMaterial(view), "&dNext Ability Reveal", GuiItem.lore(
+                "&7Next Ability: &f" + trim(view.nextUnlockDisplay(), 34),
+                "&7Required Rank: &f" + (view.nextUnlockRank() <= 0 ? "complete" : view.nextUnlockRank()),
+                "&7Ranks Away: &f" + view.ranksAway(),
+                "&7Status: &f" + trim(view.stageLine(), 42),
                 "",
-                "&8Use /aereth adddisciplinexp for dev testing."
+                "&7Roadmap: &f" + trim(view.unlockMap(), 44)
         )));
 
-        List<AbilityService.AbilityDefinition> definitions = definitionsFor(summary.discipline());
+        List<AbilityService.AbilityDefinition> definitions = polish.definitionsFor(summary.discipline());
         if (!discipline.selected()) {
             inventory.setItem(31, GuiItem.item(Material.GRAY_DYE, "&8No Discipline Selected", GuiItem.lore(
                     "&7Select a Discipline first.",
@@ -103,9 +110,9 @@ public class AbilityCodexGui {
         } else {
             for (int i = 0; i < Math.min(definitions.size(), ABILITY_SLOTS.length); i++) {
                 AbilityService.AbilityDefinition definition = definitions.get(i);
-                boolean unlocked = summary.unlocked().contains(definition.id());
                 boolean equipped = isEquipped(character, definition.id());
-                inventory.setItem(ABILITY_SLOTS[i], abilityItem(definition, unlocked, equipped, progress.rank()));
+                AbilityProgressionPolishService.AbilityState state = polish.abilityState(character, definition);
+                inventory.setItem(ABILITY_SLOTS[i], abilityItem(definition, state, equipped));
             }
         }
 
@@ -129,35 +136,23 @@ public class AbilityCodexGui {
         }
     }
 
-    private ItemStack abilityItem(AbilityService.AbilityDefinition definition, boolean unlocked, boolean equipped, int currentRank) {
-        Material material = equipped ? Material.LIME_DYE : (unlocked ? materialForCost(definition.costType()) : Material.GRAY_DYE);
-        String name = equipped ? "&a✓ " + definition.display() : (unlocked ? "&a" : "&8") + definition.display();
+    private ItemStack abilityItem(AbilityService.AbilityDefinition definition, AbilityProgressionPolishService.AbilityState state, boolean equipped) {
+        Material material = equipped ? Material.LIME_DYE : (state.unlocked() ? materialForCost(definition.costType()) : state.ranksAway() == 1 ? Material.YELLOW_DYE : Material.GRAY_DYE);
+        String name = equipped ? "&a✓ " + definition.display() : (state.unlocked() ? "&a" : state.ranksAway() == 1 ? "&e" : "&8") + definition.display();
         return GuiItem.item(material, name, GuiItem.lore(
                 "&7Id: &f" + definition.id(),
                 "&7Required Rank: &f" + definition.unlockRank(),
-                "&7Current Rank: &f" + currentRank,
-                "&7Status: " + (unlocked ? "&aUnlocked" : "&8Locked"),
+                "&7Current Rank: &f" + state.currentRank(),
+                "&7Status: " + state.style(),
+                "&7Reveal: &f" + trim(state.revealLine(), 40),
+                "&7Milestone: &f" + state.milestone(),
                 "&7Equipped: &f" + yesNo(equipped),
                 "&7Cost: &f" + readableCost(definition),
                 "&7Cooldown: &f" + round(definition.cooldownSeconds()) + "s",
                 "",
-                unlocked ? "&eOpen Ability Loadout to equip." : "&8Rank up to unlock.",
-                "&8" + trim(definition.description())
+                state.unlocked() ? "&eOpen Ability Loadout to equip." : "&8Rank up to unlock.",
+                "&8" + trim(definition.description(), 44)
         ));
-    }
-
-    private List<AbilityService.AbilityDefinition> definitionsFor(String disciplineId) {
-        List<AbilityService.AbilityDefinition> result = new ArrayList<>();
-        for (AbilityService.AbilityDefinition definition : abilities.allDefinitions()) {
-            if (definition.discipline().equalsIgnoreCase(disciplineId)) {
-                result.add(definition);
-            }
-        }
-        result.sort((a, b) -> {
-            int rankCompare = Integer.compare(a.unlockRank(), b.unlockRank());
-            return rankCompare != 0 ? rankCompare : a.id().compareTo(b.id());
-        });
-        return result;
     }
 
     private boolean isEquipped(YamlConfiguration character, String abilityId) {
@@ -174,6 +169,16 @@ public class AbilityCodexGui {
             return "None";
         }
         return definition.costAmount() + " " + definition.costType();
+    }
+
+    private Material nextMaterial(AbilityProgressionPolishService.ProgressionView view) {
+        if (!view.selected()) {
+            return Material.GRAY_DYE;
+        }
+        if (view.nextUnlockRank() <= 0) {
+            return Material.NETHER_STAR;
+        }
+        return view.ranksAway() <= 1 ? Material.AMETHYST_SHARD : Material.WRITABLE_BOOK;
     }
 
     private Material materialForCost(String costType) {
@@ -203,11 +208,11 @@ public class AbilityCodexGui {
         return value ? "&aYes" : "&8No";
     }
 
-    private String trim(String text) {
+    private String trim(String text, int max) {
         if (text == null || text.isBlank()) {
-            return "No description written yet.";
+            return "none";
         }
-        return text.length() <= 44 ? text : text.substring(0, 41) + "...";
+        return text.length() <= max ? text : text.substring(0, Math.max(0, max - 3)) + "...";
     }
 
     private String round(double value) {

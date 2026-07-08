@@ -1,6 +1,8 @@
 settings:
-  schema-version: 1
+  schema-version: 2
   unlock-source: discipline-rank
+  balance-pass: S3H
+  notes: "Expanded starter catalogue. Extra target/effect metadata is forward-compatible; current runtime still reads core fields."
 
 abilities:
   vanguard_guardian_stance:
@@ -10,7 +12,9 @@ abilities:
     cost-type: stamina
     cost-amount: 10
     cooldown-seconds: 20
-    description: "Brace into a defensive stance. Backend definition only."
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Brace into a guarded stance, gaining a short defensive surge and announcing your frontline role."
 
   vanguard_linebreaker:
     display-name: "Linebreaker"
@@ -19,16 +23,31 @@ abilities:
     cost-type: stamina
     cost-amount: 18
     cooldown-seconds: 30
-    description: "Prepare a heavy frontline breach. Backend definition only."
+    target-mode: forward_line
+    effect-route: stamina_surge
+    description: "Drive forward through the line with a short burst of momentum and pressure."
 
   vanguard_unbroken_wall:
     display-name: "Unbroken Wall"
     discipline: vanguard
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 26
+    cooldown-seconds: 48
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Anchor yourself as a temporary wall, trading speed for survivability and control."
+
+  vanguard_oath_of_the_front:
+    display-name: "Oath of the Front"
+    discipline: vanguard
     unlock-rank: 4
     cost-type: stamina
-    cost-amount: 35
-    cooldown-seconds: 60
-    description: "Anchor the battlefield through pure pressure. Backend definition only."
+    cost-amount: 36
+    cooldown-seconds: 70
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Declare a frontline oath, creating a heavy defensive pulse around your position."
 
   reaver_blood_mark:
     display-name: "Blood Mark"
@@ -37,7 +56,9 @@ abilities:
     cost-type: health
     cost-amount: 6
     cooldown-seconds: 18
-    description: "Mark a target for violent pressure. Backend definition only."
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Mark an aimed target with violent pressure and expose it for follow-up attacks."
 
   reaver_ravaging_cut:
     display-name: "Ravaging Cut"
@@ -46,7 +67,31 @@ abilities:
     cost-type: stamina
     cost-amount: 16
     cooldown-seconds: 28
-    description: "Commit to a brutal strike pattern. Backend definition only."
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Commit to a brutal cut that punishes a focused target without harming players."
+
+  reaver_crimson_surge:
+    display-name: "Crimson Surge"
+    discipline: reaver
+    unlock-rank: 3
+    cost-type: health
+    cost-amount: 10
+    cooldown-seconds: 42
+    target-mode: self
+    effect-route: blood_pressure
+    description: "Spend vitality to surge with predatory pressure when no clean target is found."
+
+  reaver_bloodbound_execution:
+    display-name: "Bloodbound Execution"
+    discipline: reaver
+    unlock-rank: 4
+    cost-type: health
+    cost-amount: 16
+    cooldown-seconds: 75
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Attempt a decisive bloodbound strike against a marked PvE target."
 
   skirmisher_quickstep:
     display-name: "Quickstep"
@@ -55,7 +100,42 @@ abilities:
     cost-type: stamina
     cost-amount: 8
     cooldown-seconds: 12
-    description: "Prepare a movement burst. Backend definition only."
+    target-mode: self
+    effect-route: stamina_surge
+    description: "Burst forward with speed and a light movement impulse."
+
+  skirmisher_pressure_step:
+    display-name: "Pressure Step"
+    discipline: skirmisher
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 12
+    cooldown-seconds: 20
+    target-mode: self
+    effect-route: stamina_surge
+    description: "Reset your position with a quick surge of footwork and pressure."
+
+  skirmisher_flank_cut:
+    display-name: "Flank Cut"
+    discipline: skirmisher
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 18
+    cooldown-seconds: 32
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Strike from an angle, marking an aimed PvE target for pressure."
+
+  skirmisher_afterimage_dash:
+    display-name: "Afterimage Dash"
+    discipline: skirmisher
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 26
+    cooldown-seconds: 55
+    target-mode: forward_line
+    effect-route: stamina_surge
+    description: "Dash through a forward line, leaving pressure behind your movement path."
 
   assassin_shadow_cut:
     display-name: "Shadow Cut"
@@ -64,7 +144,42 @@ abilities:
     cost-type: stamina
     cost-amount: 12
     cooldown-seconds: 20
-    description: "Prime a silent critical strike. Backend definition only."
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Prime a silent cut against the entity you are aiming at."
+
+  assassin_veiled_mark:
+    display-name: "Veiled Mark"
+    discipline: assassin
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 14
+    cooldown-seconds: 28
+    target-mode: aimed_entity
+    effect-route: focus_thread
+    description: "Thread focus into a hidden mark, exposing your aimed target."
+
+  assassin_blackout_step:
+    display-name: "Blackout Step"
+    discipline: assassin
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 22
+    cooldown-seconds: 40
+    target-mode: self
+    effect-route: stamina_surge
+    description: "Vanish into a rapid repositioning step with a sharp burst of speed."
+
+  assassin_grave_silence:
+    display-name: "Grave Silence"
+    discipline: assassin
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 30
+    cooldown-seconds: 68
+    target-mode: area
+    effect-route: blood_pressure
+    description: "Let the area around you fall into predatory silence and pressure."
 
   marksman_deadeye:
     display-name: "Deadeye"
@@ -73,7 +188,42 @@ abilities:
     cost-type: focus
     cost-amount: 10
     cooldown-seconds: 22
-    description: "Prepare precision targeting. Backend definition only."
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Lock focus onto an aimed target for a clean precision window."
+
+  marksman_pinning_shot:
+    display-name: "Pinning Shot"
+    discipline: marksman
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 15
+    cooldown-seconds: 32
+    target-mode: aimed_entity
+    effect-route: focus_thread
+    description: "Pin an aimed PvE target with focus pressure and temporary exposure."
+
+  marksman_line_sight:
+    display-name: "Line Sight"
+    discipline: marksman
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 22
+    cooldown-seconds: 45
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Draw a clean line of sight and thread pressure along its endpoint."
+
+  marksman_kill_window:
+    display-name: "Kill Window"
+    discipline: marksman
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 34
+    cooldown-seconds: 75
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Open a brief execution window against the target in your sights."
 
   controller_gravity_hook:
     display-name: "Gravity Hook"
@@ -82,7 +232,42 @@ abilities:
     cost-type: focus
     cost-amount: 14
     cooldown-seconds: 26
-    description: "Shape enemy position through pressure. Backend definition only."
+    target-mode: aimed_entity
+    effect-route: focus_thread
+    description: "Hook your focus into an aimed target and disturb its position logic."
+
+  controller_field_shift:
+    display-name: "Field Shift"
+    discipline: controller
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 18
+    cooldown-seconds: 34
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Shift local battlefield pressure around an aimed location."
+
+  controller_chain_pressure:
+    display-name: "Chain Pressure"
+    discipline: controller
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 26
+    cooldown-seconds: 52
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Bind a location with chained pressure and slowing force."
+
+  controller_silence_vector:
+    display-name: "Silence Vector"
+    discipline: controller
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 38
+    cooldown-seconds: 82
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Project a suppressive vector that warps the forward line of battle."
 
   spellweaver_arc_thread:
     display-name: "Arc Thread"
@@ -91,7 +276,42 @@ abilities:
     cost-type: mana
     cost-amount: 12
     cooldown-seconds: 18
-    description: "Weave raw arcane force. Backend definition only."
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Weave a simple arcane thread forward through the air."
+
+  spellweaver_sigilspark:
+    display-name: "Sigilspark"
+    discipline: spellweaver
+    unlock-rank: 2
+    cost-type: mana
+    cost-amount: 16
+    cooldown-seconds: 28
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Ignite a short sigil spark that applies arcane pressure."
+
+  spellweaver_forward_arc:
+    display-name: "Forward Arc"
+    discipline: spellweaver
+    unlock-rank: 3
+    cost-type: mana
+    cost-amount: 24
+    cooldown-seconds: 42
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Release a controlled arc along your forward line."
+
+  spellweaver_fracture_weave:
+    display-name: "Fracture Weave"
+    discipline: spellweaver
+    unlock-rank: 4
+    cost-type: mana
+    cost-amount: 36
+    cooldown-seconds: 72
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Weave fracture energy through nearby space, slowing hostile PvE entities."
 
   arcanist_null_sigils:
     display-name: "Null Sigils"
@@ -100,7 +320,42 @@ abilities:
     cost-type: mana
     cost-amount: 14
     cooldown-seconds: 24
-    description: "Prepare layered arcane marks. Backend definition only."
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Prepare layered null sigils that spark along the target line."
+
+  arcanist_arcane_seal:
+    display-name: "Arcane Seal"
+    discipline: arcanist
+    unlock-rank: 2
+    cost-type: mana
+    cost-amount: 18
+    cooldown-seconds: 34
+    target-mode: aimed_location
+    effect-route: arcane_spark
+    description: "Seal a location with arcane pressure and visible force."
+
+  arcanist_suppression_glyph:
+    display-name: "Suppression Glyph"
+    discipline: arcanist
+    unlock-rank: 3
+    cost-type: mana
+    cost-amount: 26
+    cooldown-seconds: 52
+    target-mode: aimed_location
+    effect-route: arcane_spark
+    description: "Place a suppressive glyph that slows and exposes nearby PvE entities."
+
+  arcanist_nullstorm:
+    display-name: "Nullstorm"
+    discipline: arcanist
+    unlock-rank: 4
+    cost-type: mana
+    cost-amount: 40
+    cooldown-seconds: 85
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Release a contained nullstorm around the resolved target area."
 
   chronomancer_time_skip:
     display-name: "Time Skip"
@@ -109,7 +364,42 @@ abilities:
     cost-type: focus
     cost-amount: 16
     cooldown-seconds: 35
-    description: "Bend a moment out of order. Backend definition only."
+    target-mode: self
+    effect-route: focus_thread
+    description: "Bend a moment out of order and accelerate your next movement beat."
+
+  chronomancer_delay_field:
+    display-name: "Delay Field"
+    discipline: chronomancer
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 21
+    cooldown-seconds: 48
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Impose delay pressure on a location, slowing hostile PvE entities."
+
+  chronomancer_rewind_step:
+    display-name: "Rewind Step"
+    discipline: chronomancer
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 28
+    cooldown-seconds: 62
+    target-mode: self
+    effect-route: focus_thread
+    description: "Snap yourself through a brief timing correction and speed pulse."
+
+  chronomancer_second_claim:
+    display-name: "Second Claim"
+    discipline: chronomancer
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 40
+    cooldown-seconds: 90
+    target-mode: area
+    effect-route: focus_thread
+    description: "Claim a second of battlefield time, focusing nearby targets into visibility."
 
   fateweaver_red_thread:
     display-name: "Red Thread"
@@ -118,7 +408,42 @@ abilities:
     cost-type: focus
     cost-amount: 12
     cooldown-seconds: 30
-    description: "Pull probability toward an outcome. Backend definition only."
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Pull probability into a visible thread toward your forward line."
+
+  fateweaver_luck_knot:
+    display-name: "Luck Knot"
+    discipline: fateweaver
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 17
+    cooldown-seconds: 40
+    target-mode: self
+    effect-route: focus_thread
+    description: "Tie a small knot of luck around yourself, granting a movement and focus pulse."
+
+  fateweaver_wrong_chance:
+    display-name: "Wrong Chance"
+    discipline: fateweaver
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 25
+    cooldown-seconds: 56
+    target-mode: aimed_entity
+    effect-route: focus_thread
+    description: "Force the target into the wrong chance, exposing it briefly."
+
+  fateweaver_fated_bloom:
+    display-name: "Fated Bloom"
+    discipline: fateweaver
+    unlock-rank: 4
+    cost-type: instability
+    cost-amount: 12
+    cooldown-seconds: 82
+    target-mode: area
+    effect-route: unstable_bloom
+    description: "Let probability bloom outward in a controlled unstable pulse."
 
   sentinel_iron_oath:
     display-name: "Iron Oath"
@@ -127,7 +452,42 @@ abilities:
     cost-type: stamina
     cost-amount: 10
     cooldown-seconds: 25
-    description: "Stand as the shield line. Backend definition only."
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Stand as the shield line and gain a short defensive pulse."
+
+  sentinel_guard_chain:
+    display-name: "Guard Chain"
+    discipline: sentinel
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 16
+    cooldown-seconds: 36
+    target-mode: aimed_location
+    effect-route: defensive_pulse
+    description: "Chain your guard into a nearby location and anchor pressure there."
+
+  sentinel_standfast_wall:
+    display-name: "Standfast Wall"
+    discipline: sentinel
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 26
+    cooldown-seconds: 55
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Become a standfast wall, gaining a stronger defensive window."
+
+  sentinel_last_bastion:
+    display-name: "Last Bastion"
+    discipline: sentinel
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 40
+    cooldown-seconds: 90
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Raise your last bastion, forming a major defensive surge."
 
   warden_root_bind:
     display-name: "Root Bind"
@@ -136,7 +496,42 @@ abilities:
     cost-type: stamina
     cost-amount: 12
     cooldown-seconds: 28
-    description: "Bind space through anchored force. Backend definition only."
+    target-mode: aimed_location
+    effect-route: defensive_pulse
+    description: "Bind a location with anchored roots and defensive pressure."
+
+  warden_iron_roots:
+    display-name: "Iron Roots"
+    discipline: warden
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 18
+    cooldown-seconds: 38
+    target-mode: aimed_location
+    effect-route: defensive_pulse
+    description: "Drive iron roots into the resolved location to slow hostile PvE entities."
+
+  warden_living_wall:
+    display-name: "Living Wall"
+    discipline: warden
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 28
+    cooldown-seconds: 58
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Raise a living wall around yourself with a protective pulse."
+
+  warden_anchored_grove:
+    display-name: "Anchored Grove"
+    discipline: warden
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 42
+    cooldown-seconds: 92
+    target-mode: area
+    effect-route: defensive_pulse
+    description: "Anchor the nearby area with grove-like battlefield pressure."
 
   vitalist_pulse_mend:
     display-name: "Pulse Mend"
@@ -145,7 +540,42 @@ abilities:
     cost-type: focus
     cost-amount: 10
     cooldown-seconds: 24
-    description: "Prepare restorative energy. Backend definition only."
+    target-mode: self
+    effect-route: resonance_ping
+    description: "Trigger a stabilizing pulse that supports your recovery."
+
+  vitalist_clear_pulse:
+    display-name: "Clear Pulse"
+    discipline: vitalist
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 15
+    cooldown-seconds: 34
+    target-mode: self
+    effect-route: resonance_ping
+    description: "Clear the body with a focused stabilizing resonance."
+
+  vitalist_life_thread:
+    display-name: "Life Thread"
+    discipline: vitalist
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 24
+    cooldown-seconds: 52
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Thread life-force forward, focusing the path ahead."
+
+  vitalist_sanctuary_bloom:
+    display-name: "Sanctuary Bloom"
+    discipline: vitalist
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 36
+    cooldown-seconds: 82
+    target-mode: area
+    effect-route: focus_thread
+    description: "Bloom a sanctuary field that stabilizes your position and nearby space."
 
   necrosage_grave_whisper:
     display-name: "Grave Whisper"
@@ -154,7 +584,42 @@ abilities:
     cost-type: mana
     cost-amount: 12
     cooldown-seconds: 28
-    description: "Call memory from ruined echoes. Backend definition only."
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Call memory from ruined echoes and stir the nearby area."
+
+  necrosage_bone_mark:
+    display-name: "Bone Mark"
+    discipline: necrosage
+    unlock-rank: 2
+    cost-type: mana
+    cost-amount: 18
+    cooldown-seconds: 40
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Mark an aimed target through bone-memory pressure."
+
+  necrosage_echo_grave:
+    display-name: "Echo Grave"
+    discipline: necrosage
+    unlock-rank: 3
+    cost-type: mana
+    cost-amount: 28
+    cooldown-seconds: 58
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Open an echoing grave pulse that slows hostile PvE entities."
+
+  necrosage_dead_memory_bloom:
+    display-name: "Dead Memory Bloom"
+    discipline: necrosage
+    unlock-rank: 4
+    cost-type: mana
+    cost-amount: 42
+    cooldown-seconds: 95
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Let dead memory bloom into a wider arcane field."
 
   summoner_echo_call:
     display-name: "Echo Call"
@@ -163,7 +628,42 @@ abilities:
     cost-type: mana
     cost-amount: 14
     cooldown-seconds: 30
-    description: "Prepare a summoned echo. Backend definition only."
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Call a temporary echo pulse into the surrounding area."
+
+  summoner_threaded_echo:
+    display-name: "Threaded Echo"
+    discipline: summoner
+    unlock-rank: 2
+    cost-type: mana
+    cost-amount: 21
+    cooldown-seconds: 44
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Thread an echo forward as a focused battlefield signal."
+
+  summoner_field_echo:
+    display-name: "Field Echo"
+    discipline: summoner
+    unlock-rank: 3
+    cost-type: mana
+    cost-amount: 30
+    cooldown-seconds: 64
+    target-mode: aimed_location
+    effect-route: arcane_spark
+    description: "Place an echo into the field, slowing hostile PvE entities nearby."
+
+  summoner_echo_lord_preview:
+    display-name: "Echo Lord Preview"
+    discipline: summoner
+    unlock-rank: 4
+    cost-type: mana
+    cost-amount: 46
+    cooldown-seconds: 100
+    target-mode: area
+    effect-route: arcane_spark
+    description: "Preview a larger echo lord pulse without permanent summons yet."
 
   binder_chain_law:
     display-name: "Chain Law"
@@ -172,7 +672,42 @@ abilities:
     cost-type: focus
     cost-amount: 12
     cooldown-seconds: 26
-    description: "Define a binding rule. Backend definition only."
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Define a binding rule at a targeted location."
+
+  binder_oath_chain:
+    display-name: "Oath Chain"
+    discipline: binder
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 17
+    cooldown-seconds: 38
+    target-mode: aimed_entity
+    effect-route: defensive_pulse
+    description: "Bind an aimed target or fallback location through oath pressure."
+
+  binder_silence_clause:
+    display-name: "Silence Clause"
+    discipline: binder
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 26
+    cooldown-seconds: 58
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Apply a silence clause to a location through focused pressure."
+
+  binder_rule_of_binding:
+    display-name: "Rule of Binding"
+    discipline: binder
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 40
+    cooldown-seconds: 90
+    target-mode: area
+    effect-route: focus_thread
+    description: "Declare a binding rule over the nearby battlefield."
 
   warforger_anvil_spark:
     display-name: "Anvil Spark"
@@ -181,7 +716,42 @@ abilities:
     cost-type: stamina
     cost-amount: 12
     cooldown-seconds: 24
-    description: "Prime forged battle energy. Backend definition only."
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Strike a forged spark through the forward line."
+
+  warforger_iron_surge:
+    display-name: "Iron Surge"
+    discipline: warforger
+    unlock-rank: 2
+    cost-type: stamina
+    cost-amount: 18
+    cooldown-seconds: 36
+    target-mode: self
+    effect-route: stamina_surge
+    description: "Surge forward with forged force and movement pressure."
+
+  warforger_forged_wall:
+    display-name: "Forged Wall"
+    discipline: warforger
+    unlock-rank: 3
+    cost-type: stamina
+    cost-amount: 30
+    cooldown-seconds: 60
+    target-mode: self
+    effect-route: defensive_pulse
+    description: "Raise a forged wall of defensive force around yourself."
+
+  warforger_battleframe_ignite:
+    display-name: "Battleframe Ignite"
+    discipline: warforger
+    unlock-rank: 4
+    cost-type: stamina
+    cost-amount: 46
+    cooldown-seconds: 95
+    target-mode: area
+    effect-route: stamina_surge
+    description: "Ignite your battleframe with a wider surge of forged momentum."
 
   architect_field_frame:
     display-name: "Field Frame"
@@ -190,7 +760,42 @@ abilities:
     cost-type: focus
     cost-amount: 14
     cooldown-seconds: 32
-    description: "Sketch a structure into battlefield logic. Backend definition only."
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Sketch a structure into battlefield logic at a chosen location."
+
+  architect_anchor_line:
+    display-name: "Anchor Line"
+    discipline: architect
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 20
+    cooldown-seconds: 44
+    target-mode: forward_line
+    effect-route: defensive_pulse
+    description: "Draw an anchor line forward to stabilize the field."
+
+  architect_warded_geometry:
+    display-name: "Warded Geometry"
+    discipline: architect
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 30
+    cooldown-seconds: 66
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Place warded geometry into the resolved target space."
+
+  architect_siege_structure:
+    display-name: "Siege Structure"
+    discipline: architect
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 46
+    cooldown-seconds: 105
+    target-mode: area
+    effect-route: focus_thread
+    description: "Project a temporary siege structure as a battlefield pressure field."
 
   oracle_clear_sight:
     display-name: "Clear Sight"
@@ -199,7 +804,42 @@ abilities:
     cost-type: focus
     cost-amount: 10
     cooldown-seconds: 25
-    description: "Read a possible path. Backend definition only."
+    target-mode: self
+    effect-route: focus_thread
+    description: "Read a possible path and briefly sharpen your movement response."
+
+  oracle_red_signal:
+    display-name: "Red Signal"
+    discipline: oracle
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 16
+    cooldown-seconds: 36
+    target-mode: forward_line
+    effect-route: focus_thread
+    description: "Send a red signal down the likely path ahead."
+
+  oracle_false_future:
+    display-name: "False Future"
+    discipline: oracle
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 26
+    cooldown-seconds: 58
+    target-mode: aimed_entity
+    effect-route: focus_thread
+    description: "Expose a target by reading a false branch of its future."
+
+  oracle_final_read:
+    display-name: "Final Read"
+    discipline: oracle
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 40
+    cooldown-seconds: 88
+    target-mode: area
+    effect-route: focus_thread
+    description: "Perform a final read of the nearby battlefield and reveal pressure."
 
   paradox_wrong_step:
     display-name: "Wrong Step"
@@ -208,7 +848,42 @@ abilities:
     cost-type: focus
     cost-amount: 16
     cooldown-seconds: 35
-    description: "Make reality trip over itself. Backend definition only."
+    target-mode: self
+    effect-route: unstable_bloom
+    description: "Make reality trip over your movement, creating a strange correction pulse."
+
+  paradox_loop_cut:
+    display-name: "Loop Cut"
+    discipline: paradox
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 22
+    cooldown-seconds: 48
+    target-mode: aimed_entity
+    effect-route: blood_pressure
+    description: "Cut a loop into an aimed target, applying unstable pressure."
+
+  paradox_static_error:
+    display-name: "Static Error"
+    discipline: paradox
+    unlock-rank: 3
+    cost-type: instability
+    cost-amount: 10
+    cooldown-seconds: 68
+    target-mode: area
+    effect-route: unstable_bloom
+    description: "Release a static error that confuses and slows hostile PvE entities."
+
+  paradox_impossible_bloom:
+    display-name: "Impossible Bloom"
+    discipline: paradox
+    unlock-rank: 4
+    cost-type: instability
+    cost-amount: 16
+    cooldown-seconds: 105
+    target-mode: area
+    effect-route: unstable_bloom
+    description: "Bloom a controlled impossibility into the surrounding area."
 
   suppressor_silence_field:
     display-name: "Silence Field"
@@ -217,7 +892,42 @@ abilities:
     cost-type: focus
     cost-amount: 14
     cooldown-seconds: 30
-    description: "Suppress hostile force. Backend definition only."
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Suppress hostile force around a target location."
+
+  suppressor_null_pressure:
+    display-name: "Null Pressure"
+    discipline: suppressor
+    unlock-rank: 2
+    cost-type: focus
+    cost-amount: 21
+    cooldown-seconds: 44
+    target-mode: forward_line
+    effect-route: arcane_spark
+    description: "Apply null pressure through your forward line."
+
+  suppressor_lockdown_chain:
+    display-name: "Lockdown Chain"
+    discipline: suppressor
+    unlock-rank: 3
+    cost-type: focus
+    cost-amount: 32
+    cooldown-seconds: 68
+    target-mode: aimed_location
+    effect-route: focus_thread
+    description: "Lock down a location with chained suppressive pressure."
+
+  suppressor_total_quiet:
+    display-name: "Total Quiet"
+    discipline: suppressor
+    unlock-rank: 4
+    cost-type: focus
+    cost-amount: 48
+    cooldown-seconds: 105
+    target-mode: area
+    effect-route: focus_thread
+    description: "Blanket the nearby field in total quiet and suppression logic."
 
   anomaly_static_bloom:
     display-name: "Static Bloom"
@@ -226,4 +936,39 @@ abilities:
     cost-type: instability
     cost-amount: 8
     cooldown-seconds: 27
-    description: "Release controlled impossibility. Backend definition only."
+    target-mode: area
+    effect-route: unstable_bloom
+    description: "Release controlled impossibility into a nearby static bloom."
+
+  anomaly_wrong_signal:
+    display-name: "Wrong Signal"
+    discipline: anomaly
+    unlock-rank: 2
+    cost-type: instability
+    cost-amount: 10
+    cooldown-seconds: 40
+    target-mode: forward_line
+    effect-route: unstable_bloom
+    description: "Send a wrong signal through the line ahead."
+
+  anomaly_null_spike:
+    display-name: "Null Spike"
+    discipline: anomaly
+    unlock-rank: 3
+    cost-type: instability
+    cost-amount: 14
+    cooldown-seconds: 62
+    target-mode: aimed_location
+    effect-route: arcane_spark
+    description: "Drive a null spike into an aimed location."
+
+  anomaly_reality_fault:
+    display-name: "Reality Fault"
+    discipline: anomaly
+    unlock-rank: 4
+    cost-type: instability
+    cost-amount: 22
+    cooldown-seconds: 110
+    target-mode: area
+    effect-route: unstable_bloom
+    description: "Open a controlled reality fault in the surrounding area."

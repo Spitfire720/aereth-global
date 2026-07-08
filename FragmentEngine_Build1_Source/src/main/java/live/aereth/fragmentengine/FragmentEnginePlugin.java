@@ -59,6 +59,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
             aereth.setTabCompleter(command);
         }
         getServer().getPluginManager().registerEvents(new FragmentEngineGuiListener(this, characterService, fragmentService, intentService, disciplineService, abilityService), this);
+        getServer().getPluginManager().registerEvents(new live.aereth.fragmentengine.listener.AbilityHotbarListener(this, characterService, disciplineService, abilityService), this);
 
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
