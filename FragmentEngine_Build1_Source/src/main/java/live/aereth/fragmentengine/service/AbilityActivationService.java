@@ -18,6 +18,7 @@ public class AbilityActivationService {
     private final AbilityTargetingService targeting;
     private final AbilityResourceService resources;
     private final AbilityScalingService scaling;
+    private final AbilitySlotFrameworkService slots;
 
     public AbilityActivationService(JavaPlugin plugin, CharacterService characters, DisciplineService disciplines, AbilityService abilities) {
         this.characters = characters;
@@ -27,10 +28,16 @@ public class AbilityActivationService {
         this.targeting = new AbilityTargetingService();
         this.resources = new AbilityResourceService();
         this.scaling = new AbilityScalingService();
+        this.slots = new AbilitySlotFrameworkService(abilities);
     }
 
     public ActivationResult activate(OfflinePlayer player, int slot) throws IOException {
         YamlConfiguration character = activeCharacter(player);
+        AbilitySlotFrameworkService.ValidationResult slotValidation = slots.sanitizeLoadout(character);
+        if (slotValidation.changed()) {
+            saveCharacter(player, character);
+        }
+
         DisciplineService.DisciplineSummary discipline = disciplines.summary(character);
 
         if (!discipline.selected()) {
@@ -84,6 +91,8 @@ public class AbilityActivationService {
         character.set(cooldownPath + ".base-cooldown-seconds", definition.cooldownSeconds());
         character.set(cooldownPath + ".effect-id", effect.effectId());
         character.set(cooldownPath + ".effect-status", effect.status());
+        character.set(cooldownPath + ".effect-detail", effect.detail());
+        character.set(cooldownPath + ".route-contract", "temporary_test_route_not_final_ability_design");
         character.set(cooldownPath + ".resource.type", payment.type());
         character.set(cooldownPath + ".resource.amount", payment.amount());
         character.set(cooldownPath + ".resource.base-amount", definition.costAmount());
@@ -106,6 +115,7 @@ public class AbilityActivationService {
         character.set("abilities.activation.last.effect-id", effect.effectId());
         character.set("abilities.activation.last.effect-status", effect.status());
         character.set("abilities.activation.last.effect-detail", effect.detail());
+        character.set("abilities.activation.last.route-contract", "temporary_test_route_not_final_ability_design");
         character.set("abilities.activation.last.resource.type", payment.type());
         character.set("abilities.activation.last.resource.amount", payment.amount());
         character.set("abilities.activation.last.resource.remaining", payment.remaining());
@@ -114,7 +124,7 @@ public class AbilityActivationService {
         character.set("abilities.activation.last.resource.scaling-status", payment.scalingStatus());
         writeTarget(character, "abilities.activation.last.target", target);
         writeScaling(character, "abilities.activation.last.scaling", scale);
-        character.set("abilities.activation.last.status", "scaled_resource_paid_targeted_effect_routed");
+        character.set("abilities.activation.last.status", "slot_validated_scaled_resource_paid_targeted_effect_routed");
 
         saveCharacter(player, character);
 
@@ -125,7 +135,7 @@ public class AbilityActivationService {
                 definition.costType(),
                 scale.scaledCostAmount(),
                 scale.scaledCooldownSeconds(),
-                "scaled_resource_paid_targeted_effect_routed:" + effect.effectId(),
+                "slot_validated_scaled_resource_paid_targeted_effect_routed:" + effect.effectId(),
                 target.mode(),
                 target.status(),
                 target.description(),
@@ -143,6 +153,7 @@ public class AbilityActivationService {
 
     public TargetPreview previewTarget(OfflinePlayer player, int slot) {
         YamlConfiguration character = activeCharacter(player);
+        slots.sanitizeLoadout(character);
         String abilityId = loadoutSlot(character, slot);
         if (abilityId.isBlank() || !abilities.allAbilityIds().contains(abilityId)) {
             return new TargetPreview(slot, abilityId, "none", "missing_ability", "No valid ability in this loadout slot.");
@@ -155,6 +166,7 @@ public class AbilityActivationService {
 
     public CooldownSummary cooldowns(OfflinePlayer player) {
         YamlConfiguration character = activeCharacter(player);
+        slots.sanitizeLoadout(character);
         List<ActiveCooldown> active = new ArrayList<>();
 
         for (int slot = 1; slot <= 4; slot++) {
@@ -176,20 +188,19 @@ public class AbilityActivationService {
     }
 
     public String loadoutSlot(YamlConfiguration character, int slot) {
-        if (slot < 1 || slot > 4) {
-            return "";
-        }
-        return normalize(character.getString("abilities.loadout.slots.slot" + slot, ""));
+        return slots.slotValue(character, slot);
     }
 
     public int maxLoadoutSlots(YamlConfiguration character) {
-        boolean selected = character.getBoolean("discipline.selected", false);
-        if (!selected) {
-            return 0;
-        }
+        return slots.maxSlots(character);
+    }
 
-        int rank = Math.max(0, character.getInt("discipline.progression.rank", 0));
-        return Math.max(1, Math.min(4, rank));
+    public AbilitySlotFrameworkService.ValidationResult slotDiagnostics(YamlConfiguration character) {
+        return slots.inspect(character);
+    }
+
+    public AbilitySlotFrameworkService.ValidationResult sanitizeSlots(YamlConfiguration character) {
+        return slots.sanitizeLoadout(character);
     }
 
     public long remainingCooldownSeconds(YamlConfiguration character, String abilityId) {

@@ -1,6 +1,7 @@
 package live.aereth.fragmentengine.gui;
 
 import live.aereth.fragmentengine.service.AbilityService;
+import live.aereth.fragmentengine.service.AbilitySlotFrameworkService;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.DisciplineService;
 import live.aereth.fragmentengine.util.Text;
@@ -15,11 +16,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 public class AbilityLoadoutGui {
@@ -41,6 +40,7 @@ public class AbilityLoadoutGui {
     private final CharacterService characters;
     private final DisciplineService disciplines;
     private final AbilityService abilities;
+    private final AbilitySlotFrameworkService slotFramework;
     private final Map<UUID, Integer> selectedSlots = new HashMap<>();
 
     public AbilityLoadoutGui(JavaPlugin plugin, CharacterService characters, DisciplineService disciplines, AbilityService abilities) {
@@ -48,6 +48,7 @@ public class AbilityLoadoutGui {
         this.characters = characters;
         this.disciplines = disciplines;
         this.abilities = abilities;
+        this.slotFramework = new AbilitySlotFrameworkService(abilities);
     }
 
     public void open(Player player) {
@@ -57,10 +58,21 @@ public class AbilityLoadoutGui {
             return;
         }
 
+        AbilitySlotFrameworkService.ValidationResult validation = slotFramework.sanitizeLoadout(character);
+        if (validation.changed()) {
+            try {
+                saveCharacter(player, character);
+                player.sendMessage(prefix() + Text.color("&eAbility slots auto-cleaned: &f" + validation.compactLine()));
+            } catch (IOException ex) {
+                player.sendMessage(prefix() + Text.color("&cCould not save cleaned ability slots."));
+                plugin.getLogger().warning("Could not save cleaned ability loadout: " + ex.getMessage());
+            }
+        }
+
         DisciplineService.DisciplineSummary discipline = disciplines.summary(character);
         DisciplineService.DisciplineProgressSummary progress = disciplines.progress(character);
         AbilityService.AbilitySummary summary = abilities.summary(character);
-        int maxSlots = maxLoadoutSlots(discipline, progress);
+        int maxSlots = slotFramework.maxSlots(character);
         int selectedSlot = selectedSlots.getOrDefault(player.getUniqueId(), 1);
         if (selectedSlot < 1 || selectedSlot > Math.max(1, maxSlots)) {
             selectedSlot = 1;
@@ -76,8 +88,11 @@ public class AbilityLoadoutGui {
                 "&7Rank: &f" + progress.rank() + " &8/ &f" + progress.rankName(),
                 "&7Unlocked Abilities: &f" + summary.unlocked().size(),
                 "&7Loadout Slots: &f" + maxSlots + " &8/ &f4",
-                "&7Selected Slot: &c" + selectedSlot
+                "&7Selected Slot: &c" + selectedSlot,
+                "&7Framework: &fS4C slot contract"
         )));
+
+        inventory.setItem(16, diagnosticsItem(validation));
 
         placeLoadoutSlot(inventory, 19, 1, selectedSlot, maxSlots, character, summary);
         placeLoadoutSlot(inventory, 21, 2, selectedSlot, maxSlots, character, summary);
@@ -92,7 +107,7 @@ public class AbilityLoadoutGui {
         } else if (summary.unlocked().isEmpty()) {
             inventory.setItem(31, GuiItem.item(Material.GRAY_DYE, "&8No Unlocked Abilities", GuiItem.lore(
                     "&7Rank up your Discipline to unlock abilities.",
-                    "&8The menu works. Your character is just unemployed."
+                    "&8The framework works. The character has no tools yet."
             )));
         } else {
             List<AbilityService.AbilityDefinition> definitions = definitionsFor(summary.discipline());
@@ -110,7 +125,11 @@ public class AbilityLoadoutGui {
                 "&7Selected Slot: &f" + selectedSlot,
                 "&eClick to clear this ability slot."
         )));
-        inventory.setItem(49, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload loadout state.")));
+        inventory.setItem(49, GuiItem.item(Material.PAPER, "&bRefresh + Validate", GuiItem.lore(
+                "&7Runs the S4C slot validator.",
+                "&7Auto-cleans unknown, locked, duplicate, or broken IDs.",
+                "&eClick to reload loadout state."
+        )));
         inventory.setItem(53, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
 
         player.openInventory(inventory);
@@ -124,10 +143,22 @@ public class AbilityLoadoutGui {
             return;
         }
 
+        AbilitySlotFrameworkService.ValidationResult validation = slotFramework.sanitizeLoadout(character);
+        if (validation.changed()) {
+            try {
+                saveCharacter(player, character);
+                player.sendMessage(prefix() + Text.color("&eAbility slots auto-cleaned before click: &f" + validation.compactLine()));
+            } catch (IOException ex) {
+                player.sendMessage(prefix() + Text.color("&cCould not save cleaned ability slots."));
+                plugin.getLogger().warning("Could not save cleaned ability loadout before click: " + ex.getMessage());
+                return;
+            }
+        }
+
         DisciplineService.DisciplineSummary discipline = disciplines.summary(character);
         DisciplineService.DisciplineProgressSummary progress = disciplines.progress(character);
         AbilityService.AbilitySummary summary = abilities.summary(character);
-        int maxSlots = maxLoadoutSlots(discipline, progress);
+        int maxSlots = slotFramework.maxSlots(character);
 
         if (rawSlot == 49) {
             open(player);
@@ -158,7 +189,8 @@ public class AbilityLoadoutGui {
                 return;
             }
             try {
-                clearSlot(player, character, selectedSlot);
+                slotFramework.clear(character, selectedSlot);
+                saveCharacter(player, character);
                 player.sendMessage(prefix() + Text.color("&aCleared Ability Loadout Slot " + selectedSlot + "."));
                 open(player);
             } catch (IOException ex) {
@@ -196,44 +228,40 @@ public class AbilityLoadoutGui {
         }
 
         try {
-            equipAbility(player, character, selectedSlot, definition.id());
+            slotFramework.equip(character, selectedSlot, definition.id());
+            saveCharacter(player, character);
             player.sendMessage(prefix() + Text.color("&aEquipped ability: &f" + definition.display() + " &7-> Slot " + selectedSlot + "."));
+            player.sendMessage(prefix() + Text.color("&7Slot framework: &fduplicates cleared, summary rebuilt."));
             open(player);
         } catch (IOException ex) {
             player.sendMessage(prefix() + Text.color("&cCould not save ability loadout."));
             plugin.getLogger().warning("Could not save ability loadout: " + ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            player.sendMessage(prefix() + Text.color("&c" + ex.getMessage()));
+            open(player);
         }
     }
 
-    private void equipAbility(Player player, YamlConfiguration character, int selectedSlot, String abilityId) throws IOException {
-        for (int i = 1; i <= 4; i++) {
-            String path = slotPath(i);
-            if (abilityId.equalsIgnoreCase(character.getString(path, ""))) {
-                character.set(path, null);
+    private ItemStack diagnosticsItem(AbilitySlotFrameworkService.ValidationResult validation) {
+        List<String> lore = new ArrayList<>();
+        lore.add("&7Status: &f" + validation.status());
+        lore.add("&7Active: &f" + validation.activeCount() + " &8/ &f" + validation.maxSlots());
+        lore.add("&7Cleaned: &f" + validation.cleanedCount());
+        lore.add("&7Invalid: &f" + validation.invalidCount());
+        lore.add("&7Duplicates: &f" + validation.duplicateCount());
+        lore.add("&7Locked Clears: &f" + validation.lockedCount());
+        lore.add("");
+        if (validation.issues().isEmpty()) {
+            lore.add("&aNo slot issues detected.");
+        } else {
+            lore.add("&eRecent Issues:");
+            for (String issue : validation.issues().subList(0, Math.min(4, validation.issues().size()))) {
+                lore.add("&8- &7" + trim(issue));
             }
         }
-        character.set(slotPath(selectedSlot), abilityId);
-        writeLoadoutSummary(character);
-        saveCharacter(player, character);
-    }
-
-    private void clearSlot(Player player, YamlConfiguration character, int selectedSlot) throws IOException {
-        character.set(slotPath(selectedSlot), null);
-        writeLoadoutSummary(character);
-        saveCharacter(player, character);
-    }
-
-    private void writeLoadoutSummary(YamlConfiguration character) {
-        List<String> active = new ArrayList<>();
-        for (int i = 1; i <= 4; i++) {
-            String ability = character.getString(slotPath(i), "");
-            if (ability != null && !ability.isBlank()) {
-                active.add(ability.toLowerCase(Locale.ROOT));
-            }
-        }
-        character.set("abilities.loadout.active", active);
-        character.set("abilities.loadout.count", active.size());
-        character.set("abilities.loadout.max-slots", 4);
+        lore.add("");
+        lore.add("&8S4C validates slots. It does not define final abilities.");
+        return GuiItem.item(validation.issues().isEmpty() ? Material.COMPARATOR : Material.ORANGE_DYE, "&dSlot Diagnostics", GuiItem.lore(lore.toArray(new String[0])));
     }
 
     private void saveCharacter(Player player, YamlConfiguration character) throws IOException {
@@ -245,22 +273,33 @@ public class AbilityLoadoutGui {
                                   YamlConfiguration character, AbilityService.AbilitySummary summary) {
         boolean unlocked = loadoutSlot <= maxSlots;
         boolean selected = loadoutSlot == selectedSlot;
-        String abilityId = character.getString(slotPath(loadoutSlot), "");
+        String abilityId = slotFramework.slotValue(character, loadoutSlot);
 
         if (!unlocked) {
             inventory.setItem(inventorySlot, GuiItem.item(Material.BARRIER, "&8Loadout Slot " + loadoutSlot + " Locked", GuiItem.lore(
                     "&7Unlock through Discipline rank.",
                     "&7Current unlocked slots: &f" + maxSlots,
-                    "&7Slot unlocks: &fRank 1/2/3/4"
+                    "&7Slot unlocks: &fRank 1/2/3/4",
+                    "&8S4C will clear data stored in locked slots."
             )));
             return;
         }
 
         String marker = selected ? "&e▶ " : "";
-        if (abilityId == null || abilityId.isBlank()) {
+        if (abilityId.isBlank()) {
             inventory.setItem(inventorySlot, GuiItem.item(selected ? Material.YELLOW_DYE : Material.GRAY_DYE, marker + "&7Loadout Slot " + loadoutSlot + ": Empty", GuiItem.lore(
                     "&7Status: &fAvailable",
+                    "&7Contract: &fslot accepts one unlocked ability id",
                     selected ? "&eCurrently selected." : "&eClick to select this slot."
+            )));
+            return;
+        }
+
+        if (!abilities.allAbilityIds().contains(abilityId)) {
+            inventory.setItem(inventorySlot, GuiItem.item(Material.ORANGE_DYE, marker + "&cLoadout Slot " + loadoutSlot + ": Invalid", GuiItem.lore(
+                    "&7Id: &f" + abilityId,
+                    "&cUnknown ability id.",
+                    "&eRefresh to auto-clean this slot."
             )));
             return;
         }
@@ -273,6 +312,7 @@ public class AbilityLoadoutGui {
                 "&7Status: " + (stillUnlocked ? "&aReady" : "&cInvalid / locked"),
                 "&7Cost: &f" + readableCost(definition),
                 "&7Cooldown: &f" + round(definition.cooldownSeconds()) + "s",
+                "&7Route: &ftemporary test route",
                 selected ? "&eCurrently selected." : "&eClick to select this slot."
         )));
     }
@@ -291,17 +331,11 @@ public class AbilityLoadoutGui {
                 "&7Equipped: &f" + yesNo(equipped),
                 "&7Cost: &f" + readableCost(definition),
                 "&7Cooldown: &f" + round(definition.cooldownSeconds()) + "s",
+                "&7Contract: &fdefinition only, final design later",
                 "",
                 unlocked ? "&eClick to equip to Slot " + selectedSlot + "." : "&8Rank up to unlock.",
                 "&8" + trim(definition.description())
         ));
-    }
-
-    private int maxLoadoutSlots(DisciplineService.DisciplineSummary discipline, DisciplineService.DisciplineProgressSummary progress) {
-        if (!discipline.selected()) {
-            return 0;
-        }
-        return Math.max(1, Math.min(4, progress.rank()));
     }
 
     private List<AbilityService.AbilityDefinition> definitionsFor(String disciplineId) {
@@ -320,7 +354,7 @@ public class AbilityLoadoutGui {
 
     private boolean isEquipped(YamlConfiguration character, String abilityId) {
         for (int i = 1; i <= 4; i++) {
-            if (abilityId.equalsIgnoreCase(character.getString(slotPath(i), ""))) {
+            if (abilityId.equalsIgnoreCase(slotFramework.slotValue(character, i))) {
                 return true;
             }
         }
@@ -334,10 +368,6 @@ public class AbilityLoadoutGui {
             }
         }
         return -1;
-    }
-
-    private String slotPath(int slot) {
-        return "abilities.loadout.slots.slot" + slot;
     }
 
     private String readableCost(AbilityService.AbilityDefinition definition) {
