@@ -1,9 +1,12 @@
 package live.aereth.fragmentengine.listener;
 
+import live.aereth.fragmentengine.gui.AbilityActivationGui;
 import live.aereth.fragmentengine.gui.AbilityCodexGui;
+import live.aereth.fragmentengine.gui.AbilityLoadoutGui;
 import live.aereth.fragmentengine.gui.CharacterCardGui;
 import live.aereth.fragmentengine.gui.DisciplineCodexGui;
 import live.aereth.fragmentengine.gui.IntentSlotsGui;
+import live.aereth.fragmentengine.service.AbilityActivationService;
 import live.aereth.fragmentengine.service.AbilityService;
 import live.aereth.fragmentengine.service.CharacterService;
 import live.aereth.fragmentengine.service.DisciplineService;
@@ -22,6 +25,8 @@ public class FragmentEngineGuiListener implements Listener {
     private final IntentSlotsGui intentSlotsGui;
     private final DisciplineCodexGui disciplineCodexGui;
     private final AbilityCodexGui abilityCodexGui;
+    private final AbilityLoadoutGui abilityLoadoutGui;
+    private final AbilityActivationGui abilityActivationGui;
 
     public FragmentEngineGuiListener(JavaPlugin plugin, CharacterService characters, FragmentService fragments,
                                      IntentService intents, DisciplineService disciplines, AbilityService abilities) {
@@ -29,6 +34,10 @@ public class FragmentEngineGuiListener implements Listener {
         this.intentSlotsGui = new IntentSlotsGui(plugin, characters, intents);
         this.disciplineCodexGui = new DisciplineCodexGui(plugin, characters, disciplines);
         this.abilityCodexGui = new AbilityCodexGui(plugin, characters, disciplines, abilities);
+        this.abilityLoadoutGui = new AbilityLoadoutGui(plugin, characters, disciplines, abilities);
+
+        AbilityActivationService abilityActivation = new AbilityActivationService(plugin, characters, disciplines, abilities);
+        this.abilityActivationGui = new AbilityActivationGui(plugin, characters, disciplines, abilities, abilityActivation);
     }
 
     @EventHandler
@@ -53,6 +62,10 @@ public class FragmentEngineGuiListener implements Listener {
                 disciplineCodexGui.open(player);
             } else if (slot == 28) {
                 abilityCodexGui.open(player);
+            } else if (slot == 30) {
+                abilityLoadoutGui.open(player);
+            } else if (slot == 32) {
+                abilityActivationGui.open(player);
             } else if (slot == 49) {
                 characterCardGui.open(player);
             } else if (slot == 53) {
@@ -62,11 +75,7 @@ public class FragmentEngineGuiListener implements Listener {
         }
 
         if (title.equals(plain(IntentSlotsGui.TITLE))) {
-            if (slot == 45) {
-                characterCardGui.open(player);
-            } else {
-                intentSlotsGui.handleClick(player, slot);
-            }
+            intentSlotsGui.handleClick(player, slot);
             return;
         }
 
@@ -89,6 +98,16 @@ public class FragmentEngineGuiListener implements Listener {
             } else {
                 abilityCodexGui.handleClick(player, slot);
             }
+            return;
+        }
+
+        if (title.equals(plain(AbilityLoadoutGui.TITLE))) {
+            abilityLoadoutGui.handleClick(player, slot);
+            return;
+        }
+
+        if (title.equals(plain(AbilityActivationGui.TITLE))) {
+            abilityActivationGui.handleClick(player, slot);
         }
     }
 
@@ -106,6 +125,8 @@ public class FragmentEngineGuiListener implements Listener {
                         || title.equals(plain(IntentSlotsGui.TITLE))
                         || title.equals(plain(DisciplineCodexGui.TITLE))
                         || title.equals(plain(AbilityCodexGui.TITLE))
+                        || title.equals(plain(AbilityLoadoutGui.TITLE))
+                        || title.equals(plain(AbilityActivationGui.TITLE))
         );
     }
 

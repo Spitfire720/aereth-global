@@ -6,12 +6,15 @@ import live.aereth.fragmentengine.service.FragmentService;
 import live.aereth.fragmentengine.service.IntentService;
 import live.aereth.fragmentengine.service.DisciplineService;
 import live.aereth.fragmentengine.service.AbilityService;
+import live.aereth.fragmentengine.service.AbilityActivationService;
 import live.aereth.fragmentengine.service.LegacyCommandService;
 import live.aereth.fragmentengine.service.ProgressionService;
 import live.aereth.fragmentengine.gui.CharacterCardGui;
 import live.aereth.fragmentengine.gui.IntentSlotsGui;
 import live.aereth.fragmentengine.gui.DisciplineCodexGui;
 import live.aereth.fragmentengine.gui.AbilityCodexGui;
+import live.aereth.fragmentengine.gui.AbilityLoadoutGui;
+import live.aereth.fragmentengine.gui.AbilityActivationGui;
 import live.aereth.fragmentengine.util.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -40,6 +43,9 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     private final IntentSlotsGui intentSlotsGui;
     private final DisciplineCodexGui disciplineCodexGui;
     private final AbilityCodexGui abilityCodexGui;
+    private final AbilityLoadoutGui abilityLoadoutGui;
+    private final AbilityActivationService abilityActivation;
+    private final AbilityActivationGui abilityActivationGui;
 
     public AerethCommand(JavaPlugin plugin, CharacterService characters, FragmentService fragments, IntentService intents, DisciplineService disciplines, AbilityService abilities, LegacyCommandService legacy, AgentExportService agentExport) {
         this.plugin = plugin;
@@ -54,6 +60,9 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         this.intentSlotsGui = new IntentSlotsGui(plugin, characters, intents);
         this.disciplineCodexGui = new DisciplineCodexGui(plugin, characters, disciplines);
         this.abilityCodexGui = new AbilityCodexGui(plugin, characters, disciplines, abilities);
+        this.abilityLoadoutGui = new AbilityLoadoutGui(plugin, characters, disciplines, abilities);
+        this.abilityActivation = new AbilityActivationService(plugin, characters, disciplines, abilities);
+        this.abilityActivationGui = new AbilityActivationGui(plugin, characters, disciplines, abilities, abilityActivation);
     }
 
     @Override
@@ -90,6 +99,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
                 case "adddisciplinexp" -> addDisciplineXp(sender, args);
                 case "setdisciplinerank" -> setDisciplineRank(sender, args);
                 case "resetdisciplineprogress" -> resetDisciplineProgress(sender, args);
+                case "abilityloadout" -> abilityLoadout(sender);
+                case "abilityactivation" -> abilityActivationGui(sender);
+                case "abilityactivate" -> abilityActivate(sender, args);
+                case "abilitycooldowns" -> abilityCooldowns(sender, args);
                 case "abilitygui" -> abilityGui(sender);
                 case "abilitylist" -> abilityList(sender);
                 case "abilities" -> abilities(sender, args);
@@ -140,6 +153,10 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Text.color("&b/aereth adddisciplinexp <player> <amount>"));
         sender.sendMessage(Text.color("&b/aereth setdisciplinerank <player> <rank>"));
         sender.sendMessage(Text.color("&b/aereth resetdisciplineprogress <player>"));
+        sender.sendMessage(Text.color("&b/aereth abilityloadout"));
+        sender.sendMessage(Text.color("&b/aereth abilityactivation"));
+        sender.sendMessage(Text.color("&b/aereth abilityactivate <player> <slot>"));
+        sender.sendMessage(Text.color("&b/aereth abilitycooldowns <player>"));
         sender.sendMessage(Text.color("&b/aereth abilitygui"));
         sender.sendMessage(Text.color("&b/aereth abilitylist"));
         sender.sendMessage(Text.color("&b/aereth abilities <player>"));
@@ -184,6 +201,13 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         }
         disciplineCodexGui.open(player);
     }
+    private void abilityLoadout(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Ability Loadout GUI."));
+            return;
+        }
+        abilityLoadoutGui.open(player);
+    }
     private void abilityGui(CommandSender sender) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(prefix() + Text.color("&cOnly players can open the Ability Codex GUI."));
@@ -191,6 +215,37 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
         }
         abilityCodexGui.open(player);
     }
+    private void abilityActivationGui(CommandSender sender) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(prefix() + Text.color("&cOnly players can open the Ability Activation GUI."));
+            return;
+        }
+        abilityActivationGui.open(player);
+    }
+
+    private void abilityActivate(CommandSender sender, String[] args) throws IOException {
+        requireArgs(args, 3, "/aereth abilityactivate <player> <slot>");
+        int slot = parseInt(args[2], "slot");
+        AbilityActivationService.ActivationResult result = abilityActivation.activate(Bukkit.getOfflinePlayer(args[1]), slot);
+        sender.sendMessage(prefix() + Text.color("&aAbility activated: &f" + result.display()
+                + " &8/ &7Slot: &f" + result.slot()
+                + " &8/ &7Cooldown: &f" + result.cooldownSeconds() + "s"));
+    }
+
+    private void abilityCooldowns(CommandSender sender, String[] args) {
+        requireArgs(args, 2, "/aereth abilitycooldowns <player>");
+        AbilityActivationService.CooldownSummary summary = abilityActivation.cooldowns(Bukkit.getOfflinePlayer(args[1]));
+        sender.sendMessage(prefix() + Text.color("&7Ability cooldowns: &b" + args[1]));
+        if (summary.active().isEmpty()) {
+            sender.sendMessage(Text.color("&7Active: &fnone"));
+            return;
+        }
+        for (AbilityActivationService.ActiveCooldown cooldown : summary.active()) {
+            sender.sendMessage(Text.color("&7Slot " + cooldown.slot() + ": &f" + cooldown.display()
+                    + " &8/ &7Remaining: &f" + cooldown.remainingSeconds() + "s"));
+        }
+    }
+
     private void profile(CommandSender sender, String[] args) {
         requireArgs(args, 2, "/aereth profile <player>");
         OfflinePlayer target = Bukkit.getOfflinePlayer(args[1]);
@@ -599,6 +654,9 @@ public class AerethCommand implements CommandExecutor, TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         if (args.length == 1) {
             return partial(args[0], List.of("status", "card", "intentgui", "disciplinegui", "profile", "character", "stats", "fragments", "discover", "attach", "detach", "intent", "intentlist", "setintent", "clearintent", "discipline", "disciplinelist", "setdiscipline", "cleardiscipline", "disciplineprogress", "adddisciplinexp", "setdisciplinerank", "resetdisciplineprogress", "abilitylist", "abilities", "createcharacter", "addxp", "setlevel", "setrace", "save", "reload", "diagnostics", "agent", "activity", "echo", "legacyattach", "erasure"));
+        }
+        if (args.length == 3 && args[0].equalsIgnoreCase("abilityactivate")) {
+            return partial(args[2], List.of("1", "2", "3", "4"));
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("agent")) {
             return partial(args[1], List.of("export"));

@@ -54,7 +54,8 @@ public class AbilityCodexGui {
                 "&7Discipline: &f" + discipline.display(),
                 "&7Rank: &f" + progress.rank() + " &8/ &f" + progress.rankName(),
                 "&7Unlocked: &f" + summary.unlocked().size(),
-                "&7Locked: &f" + summary.locked().size()
+                "&7Locked: &f" + summary.locked().size(),
+                "&7Loadout Count: &f" + character.getInt("abilities.loadout.count", 0)
         )));
 
         inventory.setItem(10, GuiItem.item(discipline.selected() ? Material.NETHER_STAR : Material.GRAY_DYE, "&bCurrent Discipline", GuiItem.lore(
@@ -103,12 +104,17 @@ public class AbilityCodexGui {
             for (int i = 0; i < Math.min(definitions.size(), ABILITY_SLOTS.length); i++) {
                 AbilityService.AbilityDefinition definition = definitions.get(i);
                 boolean unlocked = summary.unlocked().contains(definition.id());
-                inventory.setItem(ABILITY_SLOTS[i], abilityItem(definition, unlocked, progress.rank()));
+                boolean equipped = isEquipped(character, definition.id());
+                inventory.setItem(ABILITY_SLOTS[i], abilityItem(definition, unlocked, equipped, progress.rank()));
             }
         }
 
         inventory.setItem(45, GuiItem.item(Material.ARROW, "&bBack to Character Card", GuiItem.lore("&eClick to return.")));
         inventory.setItem(47, GuiItem.item(Material.NETHER_STAR, "&bOpen Discipline Codex", GuiItem.lore("&eClick to manage Disciplines.")));
+        inventory.setItem(48, GuiItem.item(Material.CHEST, "&bOpen Ability Loadout", GuiItem.lore(
+                "&7Equip unlocked abilities into active slots.",
+                "&eClick to manage loadout."
+        )));
         inventory.setItem(49, GuiItem.item(Material.PAPER, "&bRefresh", GuiItem.lore("&eClick to reload ability state.")));
         inventory.setItem(53, GuiItem.item(Material.RED_STAINED_GLASS_PANE, "&cClose", GuiItem.lore("&7Close this menu.")));
 
@@ -123,17 +129,19 @@ public class AbilityCodexGui {
         }
     }
 
-    private ItemStack abilityItem(AbilityService.AbilityDefinition definition, boolean unlocked, int currentRank) {
-        Material material = unlocked ? materialForCost(definition.costType()) : Material.GRAY_DYE;
-        String name = (unlocked ? "&a" : "&8") + definition.display();
+    private ItemStack abilityItem(AbilityService.AbilityDefinition definition, boolean unlocked, boolean equipped, int currentRank) {
+        Material material = equipped ? Material.LIME_DYE : (unlocked ? materialForCost(definition.costType()) : Material.GRAY_DYE);
+        String name = equipped ? "&a✓ " + definition.display() : (unlocked ? "&a" : "&8") + definition.display();
         return GuiItem.item(material, name, GuiItem.lore(
                 "&7Id: &f" + definition.id(),
                 "&7Required Rank: &f" + definition.unlockRank(),
                 "&7Current Rank: &f" + currentRank,
                 "&7Status: " + (unlocked ? "&aUnlocked" : "&8Locked"),
+                "&7Equipped: &f" + yesNo(equipped),
                 "&7Cost: &f" + readableCost(definition),
                 "&7Cooldown: &f" + round(definition.cooldownSeconds()) + "s",
                 "",
+                unlocked ? "&eOpen Ability Loadout to equip." : "&8Rank up to unlock.",
                 "&8" + trim(definition.description())
         ));
     }
@@ -152,6 +160,15 @@ public class AbilityCodexGui {
         return result;
     }
 
+    private boolean isEquipped(YamlConfiguration character, String abilityId) {
+        for (int i = 1; i <= 4; i++) {
+            if (abilityId.equalsIgnoreCase(character.getString("abilities.loadout.slots.slot" + i, ""))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private String readableCost(AbilityService.AbilityDefinition definition) {
         if (definition.costType() == null || definition.costType().isBlank() || definition.costType().equalsIgnoreCase("none")) {
             return "None";
@@ -167,6 +184,8 @@ public class AbilityCodexGui {
             case "mana", "arcane" -> Material.LAPIS_LAZULI;
             case "health", "hp", "vitality" -> Material.RED_DYE;
             case "stamina", "energy" -> Material.SUGAR;
+            case "focus" -> Material.ENDER_EYE;
+            case "instability" -> Material.AMETHYST_CLUSTER;
             case "fragment", "pressure" -> Material.AMETHYST_SHARD;
             default -> Material.BLAZE_POWDER;
         };
