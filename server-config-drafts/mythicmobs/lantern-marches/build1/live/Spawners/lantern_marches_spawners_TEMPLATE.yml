@@ -1,0 +1,95 @@
+# Aereth - Lantern Marches Build 01
+# MythicMobs spawner template.
+# Replace every PLACEHOLDER before copying live.
+
+LM_BentRoad_Roadstrays_01:
+  MobName: LM_Roadstray
+  World: PLACEHOLDER_WORLD_NAME
+  X: PLACEHOLDER_BENT_ROAD_X
+  Y: PLACEHOLDER_BENT_ROAD_Y
+  Z: PLACEHOLDER_BENT_ROAD_Z
+  Radius: 18
+  UseTimer: true
+  MaxMobs: 5
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 45
+  CooldownTimer: 0
+  Warmup: 10
+  ActivationRange: 45
+  LeashRange: 28
+  HealOnLeash: true
+  ResetThreatOnLeash: true
+  ShowFlames: false
+
+LM_BentRoad_Drifters_01:
+  MobName: LM_BentRoadDrifter
+  World: PLACEHOLDER_WORLD_NAME
+  X: PLACEHOLDER_BENT_ROAD_EDGE_X
+  Y: PLACEHOLDER_BENT_ROAD_EDGE_Y
+  Z: PLACEHOLDER_BENT_ROAD_EDGE_Z
+  Radius: 22
+  UseTimer: true
+  MaxMobs: 3
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 70
+  ActivationRange: 45
+  LeashRange: 30
+  HealOnLeash: true
+  ResetThreatOnLeash: true
+  ShowFlames: false
+
+LM_Mirrorfen_Wisps_01:
+  MobName: LM_MirrorfenWisp
+  World: PLACEHOLDER_WORLD_NAME
+  X: PLACEHOLDER_MIRRORFEN_X
+  Y: PLACEHOLDER_MIRRORFEN_Y
+  Z: PLACEHOLDER_MIRRORFEN_Z
+  Radius: 16
+  UseTimer: true
+  MaxMobs: 4
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 60
+  ActivationRange: 40
+  LeashRange: 24
+  HealOnLeash: true
+  ResetThreatOnLeash: true
+  ShowFlames: false
+
+LM_Hollowglass_Shardlings_01:
+  MobName: LM_HollowglassShardling
+  World: PLACEHOLDER_WORLD_NAME
+  X: PLACEHOLDER_HOLLOWGLASS_X
+  Y: PLACEHOLDER_HOLLOWGLASS_Y
+  Z: PLACEHOLDER_HOLLOWGLASS_Z
+  Radius: 12
+  UseTimer: true
+  MaxMobs: 4
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 70
+  ActivationRange: 38
+  LeashRange: 22
+  HealOnLeash: true
+  ResetThreatOnLeash: true
+  ShowFlames: false
+
+LM_AshMile_Cinderlings_01:
+  MobName: LM_AshMileCinderling
+  World: PLACEHOLDER_WORLD_NAME
+  X: PLACEHOLDER_ASH_MILE_X
+  Y: PLACEHOLDER_ASH_MILE_Y
+  Z: PLACEHOLDER_ASH_MILE_Z
+  Radius: 16
+  UseTimer: true
+  MaxMobs: 3
+  MobLevel: 1
+  MobsPerSpawn: 1
+  Cooldown: 80
+  ActivationRange: 40
+  LeashRange: 24
+  HealOnLeash: true
+  ResetThreatOnLeash: true
+  ShowFlames: false

@@ -1,0 +1,46 @@
+# Aereth - Lantern Marches Build 01
+# MythicMobs starter skills draft.
+# Keep effects low-impact. Starter area means pressure, not punishment theatre.
+
+LM_StaggerStep:
+  Skills:
+    - effect:particles{p=ash;amount=8;hS=0.25;vS=0.15;speed=0.01} @self
+    - delay 4
+    - velocity{x=0;y=0.05;z=0} @self
+
+LM_DimMemoryPulse:
+  Skills:
+    - effect:particles{p=reverse_portal;amount=12;hS=0.35;vS=0.35;speed=0.02} @target
+    - sound{s=block.amethyst_block.chime;v=0.35;p=0.7} @target
+
+LM_RoadMurmur:
+  Skills:
+    - effect:particles{p=campfire_cosy_smoke;amount=10;hS=0.6;vS=0.2;speed=0.01} @self
+    - sound{s=ambient.cave;v=0.25;p=1.25} @self
+
+LM_MirrorBlink:
+  Skills:
+    - effect:particles{p=glow;amount=14;hS=0.25;vS=0.25;speed=0.04} @self
+    - sound{s=entity.enderman.teleport;v=0.25;p=1.6} @self
+    - teleport{spreadh=4;spreadv=1} @self
+
+LM_WispGlimmer:
+  Skills:
+    - effect:particles{p=end_rod;amount=8;hS=0.3;vS=0.3;speed=0.01} @self
+    - sound{s=block.beacon.ambient;v=0.15;p=1.8} @self
+
+LM_GlassSplinter:
+  Skills:
+    - effect:particles{p=crit;amount=10;hS=0.3;vS=0.3;speed=0.15} @target
+    - sound{s=block.glass.break;v=0.45;p=1.4} @target
+    - damage{a=1} @target
+
+LM_HollowglassCrack:
+  Skills:
+    - effect:particles{p=block_crack;m=glass;amount=24;hS=0.45;vS=0.25;speed=0.08} @self
+    - sound{s=block.glass.break;v=0.6;p=0.8} @self
+
+LM_CinderPop:
+  Skills:
+    - effect:particles{p=flame;amount=16;hS=0.35;vS=0.25;speed=0.04} @self
+    - sound{s=block.fire.extinguish;v=0.35;p=1.2} @self

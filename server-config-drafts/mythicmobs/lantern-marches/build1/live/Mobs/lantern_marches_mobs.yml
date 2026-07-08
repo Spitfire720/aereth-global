@@ -1,0 +1,98 @@
+# Aereth - Lantern Marches Build 01
+# MythicMobs starter mob draft.
+# Copy into plugins/MythicMobs/Mobs/ only after review.
+
+LM_Roadstray:
+  Type: ZOMBIE
+  Display: '&7Roadstray'
+  Health: 22
+  Damage: 3
+  Faction: LanternMarchesHostile
+  Options:
+    MovementSpeed: 0.22
+    FollowRange: 18
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    Silent: false
+    Despawn: true
+  Equipment:
+    - AIR HAND
+    - LEATHER_HELMET HEAD
+  Drops:
+    - exp 3-5 1
+  Skills:
+    - skill{s=LM_StaggerStep} @self ~onTimer:80
+    - skill{s=LM_DimMemoryPulse} @target ~onAttack 0.18
+    - message{m="&8The road remembers a footstep that was never yours."} @PlayersInRadius{r=12} ~onDeath 0.08
+
+LM_BentRoadDrifter:
+  Type: HUSK
+  Display: '&8Bent Road Drifter'
+  Health: 28
+  Damage: 2
+  Faction: LanternMarchesHostile
+  Options:
+    MovementSpeed: 0.17
+    FollowRange: 14
+    PreventOtherDrops: true
+    PreventRandomEquipment: true
+    Despawn: true
+  Drops:
+    - exp 4-6 1
+  Skills:
+    - skill{s=LM_RoadMurmur} @PlayersInRadius{r=10} ~onTimer:140
+    - potion{type=SLOW;duration=30;level=0} @target ~onAttack 0.12
+
+LM_MirrorfenWisp:
+  Type: ALLAY
+  Display: '&bMirrorfen Wisp'
+  Health: 14
+  Damage: 2
+  Faction: LanternMarchesHostile
+  Options:
+    MovementSpeed: 0.30
+    FollowRange: 20
+    PreventOtherDrops: true
+    Silent: true
+    Despawn: true
+  Drops:
+    - exp 5-8 1
+  Skills:
+    - skill{s=LM_MirrorBlink} @self ~onDamaged 0.22
+    - skill{s=LM_WispGlimmer} @self ~onTimer:60
+    - potion{type=CONFUSION;duration=45;level=0} @target ~onAttack 0.16
+
+LM_HollowglassShardling:
+  Type: SILVERFISH
+  Display: '&3Hollowglass Shardling'
+  Health: 18
+  Damage: 4
+  Faction: LanternMarchesHostile
+  Options:
+    MovementSpeed: 0.27
+    FollowRange: 16
+    PreventOtherDrops: true
+    Despawn: true
+  Drops:
+    - exp 6-9 1
+  Skills:
+    - skill{s=LM_GlassSplinter} @target ~onAttack 0.25
+    - skill{s=LM_HollowglassCrack} @self ~onDeath
+
+LM_AshMileCinderling:
+  Type: MAGMA_CUBE
+  Display: '&6Ash Mile Cinderling'
+  Health: 20
+  Damage: 3
+  Faction: LanternMarchesHostile
+  Options:
+    Size: 1
+    MovementSpeed: 0.21
+    FollowRange: 14
+    PreventOtherDrops: true
+    Despawn: true
+  Drops:
+    - exp 5-8 1
+  Skills:
+    - ignite{ticks=35} @target ~onAttack 0.18
+    - skill{s=LM_CinderPop} @self ~onDeath

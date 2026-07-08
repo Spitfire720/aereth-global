@@ -1,0 +1,9 @@
+# Aereth - Lantern Marches Build 01
+# Placeholder only. Do not introduce real economy drops yet.
+# Actual loot/economy should be balanced after first combat tests.
+
+LM_PlaceholderDust:
+  MinItems: 0
+  MaxItems: 1
+  Drops:
+    - GLOWSTONE_DUST 1 0.08
