@@ -1,0 +1,35 @@
+# Aereth S5F scoreboard placeholder layout template
+# This is plugin-neutral. Adapt it to your scoreboard plugin format.
+# Requires S5E Placeholder Identity Bridge.
+
+scoreboard:
+  title: '&b&lAERETH'
+  refresh-ticks: 20
+  lines:
+    - '&8────────────'
+    - '&f%aereth_character_name%'
+    - '&7Race: &f%aereth_race_display%'
+    - '&7Level: &c%aereth_level% &8/ &f%aereth_phase%'
+    - '&8────────────'
+    - '&7Discipline: &b%aereth_discipline_display%'
+    - '&7Rank: &f%aereth_discipline_rank_name%'
+    - '&8────────────'
+    - '&7Intent: &d%aereth_intent_primary_display%'
+    - '&7State: &f%aereth_identity_state%'
+    - '&7Stability: &a%aereth_identity_combined_stability%'
+    - '&7Erasure: &5%aereth_erasure_pressure%'
+    - '&8────────────'
+    - '&baereth.live'
+
+admin-debug-scoreboard:
+  title: '&d&lAERETH DEBUG'
+  refresh-ticks: 20
+  lines:
+    - '&8────────────'
+    - '&f%aereth_character_name%'
+    - '&7Identity: &f%aereth_identity_summary%'
+    - '&7Pressure: &c%aereth_identity_combined_pressure%'
+    - '&7Stability: &a%aereth_identity_combined_stability%'
+    - '&7Fragments: &d%aereth_fragment_equipped_display%'
+    - '&7Intent: &b%aereth_intent_active_display%'
+    - '&7Diag: &8%aereth_identity_diagnostic%'

@@ -1,0 +1,10 @@
+# Aereth S5F action bar placeholder layout template
+# Plugin-neutral. Adapt to your actionbar/TAB/scoreboard plugin.
+
+identity-actionbar:
+  refresh-ticks: 20
+  text: '&b%aereth_discipline_display% &8| &d%aereth_intent_primary_display% &8| &f%aereth_identity_state% &8| &aStability %aereth_identity_combined_stability% &8| &5Erasure %aereth_erasure_pressure%'
+
+minimal-actionbar:
+  refresh-ticks: 20
+  text: '&d%aereth_intent_primary_display% &8→ &f%aereth_identity_state%'

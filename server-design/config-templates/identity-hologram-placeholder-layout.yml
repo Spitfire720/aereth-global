@@ -1,0 +1,21 @@
+# Aereth S5F hologram placeholder layout template
+# Plugin-neutral. Adapt to DecentHolograms/HolographicDisplays/etc.
+
+identity-hologram:
+  lines:
+    - '&b%aereth_character_name%'
+    - '&7Race: &f%aereth_race_display%'
+    - '&7Level: &c%aereth_level% &8/ &7Phase: &f%aereth_phase%'
+    - '&7Discipline: &b%aereth_discipline_display% &8/ &f%aereth_discipline_rank_name%'
+    - '&7Intent: &d%aereth_intent_primary_display%'
+    - '&7Identity: &f%aereth_identity_summary%'
+
+identity-debug-hologram:
+  lines:
+    - '&dIdentity Debug'
+    - '&7Character: &f%aereth_character_name%'
+    - '&7Fragments: &f%aereth_fragment_equipped_display%'
+    - '&7Intents: &f%aereth_intent_active_display%'
+    - '&7Pressure: &c%aereth_identity_combined_pressure%'
+    - '&7Stability: &a%aereth_identity_combined_stability%'
+    - '&7Diagnostic: &8%aereth_identity_diagnostic%'
