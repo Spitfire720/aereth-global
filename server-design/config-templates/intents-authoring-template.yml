@@ -1,0 +1,19 @@
+intents:
+  example_intent:
+    display: "Example Intent"
+    family: "example_family"
+    pressure: 1.0
+    stability-impact: -1.0
+    description: "A short explanation of what this Intent pushes the character toward."
+    design-status: placeholder
+    identity-layer: intent
+    compatible-outcomes:
+      - conversion
+    conflict-outcomes:
+      - suppression
+    access-tags:
+      - example_access
+    narrative-hooks:
+      - example_hook
+    notes:
+      - "Design metadata only unless Java consumes it."

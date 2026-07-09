@@ -1,0 +1,29 @@
+fragments:
+  example_fragment:
+    display: "Example Fragment"
+    lore: "A short identity-layer description of what this Fragment represents."
+    pressure: 1.0
+    stability-cost: 1.0
+    design-status: placeholder
+    identity-layer: fragment
+    access-tags:
+      - example_access
+    narrative-hooks:
+      - example_hook
+    outcome-bias:
+      conversion: 0.0
+      amplification: 0.0
+      redirection: 0.0
+      delay: 0.0
+      suppression: 0.0
+      distortion: 0.0
+    modifiers:
+      stats:
+        vitality: 0.0
+        strength: 0.0
+        dexterity: 0.0
+        intelligence: 0.0
+        willpower: 0.0
+        endurance: 0.0
+    notes:
+      - "Design metadata only unless Java consumes it."
