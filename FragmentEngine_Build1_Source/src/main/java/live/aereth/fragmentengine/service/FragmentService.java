@@ -40,7 +40,7 @@ public class FragmentService {
         if (fragmentId == null || fragmentId.isBlank()) {
             return "";
         }
-        return fragmentId.toLowerCase(Locale.ROOT).trim().replace(" ", "_");
+        return fragmentId.toLowerCase(Locale.ROOT).trim().replace(" ", "_").replace("-", "_");
     }
 
     public String displayName(String fragmentId) {
@@ -71,8 +71,9 @@ public class FragmentService {
         List<String> discovered = discovered(character);
         boolean changed = addUnique(discovered, id);
         character.set("fragments.discovered-list", discovered);
+        FragmentSanitizationResult sanitation = sanitizeFragmentState(character);
         save(player, character);
-        return new FragmentResult(id, changed, "discovered");
+        return new FragmentResult(id, changed || sanitation.changed(), "discovered");
     }
 
     public FragmentResult attachFragment(OfflinePlayer player, String fragmentId) throws IOException {
@@ -98,6 +99,7 @@ public class FragmentService {
 
         equipped.add(id);
         character.set("fragments.equipped", equipped);
+        sanitizeFragmentState(character);
         recalculate(character);
         save(player, character);
         return new FragmentResult(id, true, "attached");
@@ -111,6 +113,7 @@ public class FragmentService {
         List<String> equipped = equipped(character);
         boolean changed = equipped.remove(id);
         character.set("fragments.equipped", equipped);
+        sanitizeFragmentState(character);
         recalculate(character);
         save(player, character);
         return new FragmentResult(id, changed, changed ? "detached" : "not-equipped");
@@ -128,18 +131,102 @@ public class FragmentService {
         );
     }
 
-    public void ensureFragmentState(YamlConfiguration character) {
-        int configuredCapacity = plugin.getConfig().getInt("fragments.starting-capacity", 3);
-        character.set("fragments.capacity", character.getInt("fragments.capacity", configuredCapacity));
-
-        if (!character.contains("fragments.discovered-list")) {
-            character.set("fragments.discovered-list", toList(character, "fragments.discovered"));
-        }
-        if (!character.contains("fragments.equipped") || character.getConfigurationSection("fragments.equipped") != null) {
-            character.set("fragments.equipped", toList(character, "fragments.equipped"));
-        }
-
+    public FragmentRepairResult repair(OfflinePlayer player) throws IOException {
+        YamlConfiguration character = requireActive(player);
+        FragmentSanitizationResult sanitation = sanitizeFragmentState(character);
         recalculate(character);
+        save(player, character);
+        return new FragmentRepairResult(sanitation.changed(), sanitation.issues(), summary(character));
+    }
+
+    public void ensureFragmentState(YamlConfiguration character) {
+        sanitizeFragmentState(character);
+        recalculate(character);
+    }
+
+    public FragmentSanitizationResult sanitizeFragmentState(YamlConfiguration character) {
+        int configuredCapacity = plugin.getConfig().getInt("fragments.starting-capacity", 3);
+        int capacity = Math.max(1, character.getInt("fragments.capacity", configuredCapacity));
+        List<String> issues = new ArrayList<>();
+        boolean changed = false;
+        int invalid = 0;
+        int overflow = 0;
+        int normalized = 0;
+
+        character.set("fragments.capacity", capacity);
+
+        List<String> discovered = toList(character, character.contains("fragments.discovered-list") ? "fragments.discovered-list" : "fragments.discovered");
+        List<String> equipped = toList(character, "fragments.equipped");
+
+        List<String> cleanDiscovered = new ArrayList<>();
+        for (String id : discovered) {
+            String clean = normalize(id);
+            if (clean.isBlank()) {
+                continue;
+            }
+            if (!exists(clean)) {
+                invalid++;
+                changed = true;
+                issues.add("Removed unknown discovered fragment: " + id);
+                continue;
+            }
+            if (!clean.equals(id)) {
+                normalized++;
+                changed = true;
+            }
+            addUnique(cleanDiscovered, clean);
+        }
+
+        List<String> cleanEquipped = new ArrayList<>();
+        for (String id : equipped) {
+            String clean = normalize(id);
+            if (clean.isBlank()) {
+                continue;
+            }
+            if (!exists(clean)) {
+                invalid++;
+                changed = true;
+                issues.add("Removed unknown equipped fragment: " + id);
+                continue;
+            }
+            if (!clean.equals(id)) {
+                normalized++;
+                changed = true;
+            }
+            if (!cleanDiscovered.contains(clean)) {
+                cleanDiscovered.add(clean);
+                changed = true;
+                issues.add("Added equipped fragment to discovered list: " + clean);
+            }
+            addUnique(cleanEquipped, clean);
+        }
+
+        while (cleanEquipped.size() > capacity) {
+            String removed = cleanEquipped.remove(cleanEquipped.size() - 1);
+            overflow++;
+            changed = true;
+            issues.add("Removed equipped fragment over capacity: " + removed);
+        }
+
+        if (!cleanDiscovered.equals(discovered)) {
+            changed = true;
+        }
+        if (!cleanEquipped.equals(equipped)) {
+            changed = true;
+        }
+
+        character.set("fragments.discovered-list", cleanDiscovered);
+        character.set("fragments.equipped", cleanEquipped);
+
+        character.set("fragments.framework.schema", "S5D-fragment-runtime-hardening");
+        character.set("fragments.framework.status", changed ? "cleaned" : "clean");
+        character.set("fragments.framework.issues", issues);
+        character.set("fragments.framework.cleaned-count", invalid + overflow + normalized);
+        character.set("fragments.framework.invalid-count", invalid);
+        character.set("fragments.framework.overflow-count", overflow);
+        character.set("fragments.framework.normalized-count", normalized);
+
+        return new FragmentSanitizationResult(changed, issues, invalid, overflow, normalized);
     }
 
     public void recalculate(YamlConfiguration character) {
@@ -150,6 +237,9 @@ public class FragmentService {
         clearFragmentBonuses(character);
 
         for (String id : equipped) {
+            if (!exists(id)) {
+                continue;
+            }
             totalPressure += pressure(id);
             stabilityCost += stabilityCost(id);
             applyFragmentStatBonuses(character, id);
@@ -252,4 +342,6 @@ public class FragmentService {
 
     public record FragmentResult(String fragmentId, boolean changed, String status) {}
     public record FragmentSummary(int capacity, List<String> discovered, List<String> equipped, double totalPressure, double stability, double erasurePressure) {}
+    public record FragmentSanitizationResult(boolean changed, List<String> issues, int invalidCount, int overflowCount, int normalizedCount) {}
+    public record FragmentRepairResult(boolean changed, List<String> changes, FragmentSummary summary) {}
 }

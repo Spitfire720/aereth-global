@@ -9,10 +9,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class IntentService {
+    private static final int HARD_MAX_SLOTS = 4;
+
     private final JavaPlugin plugin;
     private final CharacterService characters;
     private final YamlConfiguration definitions;
@@ -54,6 +58,7 @@ public class IntentService {
     }
 
     public IntentSummary summary(YamlConfiguration character) {
+        IntentSanitizationResult sanitation = sanitizeIntentState(character);
         int maxSlots = maxSlots(character);
         Map<String, String> slots = new LinkedHashMap<>();
 
@@ -78,11 +83,14 @@ public class IntentService {
             }
         }
 
+        character.set("intent.framework.last-summary-status", sanitation.changed() ? "cleaned_for_summary" : "clean");
         return new IntentSummary(maxSlots, slots.size(), primary, pressure, stabilityImpact, slots);
     }
 
     public IntentResult setIntent(OfflinePlayer player, String rawSlot, String rawIntent) throws IOException {
         YamlConfiguration character = activeCharacter(player);
+        sanitizeIntentState(character);
+
         int slot = parseSlot(rawSlot);
         String slotKey = slotKey(slot);
         String intent = normalizeIntent(rawIntent);
@@ -100,6 +108,14 @@ public class IntentService {
             throw new IllegalArgumentException("Slot " + slot + " is locked. Max slots: " + maxSlots);
         }
 
+        // Intent slots represent active states, not inventory storage. Duplicate states are noise.
+        for (int i = 1; i <= maxSlots; i++) {
+            String otherKey = slotKey(i);
+            if (!otherKey.equals(slotKey) && intent.equals(normalizeIntent(character.getString("intent.active." + otherKey, "")))) {
+                character.set("intent.active." + otherKey, null);
+            }
+        }
+
         character.set("intent.active." + slotKey, intent);
         writeSummaryFields(character);
         saveCharacter(player, character);
@@ -109,6 +125,8 @@ public class IntentService {
 
     public IntentResult clearIntent(OfflinePlayer player, String rawSlot) throws IOException {
         YamlConfiguration character = activeCharacter(player);
+        sanitizeIntentState(character);
+
         int slot = parseSlot(rawSlot);
         String slotKey = slotKey(slot);
 
@@ -122,6 +140,88 @@ public class IntentService {
         saveCharacter(player, character);
 
         return new IntentResult(slotKey, "none", "cleared", summary(character));
+    }
+
+    public IntentRepairResult repair(OfflinePlayer player) throws IOException {
+        YamlConfiguration character = activeCharacter(player);
+        IntentSanitizationResult sanitation = sanitizeIntentState(character);
+        writeSummaryFields(character);
+        saveCharacter(player, character);
+        return new IntentRepairResult(sanitation.changed(), sanitation.issues(), summary(character));
+    }
+
+    public IntentSanitizationResult sanitizeIntentState(YamlConfiguration character) {
+        int maxSlots = maxSlots(character);
+        Set<String> seen = new LinkedHashSet<>();
+        List<String> issues = new ArrayList<>();
+        int invalid = 0;
+        int duplicate = 0;
+        int locked = 0;
+        int normalized = 0;
+        boolean changed = false;
+
+        if (!character.contains("intent.active")) {
+            character.createSection("intent.active");
+            changed = true;
+            issues.add("Created missing intent.active section.");
+        }
+
+        for (int i = 1; i <= HARD_MAX_SLOTS; i++) {
+            String slotKey = slotKey(i);
+            String path = "intent.active." + slotKey;
+            String raw = character.getString(path, "");
+            String intent = normalizeIntent(raw);
+
+            if (i > maxSlots) {
+                if (!intent.isBlank()) {
+                    character.set(path, null);
+                    locked++;
+                    changed = true;
+                    issues.add(slotKey + " cleared because the slot is locked.");
+                }
+                continue;
+            }
+
+            if (intent.isBlank()) {
+                continue;
+            }
+
+            if (!isKnownIntent(intent)) {
+                character.set(path, null);
+                invalid++;
+                changed = true;
+                issues.add(slotKey + " cleared unknown intent: " + raw);
+                continue;
+            }
+
+            if (seen.contains(intent)) {
+                character.set(path, null);
+                duplicate++;
+                changed = true;
+                issues.add(slotKey + " cleared duplicate intent: " + intent);
+                continue;
+            }
+
+            seen.add(intent);
+
+            if (!intent.equals(raw)) {
+                character.set(path, intent);
+                normalized++;
+                changed = true;
+                issues.add(slotKey + " normalized to " + intent + ".");
+            }
+        }
+
+        character.set("intent.framework.schema", "S5D-intent-runtime-hardening");
+        character.set("intent.framework.status", changed ? "cleaned" : "clean");
+        character.set("intent.framework.issues", issues);
+        character.set("intent.framework.cleaned-count", invalid + duplicate + locked + normalized);
+        character.set("intent.framework.invalid-count", invalid);
+        character.set("intent.framework.duplicate-count", duplicate);
+        character.set("intent.framework.locked-count", locked);
+        character.set("intent.framework.normalized-count", normalized);
+
+        return new IntentSanitizationResult(changed, issues, invalid, duplicate, locked, normalized);
     }
 
     public void writeSummaryFields(YamlConfiguration character) {
@@ -159,7 +259,7 @@ public class IntentService {
         }
 
         int stored = character.getInt("intent.unlocked-slots", plugin.getConfig().getInt("intent.starting-slots", 1));
-        return Math.max(1, Math.max(stored, levelBased));
+        return Math.max(1, Math.min(HARD_MAX_SLOTS, Math.max(stored, levelBased)));
     }
 
     private int parseSlot(String raw) {
@@ -211,6 +311,23 @@ public class IntentService {
             String slot,
             String intentId,
             String status,
+            IntentSummary summary
+    ) {
+    }
+
+    public record IntentSanitizationResult(
+            boolean changed,
+            List<String> issues,
+            int invalidCount,
+            int duplicateCount,
+            int lockedCount,
+            int normalizedCount
+    ) {
+    }
+
+    public record IntentRepairResult(
+            boolean changed,
+            List<String> changes,
             IntentSummary summary
     ) {
     }
