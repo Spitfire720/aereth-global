@@ -17,6 +17,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
     private CharacterService characterService;
     private FragmentService fragmentService;
     private IntentService intentService;
+    private CharacterIdentityService characterIdentityService;
     private DisciplineService disciplineService;
     private AbilityService abilityService;
     private LegacyCommandService legacyCommandService;
@@ -40,6 +41,7 @@ public class FragmentEnginePlugin extends JavaPlugin {
         characterService = new CharacterService(this, storageService, progressionService, statsService, raceService);
         fragmentService = new FragmentService(this, characterService);
         intentService = new IntentService(this, characterService);
+        characterIdentityService = new CharacterIdentityService(this, characterService, fragmentService, intentService);
         disciplineService = new DisciplineService(this, characterService);
         abilityService = new AbilityService(this, characterService);
         legacyCommandService = new LegacyCommandService(characterService);
@@ -60,10 +62,12 @@ public class FragmentEnginePlugin extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new FragmentEngineGuiListener(this, characterService, fragmentService, intentService, disciplineService, abilityService), this);
         getServer().getPluginManager().registerEvents(new live.aereth.fragmentengine.listener.AbilityHotbarListener(this, characterService, disciplineService, abilityService), this);
+        getServer().getPluginManager().registerEvents(new live.aereth.fragmentengine.listener.IdentitySyncListener(this, characterIdentityService), this);
+        characterIdentityService.syncOnlinePlayersSilently();
 
 
         if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new AerethPlaceholderExpansion(this, characterService, fragmentService, intentService, disciplineService, abilityService).register();
+            new AerethPlaceholderExpansion(this, characterService, fragmentService, intentService, disciplineService, abilityService, characterIdentityService).register();
             getLogger().info("PlaceholderAPI expansion registered: %aereth_...%");
         }
 
